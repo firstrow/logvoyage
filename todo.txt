@@ -13,7 +13,7 @@ Features
 
 SaaS
 Setup on client server with docker - just enter few commands.
-Realtime tailf UI with ability to filter output like grep.
+Realtime tailf UI with ability to filter output like grep.(node, redis, ...)
 Email by RegEx.
 Email if logs are inactive some time.
 Detect attacks(future)
