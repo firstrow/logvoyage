@@ -1,0 +1,22 @@
+First steps to create project.
+
+Technologies
+============
+
+ElaticSearch - search index. without storing full data.
+MognoDB - storing data.
+GoLang - daemons, other highload processing.
+Python or Ruby?
+
+Features
+========
+
+SaaS
+Setup on client server with docker - just enter few commands.
+Realtime tailf UI with ability to filter output like grep.
+Email by RegEx.
+Email if logs are inactive some time.
+Detect attacks(future)
+Easy support of different sources - mysql, ngixn, mongo, etc...
+Support all popular languages - php, ruby, python...
+Linux daemon comperss traffic.
