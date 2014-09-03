@@ -4,8 +4,8 @@ Technologies
 ============
 
 ElaticSearch - search index. without storing full data.
-MognoDB - storing data.
-GoLang - daemons, other highload processing.
+ElaticSearch - search index. data storage.
+GoLang - daemons, other highload processing, web api.
 
 Features
 ========
@@ -26,3 +26,4 @@ Parts
 Linux daemon to collect and sending logs to server
 Application server to process logs. Build index, save, etc...
 Web API to iteract with data
+Collect info about system load: processors, cpu, mem, traffic.
