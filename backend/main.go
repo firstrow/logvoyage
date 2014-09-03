@@ -9,7 +9,7 @@ import (
 
 type Client struct {
 	conn     net.Conn
-	incoming chan string
+	incoming chan string // Channel for incoming data from client
 }
 
 type Server struct {
@@ -18,9 +18,9 @@ type Server struct {
 }
 
 // Add new connection to server
+// TODO: Write authentication by key
 func (server *Server) addConnection(conn net.Conn) {
 	log.Print("Adding new connection")
-	log.Printf("Clients: %", len(server.clients))
 	client := &Client{
 		conn: conn,
 	}
@@ -31,6 +31,7 @@ func (server *Server) addConnection(conn net.Conn) {
 			line, err := reader.ReadString('\n')
 			if err != nil {
 				log.Print("Closing connection")
+				// TODO: Remove client from list
 				conn.Close()
 				return
 			}
