@@ -3,10 +3,8 @@ First steps to create project.
 Technologies
 ============
 
-ElaticSearch - search index. without storing full data.
-MognoDB - storing data.
-GoLang - daemons, other highload processing.
-Python or Ruby?
+ElaticSearch - search index. data storage.
+GoLang - daemons, other highload processing, web api.
 
 Features
 ========
@@ -20,3 +18,4 @@ Detect attacks(future)
 Easy support of different sources - mysql, ngixn, mongo, etc...
 Support all popular languages - php, ruby, python...
 Linux daemon comperss traffic.
+Collect info about system load: processors, cpu, mem, traffic.
