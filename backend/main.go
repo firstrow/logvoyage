@@ -20,6 +20,7 @@ type Server struct {
 // Add new connection to server
 func (server *Server) addConnection(conn net.Conn) {
 	log.Print("Adding new connection")
+	log.Printf("Clients: %", len(server.clients))
 	client := &Client{
 		conn: conn,
 	}
@@ -48,7 +49,6 @@ func NewServer() *Server {
 	go func() {
 		for {
 			select {
-			// On new connection
 			case conn := <-server.joins:
 				server.addConnection(conn)
 			}
