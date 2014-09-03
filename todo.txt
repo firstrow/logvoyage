@@ -6,7 +6,6 @@ Technologies
 ElaticSearch - search index. without storing full data.
 MognoDB - storing data.
 GoLang - daemons, other highload processing.
-Python or Ruby?
 
 Features
 ========
@@ -20,3 +19,10 @@ Detect attacks(future)
 Easy support of different sources - mysql, ngixn, mongo, etc...
 Support all popular languages - php, ruby, python...
 Linux daemon comperss traffic.
+
+Parts
+=====
+
+Linux daemon to collect and sending logs to server
+Application server to process logs. Build index, save, etc...
+Web API to iteract with data
