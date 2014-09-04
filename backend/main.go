@@ -17,6 +17,20 @@ type Server struct {
 	joins   chan net.Conn // Channel for new connections
 }
 
+func (client *Client) listen() {
+	reader := bufio.NewReader(client.conn)
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			log.Print("Closing connection")
+			// TODO: Remove client from list
+			client.conn.Close()
+			return
+		}
+		log.Print(line)
+	}
+}
+
 // Add new connection to server
 // TODO: Write authentication by key
 func (server *Server) addConnection(conn net.Conn) {
@@ -24,38 +38,25 @@ func (server *Server) addConnection(conn net.Conn) {
 	client := &Client{
 		conn: conn,
 	}
-
-	go func() {
-		reader := bufio.NewReader(conn)
-		for {
-			line, err := reader.ReadString('\n')
-			if err != nil {
-				log.Print("Closing connection")
-				// TODO: Remove client from list
-				conn.Close()
-				return
-			}
-			log.Print(line)
-		}
-	}()
-
+	go client.listen()
 	server.clients = append(server.clients, client)
+}
+
+// Listen channels
+func (server *Server) listen() {
+	for {
+		select {
+		case conn := <-server.joins:
+			server.addConnection(conn)
+		}
+	}
 }
 
 func NewServer() *Server {
 	server := &Server{
 		joins: make(chan net.Conn),
 	}
-
-	go func() {
-		for {
-			select {
-			case conn := <-server.joins:
-				server.addConnection(conn)
-			}
-		}
-	}()
-
+	go server.listen()
 	return server
 }
 
