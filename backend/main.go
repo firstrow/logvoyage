@@ -27,6 +27,7 @@ func (client *Client) listen() {
 			client.conn.Close()
 			return
 		}
+		// Send data to elastic
 		log.Print(line)
 	}
 }
