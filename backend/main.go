@@ -33,7 +33,7 @@ func sendToElastic(json string) {
 	// Read body to close connection
 	// If dont read body
 	ioutil.ReadAll(resp.Body)
-	log.Print("Message sent")
+	log.Print("Message sent: " + json)
 }
 
 type Client struct {
@@ -97,7 +97,7 @@ func NewServer() *Server {
 
 func main() {
 	fmt.Print("Initializing server")
-	listener, err := net.Listen("tcp", ":9999")
+	listener, err := net.Listen("tcp", "192.168.0.101:9999")
 	if err != nil {
 		log.Fatal("Error starting TCP server.")
 	}

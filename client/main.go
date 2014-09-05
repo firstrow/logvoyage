@@ -15,10 +15,10 @@ import (
 )
 
 var (
-	log_voyage_connection net.Conn
-	emptyStringError      = errors.New("Received empty string")
-	httpServerPort        = "9998"
-	httpServerHost        = "localhost"
+	logVoyageConnection net.Conn
+	emptyStringError    = errors.New("Received empty string")
+	httpServerPort      = "9998"
+	httpServerHost      = "192.168.0.101"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 		log.Printf("Error connection to server: %s", err)
 	}
 	// Set package variable
-	log_voyage_connection = conn
+	logVoyageConnection = conn
 	defer conn.Close()
 
 	startHttpServer()
@@ -61,7 +61,7 @@ func startTcpServer() {
 func send(message []byte) {
 	text, err := prepareMessage(string(message))
 	if err == nil {
-		log_voyage_connection.Write([]byte(text))
+		logVoyageConnection.Write([]byte(text))
 	}
 }
 
