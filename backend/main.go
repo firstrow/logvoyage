@@ -2,10 +2,39 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"github.com/firstrow/logvoyage/common"
+	"io/ioutil"
 	"log"
 	"net"
+	"net/http"
+	_ "time"
 )
+
+func sendToElastic(json string) {
+	url := "http://localhost:9200/firstrow/logs"
+
+	var jsonStr = []byte(json)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	if err != nil {
+		log.Print("Error creating POST request to storage")
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		// Here we can't send data to elastic.
+		// TODO: Find recover solution.
+		log.Fatal("%s", err)
+	}
+	defer resp.Body.Close()
+	// Read body to close connection
+	// If dont read body
+	ioutil.ReadAll(resp.Body)
+	log.Print("Message sent")
+}
 
 type Client struct {
 	conn     net.Conn
@@ -28,7 +57,12 @@ func (client *Client) listen() {
 			return
 		}
 		// Send data to elastic
-		log.Print(line)
+		// parse line(lines)
+		record := &common.LogRecord{
+			Message: line,
+		}
+		json, err := json.Marshal(record)
+		sendToElastic(string(json))
 	}
 }
 

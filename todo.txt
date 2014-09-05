@@ -27,3 +27,19 @@ Linux daemon to collect and sending logs to server
 Application server to process logs. Build index, save, etc...
 Web API to iteract with data
 Collect info about system load: processors, cpu, mem, traffic.
+
+Solve
+=====
+Traffic count
+User auth
+Deny access
+Restore logs on daemon crash
+
+Log type
+========
+host
+datetime
+message
+data - additional json attrs
+
+API-KEY ISDODATE(RFC-3339) HOST MESSAGE JSONPARAMS
