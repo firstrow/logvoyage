@@ -17,6 +17,8 @@ import (
 var (
 	log_voyage_connection net.Conn
 	emptyStringError      = errors.New("Received empty string")
+	httpServerPort        = "9998"
+	httpServerHost        = "localhost"
 )
 
 func main() {
@@ -24,11 +26,14 @@ func main() {
 	if err != nil {
 		log.Printf("Error connection to server: %s", err)
 	}
+	// Set package variable
 	log_voyage_connection = conn
 	defer conn.Close()
 
-	// Start http server to accept messages
 	startHttpServer()
+	startTcpServer()
+
+	log.Print("Ready.")
 }
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
@@ -42,8 +47,14 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func startHttpServer() {
+	connectionString := httpServerHost + ":" + httpServerPort
+	log.Printf("Starting server at %s", connectionString)
 	http.HandleFunc("/", httpHandler)
-	http.ListenAndServe(":9998", nil)
+	http.ListenAndServe(connectionString, nil)
+}
+
+func startTcpServer() {
+
 }
 
 // Sends message to LogVoyage server
