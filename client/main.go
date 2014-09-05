@@ -6,6 +6,7 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"log"
 	"net"
@@ -15,6 +16,7 @@ import (
 
 var (
 	log_voyage_connection net.Conn
+	emptyStringError      = errors.New("Received empty string")
 )
 
 func main() {
@@ -44,17 +46,19 @@ func startHttpServer() {
 	http.ListenAndServe(":9998", nil)
 }
 
+// Sends message to LogVoyage server
 func send(message []byte) {
-	text := prepareMessage(string(message))
-	if len(text) > 0 {
+	text, err := prepareMessage(string(message))
+	if err == nil {
 		log_voyage_connection.Write([]byte(text))
 	}
 }
 
-func prepareMessage(message string) string {
+// Trims message and adds \n to end
+func prepareMessage(message string) (string, error) {
 	result := strings.TrimSpace(message)
 	if len(result) > 0 {
-		return result
+		return result + "\n", nil
 	}
-	return ""
+	return "", emptyStringError
 }
