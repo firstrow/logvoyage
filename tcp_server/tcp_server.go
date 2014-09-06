@@ -6,12 +6,14 @@ import (
 	"net"
 )
 
+// Client holds info about connection
 type Client struct {
 	conn     net.Conn
 	Server   *server
 	incoming chan string // Channel for incoming data from client
 }
 
+// TCP server
 type server struct {
 	clients                  []*Client
 	address                  string        // Address to open connection: localhost:9999
@@ -21,6 +23,7 @@ type server struct {
 	onNewMessage             func(c *Client, message string)
 }
 
+// Read client data from channel
 func (c *Client) listen() {
 	reader := bufio.NewReader(c.conn)
 	for {
@@ -34,18 +37,22 @@ func (c *Client) listen() {
 	}
 }
 
+// Called right after server starts listening new client
 func (s *server) OnNewClient(callback func(c *Client)) {
 	s.onNewClientCallback = callback
 }
 
+// Called right after connection closed
 func (s *server) OnClientConnectionClosed(callback func(c *Client, err error)) {
 	s.onClientConnectionClosed = callback
 }
 
+// Called when Client receives new message
 func (s *server) OnNewMessage(callback func(c *Client, message string)) {
 	s.onNewMessage = callback
 }
 
+// Creates new Client instance and starts listening
 func (s *server) newClient(conn net.Conn) {
 	client := &Client{
 		conn:   conn,

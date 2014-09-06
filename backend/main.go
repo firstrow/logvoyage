@@ -29,9 +29,9 @@ func sendToElastic(json string) {
 	}
 	defer resp.Body.Close()
 	// Read body to close connection
-	// If dont read body
+	// If dont read body golang will keep connection open
 	ioutil.ReadAll(resp.Body)
-	log.Print("Message sent: " + json)
+	log.Print("Message sent to Elastic: " + json)
 }
 
 func main() {
@@ -42,6 +42,7 @@ func main() {
 	})
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		message = strings.TrimSpace(message)
+		// Send data to elastic
 		record := &common.LogRecord{
 			Message: message,
 		}
