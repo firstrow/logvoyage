@@ -14,6 +14,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"time"
 )
 
 var (
@@ -27,18 +28,24 @@ func main() {
 	logVoyageDsn := flag.String("logVoyage", "localhost:27077", "LogVoyage server host and port.")
 
 	flag.Parse()
+	initialize(*httpDsn, *tcpDsn, *logVoyageDsn)
+}
 
+func initialize(httpDsn string, tcpDsn string, logVoyageDsn string) {
 	// Connect to to LogVoyage server
-	conn, err := net.Dial("tcp", *logVoyageDsn)
+	conn, err := net.Dial("tcp", logVoyageDsn)
 	if err != nil {
-		log.Printf("Error connection to server: %s", err)
+		log.Print("Error connecting to LogVoyage server. Will retry in 10 seconds.")
+		time.Sleep(10 * time.Second)
+		initialize(httpDsn, tcpDsn, logVoyageDsn)
+		return
 	}
 	// Set package variable
 	logVoyageConnection = conn
 	defer conn.Close()
 
-	go startHttpServer(*httpDsn)
-	startTcpServer(*tcpDsn)
+	go startHttpServer(httpDsn)
+	startTcpServer(tcpDsn)
 }
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
@@ -64,7 +71,7 @@ func startTcpServer(tcpDsn string) {
 
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		b := []byte(message)
-		send(b)
+		go send(b)
 	})
 
 	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {})
