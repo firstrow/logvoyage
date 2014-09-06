@@ -28,22 +28,26 @@ func main() {
 	logVoyageDsn := flag.String("logVoyage", "localhost:27077", "LogVoyage server host and port.")
 
 	flag.Parse()
-	initialize(*httpDsn, *tcpDsn, *logVoyageDsn)
+	connectLogVoyage(*logVoyageDsn)
+	startServers(*httpDsn, *tcpDsn)
+	// Where to defer connection close?
+	defer logVoyageConnection.Close()
 }
 
-func initialize(httpDsn string, tcpDsn string, logVoyageDsn string) {
+func connectLogVoyage(dsn string) net.Conn {
 	// Connect to to LogVoyage server
-	conn, err := net.Dial("tcp", logVoyageDsn)
+	conn, err := net.Dial("tcp", dsn)
 	if err != nil {
 		log.Print("Error connecting to LogVoyage server. Will retry in 10 seconds.")
 		time.Sleep(10 * time.Second)
-		initialize(httpDsn, tcpDsn, logVoyageDsn)
-		return
+		return nil
 	}
-	// Set package variable
 	logVoyageConnection = conn
-	defer conn.Close()
+	return logVoyageConnection
+}
 
+// Starts http and tcp servers
+func startServers(httpDsn string, tcpDsn string) {
 	go startHttpServer(httpDsn)
 	startTcpServer(tcpDsn)
 }
@@ -82,8 +86,6 @@ func startTcpServer(tcpDsn string) {
 func send(message []byte) {
 	text, err := prepareMessage(string(message))
 	if err == nil {
-		// TODO: Handle write.
-		// Create restore-log.
 		_, err := logVoyageConnection.Write([]byte(text))
 		if err != nil {
 			log.Print("Connection with LogVoyage server lost. Will try again after 10 sec.")
