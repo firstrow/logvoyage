@@ -26,7 +26,6 @@ func (c *Client) listen() {
 	for {
 		message, err := reader.ReadString('\n')
 		if err != nil {
-			log.Print("Closing connection")
 			c.conn.Close()
 			c.Server.onClientConnectionClosed(c, err)
 			return
@@ -48,7 +47,6 @@ func (s *server) OnNewMessage(callback func(c *Client, message string)) {
 }
 
 func (s *server) newClient(conn net.Conn) {
-	log.Print("Adding new connection")
 	client := &Client{
 		conn:   conn,
 		Server: s,
@@ -69,7 +67,6 @@ func (s *server) listenChannels() {
 
 // Start network server
 func (s *server) Listen() {
-	log.Print("Starting listen channels...")
 	go s.listenChannels()
 
 	listener, err := net.Listen("tcp", s.address)
