@@ -10,10 +10,6 @@ func buildTestServer() *server {
 	return NewServer("localhost:9999")
 }
 
-func Test_creating_new_server(t *testing.T) {
-	NewServer("localhost:9999")
-}
-
 func Test_accepting_new_client_callback(t *testing.T) {
 	server := buildTestServer()
 
