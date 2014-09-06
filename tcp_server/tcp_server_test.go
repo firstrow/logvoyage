@@ -1,6 +1,7 @@
 package tcp_server
 
 import (
+	. "github.com/smartystreets/goconvey/convey"
 	"net"
 	"testing"
 	"time"
@@ -41,13 +42,13 @@ func Test_accepting_new_client_callback(t *testing.T) {
 	// Wait for server
 	time.Sleep(10 * time.Millisecond)
 
-	if newClient != true {
-		t.Error("New-client callback not called")
-	}
-	if messageReceived != true {
-		t.Error("Message not received by server")
-	}
-	if connectinClosed != true {
-		t.Error("Connection-closed callback not called")
-	}
+	Convey("It should receive new client callback", t, func() {
+		So(newClient, ShouldEqual, true)
+	})
+	Convey("It should receive message callback", t, func() {
+		So(messageReceived, ShouldEqual, true)
+	})
+	Convey("It should receive connection closed callback", t, func() {
+		So(connectinClosed, ShouldEqual, true)
+	})
 }
