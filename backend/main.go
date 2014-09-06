@@ -23,13 +23,14 @@ func main() {
 	log.Print("Initializing server")
 
 	host := flag.String("host", defaultHost, "Host to open server. Set to `localhost` to accept only local connections.")
-	port := flag.String("port", defaultPort, "Port to accept new connecetions. Default value: "+defaultPort)
+	port := flag.String("port", defaultPort, "Port to accept new connections. Default value: "+defaultPort)
 	flag.Parse()
 
 	server := tcp_server.NewServer(*host + ":" + *port)
 	server.OnNewClient(func(c *tcp_server.Client) {
 		log.Print("New client")
 	})
+
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		message = strings.TrimSpace(message)
 		// Send data to elastic
@@ -42,6 +43,7 @@ func main() {
 		}
 		sendToElastic(string(json))
 	})
+
 	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
 		log.Print("Client disconnected")
 	})
@@ -61,7 +63,7 @@ func sendToElastic(json string) {
 	resp, err := client.Do(req)
 	if err != nil {
 		// Here we can't send data to elastic.
-		// TODO: Find recover solution.
+		// Write to log. restore.
 		log.Fatal("%s", err)
 	}
 	defer resp.Body.Close()

@@ -7,6 +7,8 @@ package main
 
 import (
 	"errors"
+	"flag"
+	"github.com/firstrow/logvoyage/tcp_server"
 	"io/ioutil"
 	"log"
 	"net"
@@ -17,12 +19,17 @@ import (
 var (
 	logVoyageConnection net.Conn
 	emptyStringError    = errors.New("Received empty string")
-	httpServerPort      = "9998"
-	httpServerHost      = "192.168.0.101"
 )
 
 func main() {
-	conn, err := net.Dial("tcp", "localhost:9999")
+	httpDsn := flag.String("httpHost", "localhost:27078", "Host and port to start local HTTP server.")
+	tcpDsn := flag.String("tcpDsn", "localhost:27079", "Host and port to start local TCP server.")
+	logVoyageDsn := flag.String("logVoyage", "localhost:27077", "LogVoyage server host and port.")
+
+	flag.Parse()
+
+	// Connect to to LogVoyage server
+	conn, err := net.Dial("tcp", *logVoyageDsn)
 	if err != nil {
 		log.Printf("Error connection to server: %s", err)
 	}
@@ -30,10 +37,8 @@ func main() {
 	logVoyageConnection = conn
 	defer conn.Close()
 
-	startHttpServer()
-	startTcpServer()
-
-	log.Print("Ready.")
+	go startHttpServer(*httpDsn)
+	startTcpServer(*tcpDsn)
 }
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,22 +51,36 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func startHttpServer() {
-	connectionString := httpServerHost + ":" + httpServerPort
-	log.Printf("Starting server at %s", connectionString)
+func startHttpServer(httpDsn string) {
+	log.Printf("Starting http server at %s", httpDsn)
 	http.HandleFunc("/", httpHandler)
-	http.ListenAndServe(connectionString, nil)
+	http.ListenAndServe(httpDsn, nil)
 }
 
-func startTcpServer() {
+func startTcpServer(tcpDsn string) {
+	log.Printf("Starting tcp server at %s", tcpDsn)
+	server := tcp_server.NewServer(tcpDsn)
+	server.OnNewClient(func(c *tcp_server.Client) {})
 
+	server.OnNewMessage(func(c *tcp_server.Client, message string) {
+		b := []byte(message)
+		send(b)
+	})
+
+	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {})
+	server.Listen()
 }
 
 // Sends message to LogVoyage server
 func send(message []byte) {
 	text, err := prepareMessage(string(message))
 	if err == nil {
-		logVoyageConnection.Write([]byte(text))
+		// TODO: Handle write.
+		// Create restore-log.
+		_, err := logVoyageConnection.Write([]byte(text))
+		if err != nil {
+			log.Print("Connection with LogVoyage server lost. Will try again after 10 sec.")
+		}
 	}
 }
 
