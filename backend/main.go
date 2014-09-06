@@ -1,16 +1,14 @@
 package main
 
 import (
-	"bufio"
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/tcp_server"
 	"io/ioutil"
 	"log"
-	"net"
 	"net/http"
-	_ "time"
+	"strings"
 )
 
 func sendToElastic(json string) {
@@ -36,76 +34,25 @@ func sendToElastic(json string) {
 	log.Print("Message sent: " + json)
 }
 
-type Client struct {
-	conn     net.Conn
-	incoming chan string // Channel for incoming data from client
-}
-
-type Server struct {
-	clients []*Client
-	joins   chan net.Conn // Channel for new connections
-}
-
-func (client *Client) listen() {
-	reader := bufio.NewReader(client.conn)
-	for {
-		line, err := reader.ReadString('\n')
-		if err != nil {
-			log.Print("Closing connection")
-			// TODO: Remove client from list
-			client.conn.Close()
-			return
-		}
-		// Send data to elastic
-		// parse line(lines)
+func main() {
+	log.Print("Initializing server")
+	server := tcp_server.NewServer(":9999")
+	server.OnNewClient(func(c *tcp_server.Client) {
+		log.Print("New client")
+	})
+	server.OnNewMessage(func(c *tcp_server.Client, message string) {
+		message = strings.TrimSpace(message)
 		record := &common.LogRecord{
-			Message: line,
+			Message: message,
 		}
 		json, err := json.Marshal(record)
-		sendToElastic(string(json))
-	}
-}
-
-// Add new connection to server
-// TODO: Write authentication by key
-func (server *Server) addConnection(conn net.Conn) {
-	log.Print("Adding new connection")
-	client := &Client{
-		conn: conn,
-	}
-	go client.listen()
-	server.clients = append(server.clients, client)
-}
-
-// Listen channels
-func (server *Server) listen() {
-	for {
-		select {
-		case conn := <-server.joins:
-			server.addConnection(conn)
+		if err != nil {
+			log.Print("Error encoding message")
 		}
-	}
-}
-
-func NewServer() *Server {
-	server := &Server{
-		joins: make(chan net.Conn),
-	}
-	go server.listen()
-	return server
-}
-
-func main() {
-	fmt.Print("Initializing server")
-	listener, err := net.Listen("tcp", "192.168.0.101:9999")
-	if err != nil {
-		log.Fatal("Error starting TCP server.")
-	}
-
-	server := NewServer()
-
-	for {
-		conn, _ := listener.Accept()
-		server.joins <- conn
-	}
+		sendToElastic(string(json))
+	})
+	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
+		log.Print("Client disconnected")
+	})
+	server.Listen()
 }
