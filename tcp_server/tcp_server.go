@@ -94,5 +94,10 @@ func NewServer(address string) *server {
 		address: address,
 		joins:   make(chan net.Conn),
 	}
+
+	server.OnNewClient(func(c *Client) {})
+	server.OnNewMessage(func(c *Client, message string) {})
+	server.OnClientConnectionClosed(func(c *Client, err error) {})
+
 	return server
 }

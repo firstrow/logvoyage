@@ -71,14 +71,10 @@ func startHttpServer(httpDsn string) {
 func startTcpServer(tcpDsn string) {
 	log.Printf("Starting tcp server at %s", tcpDsn)
 	server := tcp_server.NewServer(tcpDsn)
-	server.OnNewClient(func(c *tcp_server.Client) {})
-
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		b := []byte(message)
 		go send(b)
 	})
-
-	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {})
 	server.Listen()
 }
 
