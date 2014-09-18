@@ -1,4 +1,5 @@
 // Basic package to build tcp servers
+// TODO: Write usages and examples.
 package tcp_server
 
 import (
