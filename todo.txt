@@ -19,6 +19,7 @@ Detect attacks(future)
 Easy support of different sources - mysql, ngixn, mongo, etc...
 Support all popular languages - php, ruby, python...
 Linux daemon comperss traffic.
+Web interface to configure local daemon!
 
 Parts
 =====
