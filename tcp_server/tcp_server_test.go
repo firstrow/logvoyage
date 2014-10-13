@@ -8,7 +8,7 @@ import (
 )
 
 func buildTestServer() *server {
-	return NewServer("localhost:9999")
+	return New("localhost:9999")
 }
 
 func Test_accepting_new_client_callback(t *testing.T) {

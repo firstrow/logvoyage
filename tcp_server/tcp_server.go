@@ -1,5 +1,4 @@
-// Basic package to build tcp servers
-// TODO: Write usages and examples.
+// Bootstrap package to build tcp servers
 package tcp_server
 
 import (
@@ -89,8 +88,8 @@ func (s *server) Listen() {
 	}
 }
 
-// Create new tcp server instance
-func NewServer(address string) *server {
+// Creates new tcp server instance
+func New(address string) *server {
 	log.Print("Creating server with address " + address)
 	server := &server{
 		address: address,

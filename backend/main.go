@@ -1,5 +1,5 @@
 // Backend server - main part of LogVoyage service.
-// It acceptc connections from "Client", parses string and pushes it to ElasticSearch index
+// It accepts connections from "Client", parses string and pushes it to ElasticSearch index
 package main
 
 import (
@@ -26,7 +26,7 @@ func main() {
 	port := flag.String("port", defaultPort, "Port to accept new connections. Default value: "+defaultPort)
 	flag.Parse()
 
-	server := tcp_server.NewServer(*host + ":" + *port)
+	server := tcp_server.New(*host + ":" + *port)
 	server.OnNewClient(func(c *tcp_server.Client) {
 		log.Print("New client")
 	})

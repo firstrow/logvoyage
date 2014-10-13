@@ -14,42 +14,43 @@ import (
 	"net"
 	"net/http"
 	"strings"
-	"time"
 )
 
 var (
 	logVoyageConnection net.Conn
+	httpDsn             string
+	tcpDsn              string
+	logVoyageDsn        string
 	emptyStringError    = errors.New("Received empty string")
 )
 
 func main() {
-	httpDsn := flag.String("httpHost", "localhost:27078", "Host and port to start local HTTP server.")
-	tcpDsn := flag.String("tcpDsn", "localhost:27079", "Host and port to start local TCP server.")
-	logVoyageDsn := flag.String("logVoyage", "localhost:27077", "LogVoyage server host and port.")
+	flag.StringVar(&httpDsn, "httpDsn", "localhost:27078", "Host and port to start local HTTP server.")
+	flag.StringVar(&tcpDsn, "tcpDsn", "localhost:27079", "Host and port to start local TCP server.")
+	flag.StringVar(&logVoyageDsn, "logVoyageDsn", "localhost:27077", "LogVoyage server host and port.")
 
 	flag.Parse()
-	connectLogVoyage(*logVoyageDsn)
-	startServers(*httpDsn, *tcpDsn)
+
+	// Start servers
+	err := connectLogVoyage(logVoyageDsn)
+	if err != nil {
+		log.Fatal("Error connecting go LogVoyage server.")
+	}
+
+	startServers()
+
 	// Where to defer connection close?
 	defer logVoyageConnection.Close()
 }
 
-func connectLogVoyage(dsn string) net.Conn {
-	// Connect to to LogVoyage server
+// Setup persistent tcp connection to LogVoyage server
+func connectLogVoyage(dsn string) error {
 	conn, err := net.Dial("tcp", dsn)
 	if err != nil {
-		log.Print("Error connecting to LogVoyage server. Will retry in 10 seconds.")
-		time.Sleep(10 * time.Second)
-		return nil
+		return errors.New("Error connecting to LogVoyage server.")
 	}
 	logVoyageConnection = conn
-	return logVoyageConnection
-}
-
-// Starts http and tcp servers
-func startServers(httpDsn string, tcpDsn string) {
-	go startHttpServer(httpDsn)
-	startTcpServer(tcpDsn)
+	return nil
 }
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
@@ -70,10 +71,9 @@ func startHttpServer(httpDsn string) {
 
 func startTcpServer(tcpDsn string) {
 	log.Printf("Starting tcp server at %s", tcpDsn)
-	server := tcp_server.NewServer(tcpDsn)
+	server := tcp_server.New(tcpDsn)
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		b := []byte(message)
-		go send(b)
+		send([]byte(message))
 	})
 	server.Listen()
 }
@@ -84,16 +84,36 @@ func send(message []byte) {
 	if err == nil {
 		_, err := logVoyageConnection.Write([]byte(text))
 		if err != nil {
-			log.Print("Connection with LogVoyage server lost. Will try again after 10 sec.")
+			log.Print("Error sending " + text)
+			backupMessage(text)
+			startTryingReconnect()
 		}
 	}
 }
 
-// Trims message and adds \n to end
+func backupMessage(text string) {
+	// Write message to file
+}
+
+func startTryingReconnect() {
+	log.Print("Reconnecting")
+	err := connectLogVoyage(logVoyageDsn)
+	if err == nil {
+		log.Print("Connected")
+	}
+}
+
+// Trims message and adds \n to end so it can be properly read by the server
 func prepareMessage(message string) (string, error) {
 	result := strings.TrimSpace(message)
 	if len(result) > 0 {
 		return result + "\n", nil
 	}
 	return "", emptyStringError
+}
+
+// Starts http and tcp servers
+func startServers() {
+	go startHttpServer(httpDsn)
+	startTcpServer(tcpDsn)
 }
