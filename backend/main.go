@@ -31,17 +31,14 @@ func main() {
 		log.Print("New client")
 	})
 
+	// Receives new message and send it to Elastic server
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		message = strings.TrimSpace(message)
 		// Send data to elastic
 		record := &common.LogRecord{
 			Message: message,
 		}
-		json, err := json.Marshal(record)
-		if err != nil {
-			log.Print("Error encoding message")
-		}
-		sendToElastic(string(json))
+		sendToElastic(record)
 	})
 
 	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
@@ -50,10 +47,14 @@ func main() {
 	server.Listen()
 }
 
-func sendToElastic(json string) {
+func sendToElastic(record *common.LogRecord) {
 	url := "http://localhost:9200/firstrow/logs"
 
-	var jsonStr = []byte(json)
+	jsonStr, err := json.Marshal(record)
+	if err != nil {
+		log.Print("Error encoding message")
+	}
+
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		log.Print("Error creating POST request to storage")
@@ -70,5 +71,5 @@ func sendToElastic(json string) {
 	// Read body to close connection
 	// If dont read body golang will keep connection open
 	ioutil.ReadAll(resp.Body)
-	log.Print("Message sent to Elastic: " + json)
+	log.Print("Message sent to Elastic: " + string(jsonStr))
 }
