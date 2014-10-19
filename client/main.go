@@ -1,4 +1,4 @@
-// Clinet is linux daemon to collect logs and send it to LogVoyage service.
+// Client is linux daemon to collect logs and send it to LogVoyage service.
 // If service is down Client will write to file and try to send them again
 // when service is up.
 //
@@ -8,7 +8,7 @@ package main
 import (
 	"errors"
 	"flag"
-	"github.com/firstrow/logvoyage/tcp_server"
+	"github.com/firstrow/tcp_server"
 	"io/ioutil"
 	"log"
 	"net"

@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"flag"
 	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/tcp_server"
+	"github.com/firstrow/tcp_server"
 	"io/ioutil"
 	"log"
 	"net/http"
