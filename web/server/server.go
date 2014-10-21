@@ -10,7 +10,8 @@ func main() {
 	m.Use(render.Renderer())
 
 	m.Get("/", func(r render.Render) {
-		r.HTML(200, "index", "world")
+		data := map[string]interface{}{"name": "tester"}
+		r.HTML(200, "index", data)
 	})
 	m.Run()
 }
