@@ -1,0 +1,23 @@
+{
+	"ImportPath": "github.com/firstrow/logvoyage",
+	"GoVersion": "go1.3",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Comment": "v1.0-rc1-4-g4b81725",
+			"Rev": "4b8172520a03fa190f427bbd284db01b459bfce7"
+		},
+		{
+			"ImportPath": "github.com/firstrow/tcp_server",
+			"Rev": "0e93489645aa71b86f13a9beecc16741b21fd64e"
+		},
+		{
+			"ImportPath": "github.com/go-martini/martini",
+			"Comment": "v1.0-50-g7d32ea3",
+			"Rev": "7d32ea3fa6590565c928b90a48178b60b96df98f"
+		}
+	]
+}
