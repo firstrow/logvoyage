@@ -39,7 +39,6 @@ func main() {
 
 	startServers()
 
-	// Where to defer connection close?
 	defer logVoyageConnection.Close()
 }
 
@@ -104,6 +103,7 @@ func startTryingReconnect() {
 }
 
 // Trims message and adds \n to end so it can be properly read by the server
+// TODO: Check log record max len
 func prepareMessage(message string) (string, error) {
 	result := strings.TrimSpace(message)
 	if len(result) > 0 {
