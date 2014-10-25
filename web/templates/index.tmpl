@@ -18,17 +18,17 @@
   <style type="text/css">
   	.sidebar {
   		position: fixed;
-		top: 51px;
-		bottom: 0;
-		left: 0;
-		z-index: 1000;
-		display: block;
-		padding: 20px;
-		overflow-x: hidden;
-		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-		background-color: #f5f5f5;
-		border-right: 1px solid #eee;
-		width:250px;
+  		top: 51px;
+  		bottom: 0;
+  		left: 0;
+  		z-index: 1000;
+  		display: block;
+  		padding: 20px;
+  		overflow-x: hidden;
+  		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  		background-color: #f5f5f5;
+  		border-right: 1px solid #eee;
+  		width:250px;
   	}
 
   	.main {
@@ -84,10 +84,12 @@
 			<div class="table-responsive">
 				<table class="table table-striped">
 			      <tbody>
-			        <tr>
-			          <td style="width:200px">2014-10-25 15:34:24 UTC</td>
-			          <td>Long long text message</td>
-			        </tr>
+              {{range .logs}}
+  			        <tr>
+  			          <td style="width:180px">2014-10-25 15:34:24 UTC</td>
+  			          <td>{{.Source.message}}</td>
+  			        </tr>
+              {{end}}
 			      </tbody>
 			    </table>
 		    </div>
