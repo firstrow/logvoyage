@@ -1,1 +1,0 @@
-This directory will store js, css, html files
