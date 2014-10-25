@@ -6,13 +6,14 @@ import (
 )
 
 func indexPage(r render.Render) {
-	data := map[string]interface{}{"name": "hello 3"}
+	data := map[string]interface{}{}
 	r.HTML(200, "index", data)
 }
 
 func main() {
 	m := martini.Classic()
 	m.Use(render.Renderer())
+	m.Use(martini.Static("../../static"))
 
 	m.Get("/", indexPage)
 	m.Run()
