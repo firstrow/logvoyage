@@ -1,12 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"github.com/belogik/goes"
 	"github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
 	"html/template"
+	"log"
+	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -16,6 +18,12 @@ func getConnection() *goes.Connection {
 
 func search(text string, indexes []string) []goes.Hit {
 	conn := getConnection()
+
+	if len(text) > 0 {
+		text = strconv.Quote(text)
+	} else {
+		text = "*"
+	}
 
 	var query = map[string]interface{}{
 		"query": map[string]interface{}{
@@ -38,18 +46,21 @@ func search(text string, indexes []string) []goes.Hit {
 		panic(err)
 	}
 
-	fmt.Println("Took")
-	fmt.Println(searchResults.Took)
-
 	return searchResults.Hits.Hits
 }
 
-func indexPage(r render.Render) {
-	data := map[string]interface{}{"logs": search("*", []string{"firstrow"})}
+func indexPage(req *http.Request, r render.Render) {
+	query_text := req.URL.Query().Get("q")
+
+	data := map[string]interface{}{
+		"logs":       search(query_text, []string{"firstrow"}),
+		"query_text": query_text,
+	}
 	r.HTML(200, "index", data)
 }
 
 func main() {
+	log.Println("Starting server")
 	templateFunc := template.FuncMap{
 		"FormatTimeToHuman": func(s string) string {
 			t, _ := time.Parse(time.RFC3339Nano, s)
