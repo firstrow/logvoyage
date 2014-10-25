@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 var (
@@ -33,10 +34,13 @@ func main() {
 
 	// Receives new message and send it to Elastic server
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
+		// TODO:
+		// - delete token from message beginning
 		message = strings.TrimSpace(message)
 		// Send data to elastic
 		record := &common.LogRecord{
-			Message: message,
+			Datetime: time.Now().UTC(),
+			Message:  message,
 		}
 		sendToElastic(record)
 	})

@@ -86,7 +86,7 @@
 			      <tbody>
               {{range .logs}}
   			        <tr>
-  			          <td style="width:180px">2014-10-25 15:34:24 UTC</td>
+  			          <td style="width:180px">{{.Source.datetime | FormatTimeToHuman}}</td>
   			          <td>{{.Source.message}}</td>
   			        </tr>
               {{end}}
