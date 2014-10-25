@@ -36,10 +36,9 @@ func main() {
 	if err != nil {
 		log.Fatal("Error connecting go LogVoyage server.")
 	}
+	defer logVoyageConnection.Close()
 
 	startServers()
-
-	defer logVoyageConnection.Close()
 }
 
 // Setup persistent tcp connection to LogVoyage server

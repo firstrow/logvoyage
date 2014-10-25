@@ -5,13 +5,15 @@ import (
 	"github.com/go-martini/martini"
 )
 
+func indexPage(r render.Render) {
+	data := map[string]interface{}{"name": "hello 3"}
+	r.HTML(200, "index", data)
+}
+
 func main() {
 	m := martini.Classic()
 	m.Use(render.Renderer())
 
-	m.Get("/", func(r render.Render) {
-		data := map[string]interface{}{"name": "hello 3"}
-		r.HTML(200, "index", data)
-	})
+	m.Get("/", indexPage)
 	m.Run()
 }
