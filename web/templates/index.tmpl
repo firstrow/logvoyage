@@ -7,7 +7,7 @@
     <title>LogVoyage - Dashboard</title>
 
     <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -15,35 +15,14 @@
     <![endif]-->
   </head>
 
-  <style type="text/css">
-  	.sidebar {
-  		position: fixed;
-  		top: 51px;
-  		bottom: 0;
-  		left: 0;
-  		z-index: 1000;
-  		display: block;
-  		padding: 20px;
-  		overflow-x: hidden;
-  		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  		background-color: #f5f5f5;
-  		border-right: 1px solid #eee;
-  		width:250px;
-  	}
-
-  	.main {
-	  margin-left: 250px;
-	}
-  </style>
-
   <body>
   	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   	<div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
     <div class="row">
-       	<div class="col-md-2" style="padding-left:20px; padding-right:130px">
-    		<a class="navbar-brand" href="#">LogVoyage</a>
+     	<div class="col-md-2" style="padding-left:20px;width:250px">
+      		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-briefcase"></span> LogVoyage</a>
     	</div>
     </div>
     </div>
@@ -74,11 +53,16 @@
 
 	<div class="row" style="margin-top:50px">
 		<div class="col-md-2 sidebar">
-			Logs: <br>
-			<label><input type="checkbox"> All</label><br>
-			<label><input type="checkbox"> php</label><br>
-			<label><input type="checkbox"> nginx</label><br>
-			<label><input type="checkbox"> mysql</label><br>
+      Project: <br>
+      <div class="checkbox">
+        <label><input type="checkbox"> <strong>All</strong></label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox"> nginx</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox"> mysql</label>
+      </div>
 		</div>
 		<div class="col-md-10 main">
 			<div class="table-responsive">
@@ -96,8 +80,7 @@
 		</div>
 	</div>
 
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   </body>
 </html>

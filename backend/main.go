@@ -52,7 +52,7 @@ func main() {
 }
 
 func sendToElastic(record *common.LogRecord) {
-	url := "http://localhost:9200/firstrow/logs"
+	url := "http://localhost:9200/firstrow/php"
 
 	jsonStr, err := json.Marshal(record)
 	if err != nil {
