@@ -2,15 +2,15 @@ package main
 
 import (
 	"github.com/codegangsta/martini-contrib/render"
-	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/go-martini/martini"
 	"html/template"
-	"log"
 	"time"
+
+	"github.com/firstrow/logvoyage/web/routers/home"
+	"github.com/firstrow/logvoyage/web/routers/users"
 )
 
 func main() {
-	log.Println("Starting server")
 	templateFunc := template.FuncMap{
 		"FormatTimeToHuman": func(s string) string {
 			t, _ := time.Parse(time.RFC3339Nano, s)
@@ -25,5 +25,7 @@ func main() {
 	m.Use(martini.Static("../static"))
 
 	m.Get("/", home.Index)
+	m.Any("/register", users.Register)
+
 	m.Run()
 }
