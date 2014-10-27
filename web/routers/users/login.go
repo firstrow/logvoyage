@@ -60,6 +60,7 @@ func findUser(form *loginForm) error {
 }
 
 func Login(req *http.Request, r render.Render) {
+	message := ""
 	req.ParseForm()
 	form := &loginForm{
 		EnableValidation: &EnableValidation{},
@@ -74,7 +75,7 @@ func Login(req *http.Request, r render.Render) {
 			// find user
 			err := findUser(form)
 			if err != nil {
-				panic("User not found or wrong password")
+				message = "User not found or wrong password"
 			}
 			// validate password
 			// save session
@@ -83,7 +84,8 @@ func Login(req *http.Request, r render.Render) {
 	}
 
 	data := map[string]interface{}{
-		"form": form,
+		"form":    form,
+		"message": message,
 	}
 	r.HTML(200, "users/login", data)
 }
