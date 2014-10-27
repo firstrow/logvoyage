@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// Send raw bytes to elastic search server
 func SendToElastic(url string, method string, b []byte) (string, error) {
 	eurl := "http://localhost:9200/"
 	eurl += url

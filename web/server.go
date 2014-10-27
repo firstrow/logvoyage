@@ -27,8 +27,10 @@ func main() {
 	}))
 	m.Use(martini.Static("../static"))
 
+	// Routes
 	m.Get("/", home.Index)
 	m.Any("/register", users.Register)
+	m.Any("/login", users.Login)
 
 	m.Run()
 }

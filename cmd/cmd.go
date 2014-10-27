@@ -34,7 +34,7 @@ func createUsersIndexFunc(c *cli.Context) {
 			}
 		},
 		"mappings": {
-			"users" : {
+			"user" : {
 				"_source" : {"enabled" : true},
 				"properties" : {
 					"email" : {"type" : "string", "index": "not_analyzed" },
