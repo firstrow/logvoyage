@@ -76,10 +76,9 @@ func Login(req *http.Request, r render.Render) {
 			err := findUser(form)
 			if err != nil {
 				message = "User not found or wrong password"
+			} else {
+				r.Redirect("/")
 			}
-			// validate password
-			// save session
-			// redirect
 		}
 	}
 
