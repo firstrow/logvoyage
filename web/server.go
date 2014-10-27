@@ -4,6 +4,7 @@ import (
 	"github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
 	"html/template"
+	"runtime"
 	"time"
 
 	"github.com/firstrow/logvoyage/web/routers/home"
@@ -11,6 +12,8 @@ import (
 )
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	templateFunc := template.FuncMap{
 		"FormatTimeToHuman": func(s string) string {
 			t, _ := time.Parse(time.RFC3339Nano, s)

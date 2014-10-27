@@ -3,14 +3,12 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"flag"
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/tcp_server"
-	"io/ioutil"
 	"log"
-	"net/http"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -21,6 +19,8 @@ var (
 )
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+
 	log.Print("Initializing server")
 
 	host := flag.String("host", defaultHost, "Host to open server. Set to `localhost` to accept only local connections.")
@@ -34,15 +34,13 @@ func main() {
 
 	// Receives new message and send it to Elastic server
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		// TODO:
-		// - delete token from message beginning
 		message = strings.TrimSpace(message)
 		// Send data to elastic
 		record := &common.LogRecord{
 			Datetime: time.Now().UTC(),
 			Message:  message,
 		}
-		sendToElastic(record)
+		toElastic(record)
 	})
 
 	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
@@ -51,29 +49,11 @@ func main() {
 	server.Listen()
 }
 
-func sendToElastic(record *common.LogRecord) {
-	url := "http://localhost:9200/firstrow/php"
-
-	jsonStr, err := json.Marshal(record)
+func toElastic(record *common.LogRecord) {
+	j, err := json.Marshal(record)
 	if err != nil {
-		log.Print("Error encoding message")
+		log.Print("Error encoding message to JSON")
+	} else {
+		common.SendToElastic("firstrow/logs", "POST", j)
 	}
-
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	if err != nil {
-		log.Print("Error creating POST request to storage")
-	}
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		// Here we can't send data to elastic.
-		// Write to log. restore.
-		log.Fatal("%s", err)
-	}
-	defer resp.Body.Close()
-	// Read body to close connection
-	// If dont read body golang will keep connection open
-	ioutil.ReadAll(resp.Body)
-	log.Print("Message sent to Elastic: " + string(jsonStr))
 }

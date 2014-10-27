@@ -14,15 +14,19 @@
       <div class="form-group">
         <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" placeholder="Email">
-            {{.form.GetError "Email"}}
+            <input type="email" class="form-control" name="email" value="{{.form.Email}}" placeholder="Email">
+            <div class="error">
+                {{.form.GetError "Email"}}
+            </div>
         </div>
       </div>
       <div class="form-group">
         <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" name="password" placeholder="Password">
-            {{.form.GetError "Password"}}
+            <input type="password" class="form-control" name="password" value="{{.form.Password}}" placeholder="Password">
+            <div class="error">
+                {{.form.GetError "Password"}}
+            </div>
         </div>
       </div>
       <div class="form-group">
