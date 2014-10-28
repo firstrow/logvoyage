@@ -5,6 +5,7 @@ import (
 	"github.com/Unknwon/com"
 	"github.com/belogik/goes"
 	"github.com/codegangsta/martini-contrib/render"
+	"github.com/martini-contrib/sessions"
 	"net/http"
 	"net/url"
 )
@@ -59,7 +60,7 @@ func findUser(form *loginForm) error {
 	return nil
 }
 
-func Login(req *http.Request, r render.Render) {
+func Login(req *http.Request, r render.Render, session sessions.Session) {
 	message := ""
 	req.ParseForm()
 	form := &loginForm{
@@ -77,6 +78,7 @@ func Login(req *http.Request, r render.Render) {
 			if err != nil {
 				message = "User not found or wrong password"
 			} else {
+				// TODO: auth, save session
 				r.Redirect("/")
 			}
 		}

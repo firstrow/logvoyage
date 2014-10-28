@@ -49,6 +49,7 @@ func Register(req *http.Request, r render.Render) {
 
 		if !form.EnableValidation.Valid.HasErrors() {
 			// perform register
+			panic("TODO: Add check unique email")
 			conn := goes.NewConnection("localhost", "9200")
 			doc := goes.Document{
 				Index: "users",
