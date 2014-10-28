@@ -5,13 +5,14 @@ package render
 import (
 	"github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
+	"log"
 )
 
 type Render struct {
 	renderer render.Render
 }
 
-func (r *Render) HTML(name string, bindings interface{}) {
+func (r *Render) HTML(name string, bindings map[string]interface{}) {
 	r.renderer.HTML(200, name, bindings)
 }
 

@@ -2,7 +2,7 @@ package home
 
 import (
 	"github.com/belogik/goes"
-	"github.com/codegangsta/martini-contrib/render"
+	"github.com/firstrow/logvoyage/web/render"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -45,12 +45,12 @@ func search(text string, indexes []string) []goes.Hit {
 	return searchResults.Hits.Hits
 }
 
-func Index(req *http.Request, r render.Render) {
+func Index(req *http.Request, r *render.Render) {
 	query_text := req.URL.Query().Get("q")
 
 	data := map[string]interface{}{
 		"logs":       search(query_text, []string{"firstrow"}),
 		"query_text": query_text,
 	}
-	r.HTML(200, "index", data)
+	r.HTML("index", data)
 }
