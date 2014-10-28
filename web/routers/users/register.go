@@ -4,7 +4,7 @@ import (
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/belogik/goes"
-	"github.com/codegangsta/martini-contrib/render"
+	"github.com/firstrow/logvoyage/web/render"
 	"net/http"
 	"net/url"
 )
@@ -36,7 +36,7 @@ func (this *registerForm) SetupValidation() {
 	this.Valid.MaxSize(this.Password, 25, "Password")
 }
 
-func Register(req *http.Request, r render.Render) {
+func Register(req *http.Request, r *render.Render) {
 	req.ParseForm()
 	form := &registerForm{
 		EnableValidation: &EnableValidation{},
@@ -68,5 +68,5 @@ func Register(req *http.Request, r render.Render) {
 	data := map[string]interface{}{
 		"form": form,
 	}
-	r.HTML(200, "users/register", data)
+	r.HTML("users/register", data)
 }

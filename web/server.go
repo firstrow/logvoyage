@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/codegangsta/martini-contrib/render"
+	martiniRender "github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 	"html/template"
 	"runtime"
 	"time"
 
+	"github.com/firstrow/logvoyage/web/render"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/users"
 )
@@ -24,9 +25,11 @@ func main() {
 
 	m := martini.Classic()
 	// Template
-	m.Use(render.Renderer(render.Options{
+	m.Use(martiniRender.Renderer(martiniRender.Options{
 		Funcs: []template.FuncMap{templateFunc},
 	}))
+	// Application renderer
+	m.Use(render.RenderHandler)
 	// Serve static files
 	m.Use(martini.Static("../static"))
 	// Sessions
@@ -40,7 +43,7 @@ func main() {
 	m.Run()
 }
 
-func authorize(r render.Render, sess sessions.Session) {
+func authorize(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email == nil {
 		r.Redirect("/login")

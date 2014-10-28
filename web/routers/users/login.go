@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/Unknwon/com"
 	"github.com/belogik/goes"
-	"github.com/codegangsta/martini-contrib/render"
+	"github.com/firstrow/logvoyage/web/render"
 	"github.com/martini-contrib/sessions"
 	"net/http"
 	"net/url"
@@ -60,7 +60,7 @@ func findUser(form *loginForm) error {
 	return nil
 }
 
-func Login(req *http.Request, r render.Render, sess sessions.Session) {
+func Login(req *http.Request, r *render.Render, sess sessions.Session) {
 	message := ""
 	req.ParseForm()
 	form := &loginForm{
@@ -89,5 +89,5 @@ func Login(req *http.Request, r render.Render, sess sessions.Session) {
 		"form":    form,
 		"message": message,
 	}
-	r.HTML(200, "users/login", data)
+	r.HTML("users/login", data)
 }
