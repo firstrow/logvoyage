@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
+	"github.com/martini-contrib/sessions"
 	"html/template"
 	"runtime"
 	"time"
@@ -22,15 +23,26 @@ func main() {
 	}
 
 	m := martini.Classic()
+	// Template
 	m.Use(render.Renderer(render.Options{
 		Funcs: []template.FuncMap{templateFunc},
 	}))
+	// Serve static files
 	m.Use(martini.Static("../static"))
-
+	// Sessions
+	store := sessions.NewCookieStore([]byte("secret_key"))
+	m.Use(sessions.Sessions("default", store))
 	// Routes
-	m.Get("/", home.Index)
+	m.Get("/dashboard", authorize, home.Index)
 	m.Any("/register", users.Register)
 	m.Any("/login", users.Login)
 
 	m.Run()
+}
+
+func authorize(r render.Render, sess sessions.Session) {
+	email := sess.Get("email")
+	if email == nil {
+		r.Redirect("/login")
+	}
 }

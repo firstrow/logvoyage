@@ -60,7 +60,7 @@ func findUser(form *loginForm) error {
 	return nil
 }
 
-func Login(req *http.Request, r render.Render, session sessions.Session) {
+func Login(req *http.Request, r render.Render, sess sessions.Session) {
 	message := ""
 	req.ParseForm()
 	form := &loginForm{
@@ -79,7 +79,8 @@ func Login(req *http.Request, r render.Render, session sessions.Session) {
 				message = "User not found or wrong password"
 			} else {
 				// TODO: auth, save session
-				r.Redirect("/")
+				sess.Set("email", form.Email)
+				r.Redirect("/dashboard")
 			}
 		}
 	}
