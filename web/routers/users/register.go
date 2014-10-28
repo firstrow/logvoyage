@@ -65,8 +65,7 @@ func Register(req *http.Request, r *render.Render) {
 		}
 	}
 
-	data := map[string]interface{}{
+	r.HTML("users/register", render.ViewData{
 		"form": form,
-	}
-	r.HTML("users/register", data)
+	})
 }

@@ -7,11 +7,14 @@ import (
 	"github.com/go-martini/martini"
 )
 
+type ViewData map[string]interface{}
+
 type Render struct {
 	renderer render.Render
 }
 
 func (r *Render) HTML(name string, bindings map[string]interface{}) {
+	// bindings["key"] = "val"
 	r.renderer.HTML(200, name, bindings)
 }
 

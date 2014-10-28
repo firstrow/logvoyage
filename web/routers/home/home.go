@@ -12,6 +12,7 @@ func getConnection() *goes.Connection {
 	return goes.NewConnection("localhost", "9200")
 }
 
+// Search logs in elastic.
 func search(text string, indexes []string) []goes.Hit {
 	conn := getConnection()
 
@@ -29,7 +30,7 @@ func search(text string, indexes []string) []goes.Hit {
 			},
 		},
 		"from": 0,
-		"size": 1000,
+		"size": 100,
 		"sort": map[string]string{
 			"datetime": "desc",
 		},
@@ -47,10 +48,8 @@ func search(text string, indexes []string) []goes.Hit {
 
 func Index(req *http.Request, r *render.Render) {
 	query_text := req.URL.Query().Get("q")
-
-	data := map[string]interface{}{
+	r.HTML("index", render.ViewData{
 		"logs":       search(query_text, []string{"firstrow"}),
 		"query_text": query_text,
-	}
-	r.HTML("index", data)
+	})
 }

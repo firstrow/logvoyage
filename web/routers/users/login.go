@@ -85,9 +85,8 @@ func Login(req *http.Request, r *render.Render, sess sessions.Session) {
 		}
 	}
 
-	data := map[string]interface{}{
+	r.HTML("users/login", render.ViewData{
 		"form":    form,
 		"message": message,
-	}
-	r.HTML("users/login", data)
+	})
 }
