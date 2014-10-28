@@ -5,7 +5,6 @@ package render
 import (
 	"github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
-	"log"
 )
 
 type Render struct {
