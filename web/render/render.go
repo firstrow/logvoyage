@@ -13,10 +13,13 @@ type ViewData map[string]interface{}
 
 type Render struct {
 	renderer render.Render
-	Context  ViewData
+	// Allows to add data before render
+	// Used to add `global` values
+	Context ViewData
 }
 
 func (r *Render) HTML(name string, bindings map[string]interface{}) {
+	// Merge `global` data and local
 	for key, val := range r.Context {
 		bindings[key] = val
 	}
