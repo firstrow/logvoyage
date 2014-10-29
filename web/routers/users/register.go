@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/belogik/goes"
 	"github.com/firstrow/logvoyage/web/render"
+	"github.com/nu7hatch/gouuid"
 	"net/http"
 	"net/url"
 )
@@ -48,16 +49,16 @@ func Register(req *http.Request, r *render.Render) {
 		form.SetupValidation()
 
 		if !form.EnableValidation.Valid.HasErrors() {
-			// perform register
-			panic("TODO: Add check unique email")
+			apiKey, _ := uuid.NewV5(uuid.NamespaceURL, []byte(form.Email))
+
 			conn := goes.NewConnection("localhost", "9200")
 			doc := goes.Document{
 				Index: "users",
 				Type:  "user",
-				Id:    "W_FwNJqpSLaYb-DfT7tG7Q",
 				Fields: map[string]string{
 					"email":    form.Email,
 					"password": com.Sha256(form.Password),
+					"apiKey":   apiKey.String(),
 				},
 			}
 			extraArgs := make(url.Values, 0)

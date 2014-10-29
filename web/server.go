@@ -46,10 +46,12 @@ func main() {
 	m.Run()
 }
 
+// Poplute default application context
 func templateContext(r *render.Render, sess sessions.Session) {
 	r.Context["email"] = sess.Get("email")
 }
 
+// Check user authentication middleware
 func authorize(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email == nil {
