@@ -28,19 +28,26 @@ func main() {
 	m.Use(martiniRender.Renderer(martiniRender.Options{
 		Funcs: []template.FuncMap{templateFunc},
 	}))
-	// Application renderer
-	m.Use(render.RenderHandler)
 	// Serve static files
 	m.Use(martini.Static("../static"))
 	// Sessions
-	store := sessions.NewCookieStore([]byte("secret_key"))
+	store := sessions.NewCookieStore([]byte("super_secret_key"))
 	m.Use(sessions.Sessions("default", store))
+
+	// Application renderer
+	m.Use(render.RenderHandler)
+	m.Use(templateContext)
+
 	// Routes
 	m.Get("/dashboard", authorize, home.Index)
 	m.Any("/register", users.Register)
 	m.Any("/login", users.Login)
 
 	m.Run()
+}
+
+func templateContext(r *render.Render, sess sessions.Session) {
+	r.Context["email"] = sess.Get("email")
 }
 
 func authorize(r *render.Render, sess sessions.Session) {

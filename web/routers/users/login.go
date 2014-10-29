@@ -78,7 +78,6 @@ func Login(req *http.Request, r *render.Render, sess sessions.Session) {
 			if err != nil {
 				message = "User not found or wrong password"
 			} else {
-				// TODO: auth, save session
 				sess.Set("email", form.Email)
 				r.Redirect("/dashboard")
 			}
