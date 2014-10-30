@@ -24,6 +24,7 @@ func (this *loginForm) SetupValidation() {
 	this.Valid.MaxSize(this.Password, 25, "Password")
 }
 
+// Search user by login and password
 func findUser(form *loginForm) error {
 	conn := goes.NewConnection("localhost", "9200")
 
