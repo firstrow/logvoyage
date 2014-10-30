@@ -14,7 +14,7 @@ func templateContext(r *render.Render, sess sessions.Session) {
 	}
 }
 
-// Check user authentication middleware
+// Check user authentication
 func authorize(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email == nil {
