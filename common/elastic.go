@@ -2,10 +2,20 @@ package common
 
 import (
 	"bytes"
+	"github.com/belogik/goes"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
+
+const (
+	ES_HOST = "localhost"
+	ES_PORT = "9200"
+)
+
+func GetConnection() *goes.Connection {
+	return goes.NewConnection(ES_HOST, ES_PORT)
+}
 
 // Send raw bytes to elastic search server
 func SendToElastic(url string, method string, b []byte) (string, error) {

@@ -12,10 +12,8 @@ import (
 
 func TestElasticResponseToStruct(t *testing.T) {
 	indexname := "testingindex"
-	conn := goes.NewConnection("localhost", "9200")
-	defer func() {
-		conn.DeleteIndex(indexname)
-	}()
+	conn := GetConnection()
+	defer conn.DeleteIndex(indexname)
 
 	settings := `{
 		"settings": {
@@ -46,8 +44,7 @@ func TestElasticResponseToStruct(t *testing.T) {
 			"apiKey":   "api_key_123",
 		},
 	}
-	extraArgs := make(url.Values, 0)
-	conn.Index(doc, extraArgs)
+	conn.Index(doc, url.Values{})
 
 	time.Sleep(2 * time.Second)
 
@@ -66,7 +63,7 @@ func TestElasticResponseToStruct(t *testing.T) {
 		},
 	}
 
-	searchResults, err := conn.Search(query, []string{indexname}, []string{"user"}, extraArgs)
+	searchResults, err := conn.Search(query, []string{indexname}, []string{"user"}, url.Values{})
 
 	if err != nil {
 		t.Fatal(err.Error())
