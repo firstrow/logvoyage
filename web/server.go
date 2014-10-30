@@ -40,8 +40,8 @@ func main() {
 
 	// Routes
 	m.Get("/dashboard", authorize, home.Index)
-	m.Any("/register", users.Register)
-	m.Any("/login", users.Login)
+	m.Any("/register", redirectIfAuthrorized, users.Register)
+	m.Any("/login", redirectIfAuthrorized, users.Login)
 
 	m.Run()
 }
@@ -49,6 +49,10 @@ func main() {
 // Poplute default application context
 func templateContext(r *render.Render, sess sessions.Session) {
 	r.Context["email"] = sess.Get("email")
+
+	if sess.Get("email") != nil {
+		r.Context["isGuest"] = false
+	}
 }
 
 // Check user authentication middleware
@@ -56,5 +60,13 @@ func authorize(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email == nil {
 		r.Redirect("/login")
+	}
+}
+
+// Redirect user to Dashboard if authorized
+func redirectIfAuthrorized(r *render.Render, sess sessions.Session) {
+	email := sess.Get("email")
+	if email != nil {
+		r.Redirect("/dashboard")
 	}
 }
