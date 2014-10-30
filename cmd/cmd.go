@@ -39,7 +39,7 @@ func createUsersIndexFunc(c *cli.Context) {
 				"properties" : {
 					"email" : {"type" : "string", "index": "not_analyzed" },
 					"password" : {"type" : "string", "index": "not_analyzed" },
-					"tokens" : {"type" : "string", "index": "not_analyzed" }
+					"apiKey" : {"type" : "string", "index": "not_analyzed" }
 				}
 			}
 		}
