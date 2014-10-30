@@ -28,15 +28,12 @@ func FindUserByEmail(email string) *User {
 
 	searchResults, err := GetConnection().Search(query, []string{"users"}, []string{"user"}, url.Values{})
 
-	if err != nil {
-		return nil
-	}
-
-	if searchResults.Hits.Total == 0 {
+	if err != nil || searchResults.Hits.Total == 0 {
 		return nil
 	}
 
 	user := &User{}
 	mapstructure.Decode(searchResults.Hits.Hits[0].Source, user)
+
 	return user
 }
