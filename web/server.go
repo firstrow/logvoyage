@@ -40,8 +40,8 @@ func main() {
 
 	// Routes
 	m.Get("/dashboard", authorize, home.Index)
-	m.Any("/register", redirectIfAuthrorized, users.Register)
-	m.Any("/login", redirectIfAuthrorized, users.Login)
+	m.Any("/register", redirectIfAuthorized, users.Register)
+	m.Any("/login", redirectIfAuthorized, users.Login)
 
 	m.Run()
 }

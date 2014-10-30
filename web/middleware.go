@@ -23,7 +23,7 @@ func authorize(r *render.Render, sess sessions.Session) {
 }
 
 // Redirect user to Dashboard if authorized
-func redirectIfAuthrorized(r *render.Render, sess sessions.Session) {
+func redirectIfAuthorized(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email != nil {
 		r.Redirect("/dashboard")
