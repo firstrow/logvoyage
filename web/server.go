@@ -36,7 +36,7 @@ func main() {
 
 	// Application renderer
 	m.Use(render.RenderHandler)
-	m.Use(templateContext)
+	m.Use(populateAppContext)
 
 	// Routes
 	m.Get("/dashboard", authorize, home.Index)

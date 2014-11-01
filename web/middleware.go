@@ -6,7 +6,7 @@ import (
 )
 
 // Add some defaults to tempalte data each request
-func templateContext(r *render.Render, sess sessions.Session) {
+func populateAppContext(r *render.Render, sess sessions.Session) {
 	r.Context["email"] = sess.Get("email")
 
 	if sess.Get("email") != nil {
