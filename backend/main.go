@@ -36,7 +36,6 @@ func main() {
 
 	// Receives new message and send it to Elastic server
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		message = strings.TrimSpace(message)
 		// Send data to elastic
 		record := &common.LogRecord{
 			Message:  message,
@@ -45,6 +44,9 @@ func main() {
 
 		indexName, err := getIndexName(record)
 		if err == nil {
+			record.Message = common.RemoveApiKey(record.Message)
+			record.Message = strings.TrimSpace(record.Message)
+
 			toElastic(indexName, record)
 		}
 	})

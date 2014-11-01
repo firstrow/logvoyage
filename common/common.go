@@ -6,12 +6,12 @@ import (
 )
 
 const (
-	format = "^([a-z0-9]{8}-[a-z0-9]{4}-[1-5][a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{12})"
+	ApiKeyFormat = "^([a-z0-9]{8}-[a-z0-9]{4}-[1-5][a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{12})"
 )
 
 // Extracts api key from string
 func ExtractApiKey(message string) (string, error) {
-	re := regexp.MustCompile(format)
+	re := regexp.MustCompile(ApiKeyFormat)
 	result := re.Find([]byte(message))
 
 	if result == nil {
@@ -19,4 +19,12 @@ func ExtractApiKey(message string) (string, error) {
 	}
 
 	return string(result), nil
+}
+
+// Extracts api key from string
+func RemoveApiKey(message string) string {
+	re := regexp.MustCompile(ApiKeyFormat)
+	result := re.ReplaceAll([]byte(message), []byte(""))
+
+	return string(result)
 }
