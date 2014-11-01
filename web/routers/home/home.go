@@ -2,6 +2,7 @@ package home
 
 import (
 	"github.com/belogik/goes"
+	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/render"
 	"net/http"
 	"net/url"
@@ -48,8 +49,9 @@ func search(text string, indexes []string) []goes.Hit {
 
 func Index(req *http.Request, r *render.Render) {
 	query_text := req.URL.Query().Get("q")
+	user := common.FindUserByEmail(r.Context["email"].(string))
 	r.HTML("index", render.ViewData{
-		"logs":       search(query_text, []string{"firstrow"}),
+		"logs":       search(query_text, []string{user.GetIndexName()}),
 		"query_text": query_text,
 	})
 }

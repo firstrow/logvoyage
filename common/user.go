@@ -11,14 +11,27 @@ type User struct {
 	ApiKey   string
 }
 
+// Returns index name to use in Elastic
+func (this *User) GetIndexName() string {
+	return this.ApiKey
+}
+
 func FindUserByEmail(email string) *User {
+	return FindUserBy("email", email)
+}
+
+func FindUserByApiKey(apiKey string) *User {
+	return FindUserBy("apiKey", apiKey)
+}
+
+func FindUserBy(key string, value string) *User {
 	var query = map[string]interface{}{
 		"query": map[string]interface{}{
 			"bool": map[string]interface{}{
 				"must": map[string]interface{}{
 					"term": map[string]interface{}{
-						"email": map[string]interface{}{
-							"value": email,
+						key: map[string]interface{}{
+							"value": value,
 						},
 					},
 				},

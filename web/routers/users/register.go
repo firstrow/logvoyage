@@ -4,6 +4,7 @@ import (
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/belogik/goes"
+	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/render"
 	"github.com/nu7hatch/gouuid"
 	"net/http"
@@ -51,7 +52,6 @@ func Register(req *http.Request, r *render.Render) {
 		if !form.EnableValidation.Valid.HasErrors() {
 			apiKey, _ := uuid.NewV5(uuid.NamespaceURL, []byte(form.Email))
 
-			conn := goes.NewConnection("localhost", "9200")
 			doc := goes.Document{
 				Index: "users",
 				Type:  "user",
@@ -62,7 +62,7 @@ func Register(req *http.Request, r *render.Render) {
 				},
 			}
 			extraArgs := make(url.Values, 0)
-			conn.Index(doc, extraArgs)
+			common.GetConnection().Index(doc, extraArgs)
 		}
 	}
 

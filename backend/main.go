@@ -4,13 +4,15 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/tcp_server"
 	"log"
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/tcp_server"
 )
 
 var (
@@ -37,10 +39,14 @@ func main() {
 		message = strings.TrimSpace(message)
 		// Send data to elastic
 		record := &common.LogRecord{
-			Datetime: time.Now().UTC(),
 			Message:  message,
+			Datetime: time.Now().UTC(),
 		}
-		toElastic(record)
+
+		indexName, err := getIndexName(record)
+		if err == nil {
+			toElastic(indexName, record)
+		}
 	})
 
 	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
@@ -49,11 +55,27 @@ func main() {
 	server.Listen()
 }
 
-func toElastic(record *common.LogRecord) {
+func getIndexName(record *common.LogRecord) (string, error) {
+	key, err := common.ExtractApiKey(record.Message)
+	if err != nil {
+		log.Println(err.Error())
+		return "", err
+	}
+
+	user := common.FindUserByApiKey(key)
+	if user == nil {
+		log.Println("User not found")
+		return "", errors.New("Error. User not found")
+	}
+
+	return user.GetIndexName(), nil
+}
+
+func toElastic(indexName string, record *common.LogRecord) {
 	j, err := json.Marshal(record)
 	if err != nil {
 		log.Print("Error encoding message to JSON")
 	} else {
-		common.SendToElastic("firstrow/logs", "POST", j)
+		common.SendToElastic(indexName+"/logs", "POST", j)
 	}
 }
