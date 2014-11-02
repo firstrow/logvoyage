@@ -18,7 +18,7 @@ func search(text string, indexes []string) []goes.Hit {
 	conn := getConnection()
 
 	if len(text) > 0 {
-		text = strconv.Quote(text)
+		strconv.Quote(text)
 	} else {
 		text = "*"
 	}
