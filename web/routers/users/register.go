@@ -4,11 +4,12 @@ import (
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/belogik/goes"
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/render"
 	"github.com/nu7hatch/gouuid"
 	"net/http"
 	"net/url"
+
+	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/web/render"
 )
 
 type EnableValidation struct {
