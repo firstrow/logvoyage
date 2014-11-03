@@ -2,11 +2,12 @@ package home
 
 import (
 	"github.com/belogik/goes"
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/render"
 	"net/http"
 	"net/url"
 	"strconv"
+
+	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/web/render"
 )
 
 func getConnection() *goes.Connection {
@@ -14,7 +15,7 @@ func getConnection() *goes.Connection {
 }
 
 // Search logs in elastic.
-func search(text string, indexes []string) []goes.Hit {
+func search(text string, indexes []string, from int) goes.Response {
 	conn := getConnection()
 
 	if len(text) > 0 {
@@ -30,8 +31,8 @@ func search(text string, indexes []string) []goes.Hit {
 				"query":         text,
 			},
 		},
-		"from": 0,
-		"size": 100,
+		"from": from,
+		"size": 10,
 		"sort": map[string]string{
 			"datetime": "desc",
 		},
@@ -44,14 +45,26 @@ func search(text string, indexes []string) []goes.Hit {
 		panic(err)
 	}
 
-	return searchResults.Hits.Hits
+	return searchResults
 }
 
 func Index(req *http.Request, r *render.Render) {
 	query_text := req.URL.Query().Get("q")
 	user := common.FindUserByEmail(r.Context["email"].(string))
+
+	// Pagination
+	from := 0
+	page, _ := strconv.Atoi(req.URL.Query().Get("page"))
+	if page > 0 {
+		from = 10 * page
+	}
+
+	// Load records
+	data := search(query_text, []string{user.GetIndexName()}, from)
+
 	r.HTML("index", render.ViewData{
-		"logs":       search(query_text, []string{user.GetIndexName()}),
+		"logs":       data.Hits.Hits,
+		"total":      data.Hits.Total,
 		"query_text": query_text,
 	})
 }

@@ -1,12 +1,12 @@
 {{template "base/head" .}}
-  	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  	<div class="container-fluid">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
     <div class="row">
-     	<div class="col-md-2" style="padding-left:20px;width:250px">
-      		<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-briefcase"></span> LogVoyage</a>
-    	</div>
+      <div class="col-md-2" style="padding-left:20px;width:250px">
+          <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-briefcase"></span> LogVoyage</a>
+      </div>
     </div>
     </div>
 
@@ -31,35 +31,55 @@
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
-  	</div><!-- /.container-fluid -->
-	</nav>
+    </div><!-- /.container-fluid -->
+  </nav>
 
-	<div class="row" style="margin-top:50px">
-		<div class="col-md-2 sidebar">
-      Project: <br>
-      <div class="checkbox">
-        <label><input type="checkbox"> <strong>All</strong></label>
+  <div class="container-fluid">
+    <div class="row" style="margin-top:50px">
+      <div class="col-md-5">
+      Total: {{.total}}
+        <nav>
+          <ul class="pagination pagination-sm">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+          </ul>
+        </nav>
       </div>
-      <div class="checkbox">
-        <label><input type="checkbox"> nginx</label>
+    </div>
+    <div class="row">
+      <!-- <div class="col-md-2 sidebar">
+        Project: <br>
+        <div class="checkbox">
+          <label><input type="checkbox"> <strong>All</strong></label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox"> nginx</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox"> mysql</label>
+        </div>
+      </div> -->
+
+
+      <div class="col-md-12 main">
+        <div class="table-responsive">
+          <table class="table table-striped">
+              <tbody>
+                {{range .logs}}
+                  <tr>
+                    <td style="width:180px">{{.Source.datetime | FormatTimeToHuman}}</td>
+                    <td>{{.Source.message}}</td>
+                  </tr>
+                {{end}}
+              </tbody>
+            </table>
+          </div>
       </div>
-      <div class="checkbox">
-        <label><input type="checkbox"> mysql</label>
-      </div>
-		</div>
-		<div class="col-md-10 main">
-			<div class="table-responsive">
-				<table class="table table-striped">
-			      <tbody>
-              {{range .logs}}
-  			        <tr>
-  			          <td style="width:180px">{{.Source.datetime | FormatTimeToHuman}}</td>
-  			          <td>{{.Source.message}}</td>
-  			        </tr>
-              {{end}}
-			      </tbody>
-			    </table>
-		    </div>
-		</div>
-	</div>
+    </div>
+  </div>
 {{template "base/footer" .}}
