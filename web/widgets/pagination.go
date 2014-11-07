@@ -59,9 +59,6 @@ func (this *pagination) GetPageNumber() int {
 }
 
 func (this *pagination) Render() template.HTML {
-	prev := `<li><a href="#">&laquo;</a></li>`
-	next := `<li><a href="#">&raquo;</a></li>`
-
 	currentPage := this.GetPageNumber()
 	startPage := currentPage - this.padding
 
@@ -74,9 +71,32 @@ func (this *pagination) Render() template.HTML {
 		stopPage = this.GetTotalPages()
 	}
 
+	prevPage := currentPage - 1
+	nextPage := currentPage + 1
+	var next string
+	var prev string
+	if prevPage < 1 {
+		prevPage = 1
+		prev = fmt.Sprintf("<li class=\"disabled\"><span>&laquo;<span></li>")
+	} else {
+		prev = fmt.Sprintf("<li><a href=\"%v\">&laquo;</a></li>", this.buildUrl(prevPage))
+	}
+	if nextPage > this.GetTotalPages() {
+		nextPage = this.GetTotalPages()
+		next = "<li class=\"disabled\"><span>&raquo;</span></li>"
+	} else {
+		next = fmt.Sprintf("<li><a href=\"%v\">&raquo;</a></li>", this.buildUrl(nextPage))
+	}
+
+	var active string
 	var result string
 	for i := startPage; i <= stopPage; i++ {
-		result += fmt.Sprintf("<li><a href=\"%v\">%v</a></li>", this.buildUrl(i), i)
+		if i == currentPage {
+			active = "active"
+		} else {
+			active = ""
+		}
+		result += fmt.Sprintf("<li class=\"%v\"><a href=\"%v\">%v</a></li>", active, this.buildUrl(i), i)
 	}
 
 	return template.HTML(prev + result + next)
