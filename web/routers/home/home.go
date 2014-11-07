@@ -36,6 +36,14 @@ func search(text string, indexes []string, size int, from int) goes.Response {
 		},
 	}
 
+	query["filter"] = map[string]interface{}{
+		"range": map[string]interface{}{
+			"datetime": map[string]string{
+				"gt": "2014-11-02T12:08:52",
+			},
+		},
+	}
+
 	extraArgs := make(url.Values, 1)
 	searchResults, err := conn.Search(query, indexes, []string{"logs"}, extraArgs)
 
@@ -44,6 +52,26 @@ func search(text string, indexes []string, size int, from int) goes.Response {
 	}
 
 	return searchResults
+}
+
+type timeRange struct {
+	gt string
+	lt string
+}
+
+// Detects time range from request and returns
+// elastic compatible format string
+func buildTimeRange(req *http.Request) {
+	// 2014-11-02T12:08:52
+	// return gt and lt?
+	// test
+
+	// work flow:
+	// get time value
+	// use switch to build time
+	// if time is custom
+	//    get start and end times
+	// return timeRange
 }
 
 func Index(req *http.Request, r *render.Render) {
