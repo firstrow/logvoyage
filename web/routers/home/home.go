@@ -52,7 +52,7 @@ func Index(req *http.Request, r *render.Render) {
 
 	// Pagination
 	pagination := widgets.NewPagination(req)
-	pagination.SetPerPage(10)
+	pagination.SetPerPage(100)
 
 	// Load records
 	data := search(

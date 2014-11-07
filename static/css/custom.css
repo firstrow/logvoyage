@@ -1,20 +1,16 @@
-.sidebar {
-	position: fixed;
-	top: 51px;
-	bottom: 0;
-	left: 0;
-	z-index: 1000;
-	display: block;
-	padding: 20px;
-	overflow-x: hidden;
-	overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-	background-color: #f5f5f5;
-	border-right: 1px solid #eee;
-	width:250px;
+.main {
+  font-size: 12px;
 }
 
-.main {
-  font-size: 13px;
+#logstable td {
+	word-wrap: break-word;
+	font-size: 12px;
+	vertical-align: text-top;
+}
+
+#logstable tr:hover td {
+	cursor: pointer;
+	background: #E3F2FD;
 }
 
 .error {

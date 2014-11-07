@@ -55,11 +55,11 @@
 
       <div class="col-md-12 main">
         <div class="table-responsive">
-          <table class="table table-striped">
+          <table id="logstable" class="table table-striped">
               <tbody>
                 {{range .logs}}
                   <tr>
-                    <td style="min-width:180px">{{.Source.datetime | FormatTimeToHuman}}</td>
+                    <td style="min-width:160px">{{.Source.datetime | FormatTimeToHuman}}</td>
                     <td>{{.Source.message}}</td>
                   </tr>
                 {{end}}
