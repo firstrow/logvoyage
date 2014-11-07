@@ -37,14 +37,6 @@
   <div class="container-fluid">
     <div class="row" style="margin-top:50px">
       <div class="col-md-5">
-      Total: {{.pagination.GetTotalPages}}
-    <br>
-            {{.pagination.GetTotalRecords}}
-        <nav>
-          <ul class="pagination pagination-sm">
-            {{.pagination.Render}}
-          </ul>
-        </nav>
       </div>
     </div>
     <div class="row">
@@ -74,6 +66,12 @@
               </tbody>
             </table>
           </div>
+
+        <nav>
+          <ul class="pagination pagination-sm">
+            {{.pagination.Render}}
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
