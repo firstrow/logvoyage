@@ -37,16 +37,12 @@
   <div class="container-fluid">
     <div class="row" style="margin-top:50px">
       <div class="col-md-5">
-      Total: {{.total}}
+      Total: {{.pagination.GetTotalPages}}
+    <br>
+            {{.pagination.GetTotalRecords}}
         <nav>
           <ul class="pagination pagination-sm">
-            <li><a href="#">&laquo;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&raquo;</a></li>
+            {{.pagination.Render}}
           </ul>
         </nav>
       </div>
@@ -65,14 +61,13 @@
         </div>
       </div> -->
 
-
       <div class="col-md-12 main">
         <div class="table-responsive">
           <table class="table table-striped">
               <tbody>
                 {{range .logs}}
                   <tr>
-                    <td style="width:180px">{{.Source.datetime | FormatTimeToHuman}}</td>
+                    <td style="min-width:180px">{{.Source.datetime | FormatTimeToHuman}}</td>
                     <td>{{.Source.message}}</td>
                   </tr>
                 {{end}}

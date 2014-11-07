@@ -2,13 +2,14 @@ package home
 
 import (
 	"github.com/belogik/goes"
-	"log"
+	_ "log"
 	"net/http"
 	"net/url"
 	"strconv"
 
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/render"
+	"github.com/firstrow/logvoyage/web/widgets"
 )
 
 // Search logs in elastic.
@@ -50,21 +51,23 @@ func Index(req *http.Request, r *render.Render) {
 	user := common.FindUserByEmail(r.Context["email"].(string))
 
 	// Pagination
-	size := 10
-	from := 0
-	page, _ := strconv.Atoi(req.URL.Query().Get("p"))
-	if page > 1 {
-		from = 10 * page
-	}
-
-	log.Println("From is: ", from)
+	pagination := widgets.NewPagination(req)
+	pagination.SetPerPage(10)
 
 	// Load records
-	data := search(query_text, []string{user.GetIndexName()}, size, from)
+	data := search(
+		query_text,
+		[]string{user.GetIndexName()},
+		pagination.GetPerPage(),
+		pagination.DetectFrom(),
+	)
+
+	pagination.SetTotalRecords(data.Hits.Total)
 
 	r.HTML("index", render.ViewData{
 		"logs":       data.Hits.Hits,
 		"total":      data.Hits.Total,
 		"query_text": query_text,
+		"pagination": pagination,
 	})
 }
