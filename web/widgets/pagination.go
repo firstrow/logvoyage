@@ -14,6 +14,7 @@ import (
 type pagination struct {
 	totalRecords uint64
 	perPage      int
+	padding      int // How many links display before and after current
 	req          *http.Request
 }
 
@@ -61,14 +62,13 @@ func (this *pagination) Render() template.HTML {
 	prev := `<li><a href="#">&laquo;</a></li>`
 	next := `<li><a href="#">&raquo;</a></li>`
 
-	padding := 5
 	currentPage := this.GetPageNumber()
-	startPage := currentPage - padding
-	stopPage := currentPage + padding
+	startPage := currentPage - this.padding
 
 	if startPage < 1 {
 		startPage = 1
 	}
+	stopPage := startPage + (this.padding * 2) - 1
 
 	if stopPage > this.GetTotalPages() {
 		stopPage = this.GetTotalPages()
@@ -95,5 +95,5 @@ func (this *pagination) buildUrl(p int) string {
 // Create new pagination object.
 // Pass http request to detect current page from request uri.
 func NewPagination(req *http.Request) *pagination {
-	return &pagination{req: req}
+	return &pagination{req: req, padding: 5}
 }
