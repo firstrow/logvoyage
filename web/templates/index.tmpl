@@ -79,11 +79,13 @@
             </table>
           </div>
 
+        {{if .pagination.HasPages}}
         <nav>
           <ul class="pagination pagination-sm">
             {{.pagination.Render}}
           </ul>
         </nav>
+        {{end}}
       </div>
     </div>
   </div>

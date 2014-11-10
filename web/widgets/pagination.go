@@ -58,6 +58,11 @@ func (this *pagination) GetPageNumber() int {
 	}
 }
 
+// Checks if pagination has one or more pages
+func (this *pagination) HasPages() bool {
+	return this.GetTotalPages() > 1
+}
+
 func (this *pagination) Render() template.HTML {
 	currentPage := this.GetPageNumber()
 	startPage := currentPage - this.padding
