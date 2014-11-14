@@ -1,4 +1,4 @@
-package main
+package middleware
 
 import (
 	"github.com/firstrow/logvoyage/web/render"
@@ -6,7 +6,7 @@ import (
 )
 
 // Add some defaults to tempalte data each request
-func populateAppContext(r *render.Render, sess sessions.Session) {
+func PopulateAppContext(r *render.Render, sess sessions.Session) {
 	r.Context["email"] = sess.Get("email")
 
 	if sess.Get("email") != nil {
@@ -15,7 +15,7 @@ func populateAppContext(r *render.Render, sess sessions.Session) {
 }
 
 // Check user authentication
-func authorize(r *render.Render, sess sessions.Session) {
+func Authorize(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email == nil {
 		r.Redirect("/login")
@@ -23,7 +23,7 @@ func authorize(r *render.Render, sess sessions.Session) {
 }
 
 // Redirect user to Dashboard if authorized
-func redirectIfAuthorized(r *render.Render, sess sessions.Session) {
+func RedirectIfAuthorized(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email != nil {
 		r.Redirect("/dashboard")

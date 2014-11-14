@@ -8,6 +8,7 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/firstrow/logvoyage/web/middleware"
 	"github.com/firstrow/logvoyage/web/render"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/users"
@@ -36,12 +37,12 @@ func main() {
 
 	// Application renderer
 	m.Use(render.RenderHandler)
-	m.Use(populateAppContext)
+	m.Use(middleware.PopulateAppContext)
 
 	// Routes
-	m.Get("/dashboard", authorize, home.Index)
-	m.Any("/register", redirectIfAuthorized, users.Register)
-	m.Any("/login", redirectIfAuthorized, users.Login)
+	m.Get("/dashboard", middleware.Authorize, home.Index)
+	m.Any("/register", middleware.RedirectIfAuthorized, users.Register)
+	m.Any("/login", middleware.RedirectIfAuthorized, users.Login)
 
 	m.Run()
 }
