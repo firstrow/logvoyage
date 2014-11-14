@@ -15,3 +15,51 @@
   <![endif]-->
 </head>
 <body>
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+    <div class="row">
+      <div class="col-md-2" style="padding-left:20px;width:250px">
+          <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-briefcase"></span> LogVoyage</a>
+      </div>
+    </div>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form class="navbar-form navbar-left" role="search" action="/dashboard" method="get">
+        <div class="form-group">
+          <input type="text"  name="q" class="form-control"  value="{{.query_text}}" style="width:500px" placeholder="Search">
+        </div>
+        <div class="form-group">
+        <select class="form-control" name="time">
+          <option value="">All time</option>
+          <option value="15m">Last 15m</option>
+          <option value="30m">Last 30m</option>
+          <option value="60m">Last 60m</option>
+          <option value="12h">Last 12h</option>
+          <option value="24h">Last 24h</option>
+          <option value="week">Last Week</option>
+          <option value="custom">Custom</option>
+        </select>
+        </div> 
+        <button type="submit" class="btn btn-default">Go</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{.email}}<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="row" style="margin-top:50px"></div>

@@ -1,6 +1,7 @@
 package home
 
 import (
+	"errors"
 	"github.com/belogik/goes"
 	_ "log"
 	"net/http"
@@ -13,7 +14,7 @@ import (
 )
 
 // Search logs in elastic.
-func search(text string, indexes []string, size int, from int) goes.Response {
+func search(text string, indexes []string, size int, from int) (goes.Response, error) {
 	conn := common.GetConnection()
 
 	if len(text) > 0 {
@@ -36,22 +37,22 @@ func search(text string, indexes []string, size int, from int) goes.Response {
 		},
 	}
 
-	query["filter"] = map[string]interface{}{
-		"range": map[string]interface{}{
-			"datetime": map[string]string{
-				"gt": "2014-11-02T12:08:52",
-			},
-		},
-	}
+	// query["filter"] = map[string]interface{}{
+	// 	"range": map[string]interface{}{
+	// 		"datetime": map[string]string{
+	// 			"gt": "2014-11-02T12:08:52",
+	// 		},
+	// 	},
+	// }
 
 	extraArgs := make(url.Values, 1)
 	searchResults, err := conn.Search(query, indexes, []string{"logs"}, extraArgs)
 
 	if err != nil {
-		panic(err)
+		return goes.Response{}, errors.New("No records found.")
+	} else {
+		return searchResults, nil
 	}
-
-	return searchResults
 }
 
 type timeRange struct {
@@ -83,19 +84,23 @@ func Index(req *http.Request, r *render.Render) {
 	pagination.SetPerPage(100)
 
 	// Load records
-	data := search(
+	data, err := search(
 		query_text,
 		[]string{user.GetIndexName()},
 		pagination.GetPerPage(),
 		pagination.DetectFrom(),
 	)
 
-	pagination.SetTotalRecords(data.Hits.Total)
+	if err != nil {
+		r.HTML("home/no_records", render.ViewData{})
+	} else {
+		pagination.SetTotalRecords(data.Hits.Total)
 
-	r.HTML("index", render.ViewData{
-		"logs":       data.Hits.Hits,
-		"total":      data.Hits.Total,
-		"query_text": query_text,
-		"pagination": pagination,
-	})
+		r.HTML("home/index", render.ViewData{
+			"logs":       data.Hits.Hits,
+			"total":      data.Hits.Total,
+			"query_text": query_text,
+			"pagination": pagination,
+		})
+	}
 }

@@ -1,0 +1,27 @@
+{{template "base/head" .}}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 main">
+        <div class="table-responsive">
+          <table id="logstable" class="table table-striped">
+              <tbody>
+                {{range .logs}}
+                  <tr>
+                    <td style="min-width:160px">{{.Source.datetime | FormatTimeToHuman}}</td>
+                    <td>{{.Source.message}}</td>
+                  </tr>
+                {{end}}
+              </tbody>
+            </table>
+          </div>
+        {{if .pagination.HasPages}}
+        <nav>
+          <ul class="pagination pagination-sm">
+            {{.pagination.Render}}
+          </ul>
+        </nav>
+        {{end}}
+      </div>
+    </div>
+  </div>
+{{template "base/footer" .}}
