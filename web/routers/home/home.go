@@ -91,16 +91,19 @@ func Index(req *http.Request, r *render.Render) {
 		pagination.DetectFrom(),
 	)
 
-	if err != nil {
-		r.HTML("home/no_records", render.ViewData{})
-	} else {
-		pagination.SetTotalRecords(data.Hits.Total)
+	pagination.SetTotalRecords(data.Hits.Total)
 
-		r.HTML("home/index", render.ViewData{
-			"logs":       data.Hits.Hits,
-			"total":      data.Hits.Total,
-			"query_text": query_text,
-			"pagination": pagination,
-		})
+	var viewName string
+	if data.Hits.Total > 0 && err == nil {
+		viewName = "home/index"
+	} else {
+		viewName = "home/no_records"
 	}
+
+	r.HTML(viewName, render.ViewData{
+		"logs":       data.Hits.Hits,
+		"total":      data.Hits.Total,
+		"query_text": query_text,
+		"pagination": pagination,
+	})
 }
