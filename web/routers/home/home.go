@@ -13,25 +13,52 @@ import (
 	"github.com/firstrow/logvoyage/web/widgets"
 )
 
+type DateTimeRange struct {
+	Start string
+	Stop  string
+}
+
+// Represents search request to perform in ES
+type SearchRequest struct {
+	Text      string   // test to search
+	Indexes   []string // ES indexeses to perform search
+	Types     []string // search types
+	Size      int      // home much objects ES must return
+	From      int      // how much objects should ES skip from first
+	TimeRange DateTimeRange
+}
+
+func buildSearchRequest(text string, indexes []string, size int, from int, datetime DateTimeRange) SearchRequest {
+	req := SearchRequest{
+		Text:      text,
+		Indexes:   indexes,
+		From:      from,
+		Types:     []string{"logs"},
+		Size:      10,
+		TimeRange: DateTimeRange{},
+	}
+	return req
+}
+
 // Search logs in elastic.
-func search(text string, indexes []string, size int, from int) (goes.Response, error) {
+func search(searchRequest SearchRequest) (goes.Response, error) {
 	conn := common.GetConnection()
 
-	if len(text) > 0 {
-		strconv.Quote(text)
+	if len(searchRequest.Text) > 0 {
+		strconv.Quote(searchRequest.Text)
 	} else {
-		text = "*"
+		searchRequest.Text = "*"
 	}
 
 	var query = map[string]interface{}{
 		"query": map[string]interface{}{
 			"query_string": map[string]string{
 				"default_field": "message",
-				"query":         text,
+				"query":         searchRequest.Text,
 			},
 		},
-		"from": from,
-		"size": size,
+		"from": searchRequest.From,
+		"size": searchRequest.Size,
 		"sort": map[string]string{
 			"datetime": "desc",
 		},
@@ -46,18 +73,13 @@ func search(text string, indexes []string, size int, from int) (goes.Response, e
 	// }
 
 	extraArgs := make(url.Values, 1)
-	searchResults, err := conn.Search(query, indexes, []string{"logs"}, extraArgs)
+	searchResults, err := conn.Search(query, searchRequest.Indexes, searchRequest.Types, extraArgs)
 
 	if err != nil {
 		return goes.Response{}, errors.New("No records found.")
 	} else {
 		return searchResults, nil
 	}
-}
-
-type timeRange struct {
-	gt string
-	lt string
 }
 
 // Detects time range from request and returns
@@ -84,12 +106,14 @@ func Index(req *http.Request, r *render.Render) {
 	pagination.SetPerPage(100)
 
 	// Load records
-	data, err := search(
+	searchRequest := buildSearchRequest(
 		query_text,
 		[]string{user.GetIndexName()},
 		pagination.GetPerPage(),
 		pagination.DetectFrom(),
+		DateTimeRange{},
 	)
+	data, err := search(searchRequest)
 
 	pagination.SetTotalRecords(data.Hits.Total)
 
