@@ -35,9 +35,33 @@ func buildSearchRequest(text string, indexes []string, size int, from int, datet
 		From:      from,
 		Types:     []string{"logs"},
 		Size:      10,
-		TimeRange: DateTimeRange{},
+		TimeRange: datetime,
 	}
 	return req
+}
+
+// Detects time range from request and returns
+// elastic compatible format string
+func buildTimeRange(req *http.Request) DateTimeRange {
+	time := req.URL.Query().Get("time")
+	var timeRange DateTimeRange
+
+	switch time {
+	case "15m":
+		timeRange.Start = "now-15m"
+	case "30m":
+		timeRange.Start = "now-30m"
+	case "60m":
+		timeRange.Start = "now-60m"
+	case "12h":
+		timeRange.Start = "now-12h"
+	case "24h":
+		timeRange.Start = "now-24h"
+	case "week":
+		timeRange.Start = "now-1d"
+	}
+
+	return timeRange
 }
 
 // Search logs in elastic.
@@ -64,13 +88,15 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 		},
 	}
 
-	// query["filter"] = map[string]interface{}{
-	// 	"range": map[string]interface{}{
-	// 		"datetime": map[string]string{
-	// 			"gt": "2014-11-02T12:08:52",
-	// 		},
-	// 	},
-	// }
+	if searchRequest.TimeRange.Start != "" {
+		query["filter"] = map[string]interface{}{
+			"range": map[string]interface{}{
+				"datetime": map[string]string{
+					"gt": searchRequest.TimeRange.Start,
+				},
+			},
+		}
+	}
 
 	extraArgs := make(url.Values, 1)
 	searchResults, err := conn.Search(query, searchRequest.Indexes, searchRequest.Types, extraArgs)
@@ -80,21 +106,6 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 	} else {
 		return searchResults, nil
 	}
-}
-
-// Detects time range from request and returns
-// elastic compatible format string
-func buildTimeRange(req *http.Request) {
-	// 2014-11-02T12:08:52
-	// return gt and lt?
-	// test
-
-	// work flow:
-	// get time value
-	// use switch to build time
-	// if time is custom
-	//    get start and end times
-	// return timeRange
 }
 
 func Index(req *http.Request, r *render.Render) {
@@ -111,8 +122,9 @@ func Index(req *http.Request, r *render.Render) {
 		[]string{user.GetIndexName()},
 		pagination.GetPerPage(),
 		pagination.DetectFrom(),
-		DateTimeRange{},
+		buildTimeRange(req),
 	)
+	// Search data in elastic
 	data, err := search(searchRequest)
 
 	pagination.SetTotalRecords(data.Hits.Total)
