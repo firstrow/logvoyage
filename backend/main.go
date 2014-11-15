@@ -47,9 +47,20 @@ func main() {
 			message = strings.TrimSpace(message)
 
 			var data map[string]interface{}
-			json.Unmarshal([]byte(message), &data)
-			data["datetime"] = time.Now().UTC()
-			toElastic(indexName, data)
+			err := json.Unmarshal([]byte(message), &data)
+
+			if err == nil {
+				// Parsed json
+				data["datetime"] = time.Now().UTC()
+				toElastic(indexName, data)
+			} else {
+				// Could not parse json, save entire message.
+				record := &common.LogRecord{
+					Message:  message,
+					Datetime: time.Now().UTC(),
+				}
+				toElastic(indexName, record)
+			}
 		}
 	})
 
