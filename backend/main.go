@@ -36,17 +36,18 @@ func main() {
 
 	// Receives new message and send it to Elastic server
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		// Send data to elastic
-		record := &common.LogRecord{
-			Message:  message,
-			Datetime: time.Now().UTC(),
-		}
+		indexName, err := getIndexName(message)
+		if err != nil {
+			// TODO: Log error
+		} else {
+			message = common.RemoveApiKey(message)
+			message = strings.TrimSpace(message)
 
-		indexName, err := getIndexName(record)
-		if err == nil {
-			record.Message = common.RemoveApiKey(record.Message)
-			record.Message = strings.TrimSpace(record.Message)
-
+			// Send data to elastic
+			record := &common.LogRecord{
+				Message:  message,
+				Datetime: time.Now().UTC(),
+			}
 			toElastic(indexName, record)
 		}
 	})
@@ -57,8 +58,9 @@ func main() {
 	server.Listen()
 }
 
-func getIndexName(record *common.LogRecord) (string, error) {
-	key, err := common.ExtractApiKey(record.Message)
+// Get users index name by apiKey
+func getIndexName(message string) (string, error) {
+	key, err := common.ExtractApiKey(message)
 	if err != nil {
 		log.Println(err.Error())
 		return "", err
