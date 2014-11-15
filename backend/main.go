@@ -87,6 +87,7 @@ func getIndexName(message string) (string, error) {
 	return user.GetIndexName(), nil
 }
 
+// Sends data to elastic index
 func toElastic(indexName string, record interface{}) {
 	j, err := json.Marshal(record)
 	if err != nil {
