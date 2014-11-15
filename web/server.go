@@ -18,9 +18,13 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	templateFunc := template.FuncMap{
-		"FormatTimeToHuman": func(s string) string {
-			t, _ := time.Parse(time.RFC3339Nano, s)
-			return t.Format("2006-01-02 15:04:05") + " UTC"
+		"FormatTimeToHuman": func(s ...string) string {
+			if len(s) > 0 {
+				t, _ := time.Parse(time.RFC3339Nano, s[0])
+				return t.Format("2006-01-02 15:04:05") + " UTC"
+			} else {
+				return "Unknown"
+			}
 		},
 	}
 

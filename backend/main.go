@@ -35,6 +35,9 @@ func main() {
 	})
 
 	// Receives new message and send it to Elastic server
+	// Message examples:
+	// apiKey Some text
+	// apiKey {message: "Some text", field:"value", ...}
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		indexName, err := getIndexName(message)
 		if err != nil {
@@ -43,12 +46,10 @@ func main() {
 			message = common.RemoveApiKey(message)
 			message = strings.TrimSpace(message)
 
-			// Send data to elastic
-			record := &common.LogRecord{
-				Message:  message,
-				Datetime: time.Now().UTC(),
-			}
-			toElastic(indexName, record)
+			var data map[string]interface{}
+			json.Unmarshal([]byte(message), &data)
+			data["datetime"] = time.Now().UTC()
+			toElastic(indexName, data)
 		}
 	})
 
@@ -75,7 +76,7 @@ func getIndexName(message string) (string, error) {
 	return user.GetIndexName(), nil
 }
 
-func toElastic(indexName string, record *common.LogRecord) {
+func toElastic(indexName string, record interface{}) {
 	j, err := json.Marshal(record)
 	if err != nil {
 		log.Print("Error encoding message to JSON")
