@@ -50,7 +50,7 @@ func main() {
 			err := json.Unmarshal([]byte(message), &data)
 
 			if err == nil {
-				// Parsed json
+				// Save parsed json
 				data["datetime"] = time.Now().UTC()
 				toElastic(indexName, data)
 			} else {
