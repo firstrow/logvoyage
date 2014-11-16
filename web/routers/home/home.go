@@ -163,6 +163,8 @@ func Index(req *http.Request, r *render.Render) {
 	r.HTML(viewName, render.ViewData{
 		"logs":       data.Hits.Hits,
 		"total":      data.Hits.Total,
+		"time_start": req.URL.Query().Get("time_start"),
+		"time_stop":  req.URL.Query().Get("time_stop"),
 		"query_text": query_text,
 		"pagination": pagination,
 	})
