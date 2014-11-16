@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/render"
@@ -16,6 +17,10 @@ import (
 type DateTimeRange struct {
 	Start string
 	Stop  string
+}
+
+func (this *DateTimeRange) IsValid() bool {
+	return this.Start != "" && this.Stop != ""
 }
 
 // Represents search request to perform in ES
@@ -43,10 +48,10 @@ func buildSearchRequest(text string, indexes []string, size int, from int, datet
 // Detects time range from request and returns
 // elastic compatible format string
 func buildTimeRange(req *http.Request) DateTimeRange {
-	time := req.URL.Query().Get("time")
+	layout := "2006/01/02 15:04"
 	var timeRange DateTimeRange
 
-	switch time {
+	switch req.URL.Query().Get("time") {
 	case "15m":
 		timeRange.Start = "now-15m"
 	case "30m":
@@ -59,6 +64,17 @@ func buildTimeRange(req *http.Request) DateTimeRange {
 		timeRange.Start = "now-24h"
 	case "week":
 		timeRange.Start = "now-1d"
+	case "custom":
+		timeStart, err := time.Parse(layout, req.URL.Query().Get("time_start"))
+		if err != nil {
+			return timeRange
+		}
+		timeStop, err := time.Parse(layout, req.URL.Query().Get("time_stop"))
+		if err != nil {
+			return timeRange
+		}
+		timeRange.Start = timeStart.Format(time.RFC3339)
+		timeRange.Stop = timeStop.Format(time.RFC3339)
 	}
 
 	return timeRange
@@ -88,11 +104,12 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 		},
 	}
 
-	if searchRequest.TimeRange.Start != "" {
+	if searchRequest.TimeRange.IsValid() {
 		query["filter"] = map[string]interface{}{
 			"range": map[string]interface{}{
 				"datetime": map[string]string{
-					"gt": searchRequest.TimeRange.Start,
+					"gte": searchRequest.TimeRange.Start,
+					"lte": searchRequest.TimeRange.Stop,
 				},
 			},
 		}
