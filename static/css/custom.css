@@ -31,3 +31,12 @@
 .no-padding {
 	padding: 0;
 }
+
+#time_start, #time_stop {
+	width:130px;
+	text-align: center;
+}
+
+.timebox {
+	display: none;
+}
