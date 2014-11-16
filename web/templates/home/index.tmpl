@@ -7,7 +7,7 @@
               <tbody>
                 {{range .logs}}
                   <tr>
-                    <td style="width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
+                    <td style="min-width:160px;width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
                     <td>{{.Source.message}}</td>
                   </tr>
                 {{end}}
