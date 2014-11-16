@@ -2,6 +2,7 @@
 $(function() {
 	jQuery('#time_start, #time_stop').datetimepicker();
 	$("#pagination").center();
+	$("#time").multiselect();
 });
 
 $(window).resize(function(){

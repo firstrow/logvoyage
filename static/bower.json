@@ -5,7 +5,8 @@
     "bootstrap": "3.2.0",
     "jquery": "1.11.1",
     "jquery-jsonview": "1.2.0",
-    "datetimepicker": "2.4.1"
+    "datetimepicker": "2.4.1",
+    "bootstrap-multiselect": "v0.9.10"
   },
   "private": true
 }
