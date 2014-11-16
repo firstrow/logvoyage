@@ -23,7 +23,7 @@ func View(req *http.Request, res http.ResponseWriter, r *render.Render) {
 		res.WriteHeader(404)
 	}
 
-	j, _ := json.Marshal(response.Source)
+	j, err := json.Marshal(response.Source)
 
 	if err != nil {
 		res.WriteHeader(503)
