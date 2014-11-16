@@ -44,9 +44,11 @@ func main() {
 	m.Use(middleware.PopulateAppContext)
 
 	// Routes
-	m.Get("/dashboard", middleware.Authorize, home.Index)
 	m.Any("/register", middleware.RedirectIfAuthorized, users.Register)
 	m.Any("/login", middleware.RedirectIfAuthorized, users.Login)
+	// Auth routes
+	m.Get("/dashboard", middleware.Authorize, home.Index)
+	m.Get("/view", middleware.Authorize, home.View)
 
 	m.Run()
 }
