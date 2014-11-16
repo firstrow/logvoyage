@@ -20,7 +20,7 @@
             </table>
           </div>
         {{if .pagination.HasPages}}
-        <nav>
+        <nav id="pagination">
           <ul class="pagination pagination-sm">
             {{.pagination.Render}}
           </ul>
@@ -31,6 +31,7 @@
   </div>
 {{template "base/footer" .}}
 
+<!-- begin view log record modal -->
 <div class="modal fade" id="viewRecordModal" tabindex="-1" role="dialog" aria-labelledby="RecordView" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -43,5 +44,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
+    </div>
   </div>
 </div>
+<!-- end modal -->

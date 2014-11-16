@@ -16,6 +16,7 @@ import (
 
 const (
 	timeLayout = "2006/01/02 15:04" // Users input time format
+	perPage    = 100
 )
 
 type DateTimeRange struct {
@@ -43,7 +44,7 @@ func buildSearchRequest(text string, indexes []string, size int, from int, datet
 		Indexes:   indexes,
 		From:      from,
 		Types:     []string{"logs"},
-		Size:      10,
+		Size:      perPage,
 		TimeRange: datetime,
 	}
 	return req
@@ -138,7 +139,7 @@ func Index(req *http.Request, r *render.Render) {
 
 	// Pagination
 	pagination := widgets.NewPagination(req)
-	pagination.SetPerPage(100)
+	pagination.SetPerPage(perPage)
 
 	// Load records
 	searchRequest := buildSearchRequest(

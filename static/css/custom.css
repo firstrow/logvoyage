@@ -13,6 +13,16 @@
 	background: #E3F2FD;
 }
 
+#pagination {
+	position: fixed;
+	bottom:-25px;
+}
+.pagination {
+	-webkit-box-shadow: 2px -1px 13px 0px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    2px -1px 13px 0px rgba(50, 50, 50, 0.75);
+	box-shadow:         2px -1px 13px 0px rgba(50, 50, 50, 0.75);
+}
+
 .error {
 	color: red;
 }
