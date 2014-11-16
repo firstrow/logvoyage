@@ -1,7 +1,7 @@
 package home
 
 import (
-	_ "log"
+	"encoding/json"
 	"net/http"
 	"net/url"
 
@@ -9,15 +9,31 @@ import (
 	"github.com/firstrow/logvoyage/web/render"
 )
 
-// View log record by id
+// View log record
 func View(req *http.Request, r *render.Render) {
 	user := common.FindUserByEmail(r.Context["email"].(string))
-	docId := req.URL.Query().Get("id")
 	conn := common.GetConnection()
 
-	response, _ := conn.Get(user.GetIndexName(), "logs", docId, url.Values{})
+	docId := req.URL.Query().Get("id")
+	docType := req.URL.Query().Get("type")
+
+	response, err := conn.Get(user.GetIndexName(), docType, docId, url.Values{})
+
+	if err != nil {
+		r.HTML("home/message", render.ViewData{
+			"message": "Record not found",
+		})
+	}
+
+	j, _ := json.Marshal(response.Source)
+
+	if err != nil {
+		r.HTML("home/no_records", render.ViewData{
+			"message": "Error encoding json",
+		})
+	}
 
 	r.HTML("home/view", render.ViewData{
-		"record": response.Source,
+		"record": string(j),
 	})
 }
