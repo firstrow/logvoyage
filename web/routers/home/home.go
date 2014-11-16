@@ -20,7 +20,7 @@ type DateTimeRange struct {
 }
 
 func (this *DateTimeRange) IsValid() bool {
-	return this.Start != "" && this.Stop != ""
+	return this.Start != "" || this.Stop != ""
 }
 
 // Represents search request to perform in ES
@@ -105,12 +105,16 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 	}
 
 	if searchRequest.TimeRange.IsValid() {
+		datetime := make(map[string]string)
+		if searchRequest.TimeRange.Start != "" {
+			datetime["gte"] = searchRequest.TimeRange.Start
+		}
+		if searchRequest.TimeRange.Stop != "" {
+			datetime["lte"] = searchRequest.TimeRange.Stop
+		}
 		query["filter"] = map[string]interface{}{
 			"range": map[string]interface{}{
-				"datetime": map[string]string{
-					"gte": searchRequest.TimeRange.Start,
-					"lte": searchRequest.TimeRange.Stop,
-				},
+				"datetime": datetime,
 			},
 		}
 	}
