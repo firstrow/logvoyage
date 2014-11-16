@@ -14,6 +14,10 @@ import (
 	"github.com/firstrow/logvoyage/web/widgets"
 )
 
+const (
+	timeLayout = "2006/01/02 15:04" // Users input time format
+)
+
 type DateTimeRange struct {
 	Start string
 	Stop  string
@@ -48,7 +52,6 @@ func buildSearchRequest(text string, indexes []string, size int, from int, datet
 // Detects time range from request and returns
 // elastic compatible format string
 func buildTimeRange(req *http.Request) DateTimeRange {
-	layout := "2006/01/02 15:04"
 	var timeRange DateTimeRange
 
 	switch req.URL.Query().Get("time") {
@@ -65,11 +68,11 @@ func buildTimeRange(req *http.Request) DateTimeRange {
 	case "week":
 		timeRange.Start = "now-1d"
 	case "custom":
-		timeStart, err := time.Parse(layout, req.URL.Query().Get("time_start"))
+		timeStart, err := time.Parse(timeLayout, req.URL.Query().Get("time_start"))
 		if err != nil {
 			return timeRange
 		}
-		timeStop, err := time.Parse(layout, req.URL.Query().Get("time_stop"))
+		timeStop, err := time.Parse(timeLayout, req.URL.Query().Get("time_stop"))
 		if err != nil {
 			return timeRange
 		}
