@@ -10,7 +10,7 @@ import (
 )
 
 // View log record
-func View(req *http.Request, r *render.Render) {
+func View(req *http.Request, res http.ResponseWriter, r *render.Render) {
 	user := common.FindUserByEmail(r.Context["email"].(string))
 	conn := common.GetConnection()
 
@@ -20,20 +20,14 @@ func View(req *http.Request, r *render.Render) {
 	response, err := conn.Get(user.GetIndexName(), docType, docId, url.Values{})
 
 	if err != nil {
-		r.HTML("home/message", render.ViewData{
-			"message": "Record not found",
-		})
+		res.WriteHeader(404)
 	}
 
 	j, _ := json.Marshal(response.Source)
 
 	if err != nil {
-		r.HTML("home/no_records", render.ViewData{
-			"message": "Error encoding json",
-		})
+		res.WriteHeader(503)
 	}
 
-	r.HTML("home/view", render.ViewData{
-		"record": string(j),
-	})
+	res.Write(j)
 }
