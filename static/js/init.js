@@ -6,9 +6,9 @@ $(function() {
 
 	$("#time").change(function(){
 		if ($(this).val() == 'custom') {
-			$(".timebox").show();
+			$(".timebox").show(100);
 		} else {
-			$(".timebox").hide();
+			$(".timebox").hide(100);
 		}
 	});
 	$("#time").change();

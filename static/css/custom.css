@@ -39,4 +39,6 @@
 
 .timebox {
 	display: none;
+	border-bottom: 3px solid silver;
+	outline: none;
 }
