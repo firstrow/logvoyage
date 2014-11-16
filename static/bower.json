@@ -6,7 +6,9 @@
     "jquery": "1.11.1",
     "jquery-jsonview": "1.2.0",
     "datetimepicker": "2.4.1",
-    "bootstrap-multiselect": "v0.9.10"
+    "bootstrap-multiselect": "v0.9.10",
+    "d3": "3.4.13",
+    "epoch": "0.6.0"
   },
   "private": true
 }

@@ -7,7 +7,7 @@ $(function() {
 	$("#time").change(function(){
 		if ($(this).val() == 'custom') {
 			$(".timebox").show(100);
-			$("#time_start").focus();
+			//$("#time_start").focus();
 		} else {
 			$(".timebox").hide(100);
 		}
