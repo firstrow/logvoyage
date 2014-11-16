@@ -6,15 +6,22 @@
 
   <title>LogVoyage - Dashboard</title>
 
+  <!-- Bootstrap -->
   <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-  <link href="/css/custom.css" rel="stylesheet">
-
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  
+
+  <!-- JSON view -->
   <link href="/bower_components/jquery-jsonview/dist/jquery.jsonview.css" rel="stylesheet">
   <script src="/bower_components/jquery-jsonview/dist/jquery.jsonview.js"></script>
 
+  <!-- Datetime picker -->
+  <link href="/bower_components/datetimepicker/jquery.datetimepicker.css" rel="stylesheet">
+  <script src="/bower_components/datetimepicker/jquery.datetimepicker.js"></script>
+
+  <!-- Application scripts -->
+  <link href="/css/custom.css" rel="stylesheet">
+  <script src="/js/init.js"></script>
   <script src="/js/view.js"></script>
 
   <!--[if lt IE 9]>
@@ -52,8 +59,8 @@
           <option value="week">Last Week</option>
           <option value="custom">Custom</option>
         </select>
-        <input type="text" name="time_start" value="{{.time_start}}">
-        <input type="text" name="time_stop" value="{{.time_stop}}">
+        <input type="text" name="time_start" id="time_start" value="{{.time_start}}">
+        <input type="text" name="time_stop" id="time_stop" value="{{.time_stop}}">
         </div> 
         <button type="submit" class="btn btn-default">Go</button>
       </form>
