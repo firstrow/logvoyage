@@ -70,15 +70,13 @@ func buildTimeRange(req *http.Request) DateTimeRange {
 		timeRange.Start = "now-1d"
 	case "custom":
 		timeStart, err := time.Parse(timeLayout, req.URL.Query().Get("time_start"))
-		if err != nil {
-			return timeRange
+		if err == nil {
+			timeRange.Start = timeStart.Format(time.RFC3339)
 		}
 		timeStop, err := time.Parse(timeLayout, req.URL.Query().Get("time_stop"))
-		if err != nil {
-			return timeRange
+		if err == nil {
+			timeRange.Stop = timeStop.Format(time.RFC3339)
 		}
-		timeRange.Start = timeStart.Format(time.RFC3339)
-		timeRange.Stop = timeStop.Format(time.RFC3339)
 	}
 
 	return timeRange
