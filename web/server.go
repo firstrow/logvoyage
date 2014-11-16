@@ -5,6 +5,7 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 	"html/template"
+	"reflect"
 	"runtime"
 	"time"
 
@@ -26,6 +27,7 @@ func main() {
 				return "Unknown"
 			}
 		},
+		"eq": reflect.DeepEqual,
 	}
 
 	m := martini.Classic()

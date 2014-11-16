@@ -51,13 +51,13 @@
         <div class="form-group">
         <select class="form-control" name="time">
           <option value="">All time</option>
-          <option value="15m">Last 15m</option>
-          <option value="30m">Last 30m</option>
-          <option value="60m">Last 60m</option>
-          <option value="12h">Last 12h</option>
-          <option value="24h">Last 24h</option>
-          <option value="week">Last Week</option>
-          <option value="custom">Custom</option>
+          <option value="15m" {{if eq .time "15m"}}selected{{end}}>Last 15m</option>
+          <option value="30m" {{if eq .time "30m"}}selected{{end}}>Last 30m</option>
+          <option value="60m" {{if eq .time "60m"}}selected{{end}}>Last 60m</option>
+          <option value="12h" {{if eq .time "12h"}}selected{{end}}>Last 12h</option>
+          <option value="24h" {{if eq .time "24h"}}selected{{end}}>Last 24h</option>
+          <option value="week" {{if eq .time "week"}}selected{{end}}>Last Week</option>
+          <option value="custom"  {{if eq .time "custom"}}selected{{end}}>Custom</option>
         </select>
         <input type="text" name="time_start" id="time_start" value="{{.time_start}}">
         <input type="text" name="time_stop" id="time_stop" value="{{.time_stop}}">
