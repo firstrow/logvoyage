@@ -20,8 +20,12 @@
     type: 'time.bar',
     data: barChartData,
     axes: [],
-    windowSize: 80
+    windowSize: 100
   });
+  setInterval(function(){
+    var r = Math.floor((Math.random() * 100) + 20);
+    chart.push([{y: r}]);
+  },1000);
 </script>
 
 
