@@ -16,6 +16,7 @@
 #pagination {
 	position: fixed;
 	bottom:-25px;
+	left:40%;
 }
 
 .pagination {
