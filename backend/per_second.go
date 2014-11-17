@@ -10,11 +10,10 @@ import (
 
 type perSecondStorage struct {
 	sync.Mutex
-	Logs  map[string]int
-	Sizes map[string]int
+	Logs map[string]int // Logs per second
 }
 
-var prs = perSecondStorage{Logs: make(map[string]int), Sizes: make(map[string]int)}
+var prs = perSecondStorage{Logs: make(map[string]int)}
 
 func initTimers() {
 	ticker := time.NewTicker(1 * time.Second)
@@ -24,18 +23,15 @@ func initTimers() {
 
 		prs.Lock()
 		prs.Logs = make(map[string]int)
-		prs.Sizes = make(map[string]int)
 		prs.Unlock()
 	}
 }
 
 // indexName - user api key
-func increaseCounter(indexName string, message string) {
+func increaseCounter(indexName string) {
 	if _, ok := prs.Logs[indexName]; ok {
 		prs.Logs[indexName] += 1
-		prs.Sizes[indexName] += len(message)
 	} else {
 		prs.Logs[indexName] = 1
-		prs.Sizes[indexName] = len(message)
 	}
 }

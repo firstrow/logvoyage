@@ -25,6 +25,7 @@ func main() {
 
 	log.Print("Initializing server")
 
+	// Initalize counter timer
 	go initTimers()
 
 	host := flag.String("host", defaultHost, "Host to open server. Set to `localhost` to accept only local connections.")
@@ -64,7 +65,7 @@ func main() {
 				toElastic(indexName, record)
 			}
 
-			increaseCounter(indexName, message)
+			increaseCounter(indexName)
 		}
 	})
 

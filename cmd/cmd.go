@@ -23,6 +23,14 @@ var deleteIndex = cli.Command{
 	Flags:       []cli.Flag{},
 }
 
+var createIndex = cli.Command{
+	Name:        "create_index",
+	Usage:       "create search index",
+	Description: "",
+	Action:      createIndexFunc,
+	Flags:       []cli.Flag{},
+}
+
 func createUsersIndexFunc(c *cli.Context) {
 	log.Println("Creating users index in ElasticSearch")
 	settings := `{
@@ -48,6 +56,20 @@ func createUsersIndexFunc(c *cli.Context) {
 	log.Println(result)
 }
 
+func createIndexFunc(c *cli.Context) {
+	settings := `{
+		"settings": {
+			"index": {
+				"number_of_shards": 5,
+				"number_of_replicas": 1,
+				"refresh_interval" : "2s"
+			}
+		}
+	}`
+	result, _ := common.SendToElastic(c.Args()[0], "PUT", []byte(settings))
+	log.Println(result)
+}
+
 func deleteIndexFunc(c *cli.Context) {
 	if len(c.Args()) > 0 {
 		for _, name := range c.Args() {
@@ -65,6 +87,7 @@ func main() {
 	app.Commands = []cli.Command{
 		createUsersIndex,
 		deleteIndex,
+		createIndex,
 	}
 	app.Run(os.Args)
 }
