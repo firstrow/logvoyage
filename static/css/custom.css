@@ -43,3 +43,10 @@
 	border-bottom: 3px solid silver;
 	outline: none;
 }
+
+.modal.modal-wide .modal-dialog {
+  width: 950px;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
