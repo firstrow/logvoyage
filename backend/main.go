@@ -25,6 +25,8 @@ func main() {
 
 	log.Print("Initializing server")
 
+	go initTimers()
+
 	host := flag.String("host", defaultHost, "Host to open server. Set to `localhost` to accept only local connections.")
 	port := flag.String("port", defaultPort, "Port to accept new connections. Default value: "+defaultPort)
 	flag.Parse()
@@ -61,6 +63,8 @@ func main() {
 				}
 				toElastic(indexName, record)
 			}
+
+			increaseCounter(indexName, message)
 		}
 	})
 
@@ -70,6 +74,9 @@ func main() {
 	server.Listen()
 }
 
+// Stores [apiKey]indexName
+var userIndexNameCache = make(map[string]string)
+
 // Get users index name by apiKey
 func getIndexName(message string) (string, error) {
 	key, err := common.ExtractApiKey(message)
@@ -78,13 +85,19 @@ func getIndexName(message string) (string, error) {
 		return "", err
 	}
 
-	user := common.FindUserByApiKey(key)
-	if user == nil {
-		log.Println("User not found")
-		return "", errors.New("Error. User not found")
-	}
+	if indexName, ok := userIndexNameCache[key]; ok {
+		return indexName, nil
+	} else {
 
-	return user.GetIndexName(), nil
+		user := common.FindUserByApiKey(key)
+		if user == nil {
+			log.Println("User not found")
+			return "", errors.New("Error. User not found")
+		}
+		userIndexNameCache[user.GetIndexName()] = user.GetIndexName()
+
+		return user.GetIndexName(), nil
+	}
 }
 
 // Sends data to elastic index
