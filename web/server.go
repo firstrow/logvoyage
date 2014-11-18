@@ -18,6 +18,8 @@ import (
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
+	go startWebSocket()
+
 	templateFunc := template.FuncMap{
 		"FormatTimeToHuman": func(s ...string) string {
 			if len(s) > 0 {
