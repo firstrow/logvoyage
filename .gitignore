@@ -1,2 +1,4 @@
 gin-bin
 static/bower_components
+backend/backend
+cmd/cmd
