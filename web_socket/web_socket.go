@@ -1,5 +1,5 @@
 // Websocket server package.
-// This package start separate websocket server and transfers all
+// This package starts separate websocket server and transfers all
 // messages from redis channel "ws" to client browser.
 //
 // Example code to send data to redis:
