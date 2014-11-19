@@ -41,21 +41,17 @@ func (m *RedisMessage) Send(r redis.Conn) error {
 var clients = make(map[string]*websocket.Conn)
 
 func main() {
-	startWebSocket()
+	go startListetingRedis()
+
+	http.Handle("/ws", websocket.Handler(wsHandler))
+	err := http.ListenAndServe(":12345", nil)
+	checkError(err)
 }
 
 func checkError(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-}
-
-func startWebSocket() {
-	go startListetingRedis()
-
-	http.Handle("/ws", websocket.Handler(wsHandler))
-	err := http.ListenAndServe(":12345", nil)
-	checkError(err)
 }
 
 // Listen to Redis and send messages to clients
