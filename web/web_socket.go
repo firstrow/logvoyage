@@ -42,7 +42,7 @@ func startWebSocket() {
 	}
 }
 
-// Store connect clients: [apikey]Connection
+// Store connected clients: [apikey]Connection
 var clients = make(map[string]*websocket.Conn)
 
 func Echo(ws *websocket.Conn) {
