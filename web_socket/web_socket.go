@@ -1,3 +1,15 @@
+// Websocket server package.
+// This package start separate websocket server and transfers all
+// messages from redis channel "ws" to client browser.
+//
+// Example code to send data to redis:
+//	c, _ := redis.Dial("tcp", ":6379")
+//  msg := web_socket.RedisMessage{"apiKey", map[string]interface{}{
+//	  "log_per_second": 24,
+//    "kbs_per_second": 128,
+//  }}
+//  msg.Send(c)
+
 package main
 
 import (
@@ -14,6 +26,15 @@ import (
 type RedisMessage struct {
 	ApiKey string
 	Data   interface{}
+}
+
+func (m *RedisMessage) Send(r redis.Conn) error {
+	j, err := json.Marshal(m)
+	if err != nil {
+		return err
+	}
+	r.Do("PUBLISH", "ws", string(j))
+	return nil
 }
 
 // Store connected clients: [apikey]Connection
@@ -41,8 +62,10 @@ func startWebSocket() {
 func startListetingRedis() {
 	c, err := redis.Dial("tcp", ":6379")
 	checkError(err)
-	c.Send("SUBSCRIBE", "logstats")
+	c.Send("SUBSCRIBE", "ws")
 	c.Flush()
+
+	log.Println("Started server and connected to redis")
 
 	psc := redis.PubSubConn{c}
 	go func() {
