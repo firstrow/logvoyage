@@ -13,6 +13,8 @@ $(function() {
 		}
 	});
 	$("#time").change();
+
+	$('[data-toggle="tooltip"]').tooltip()
 });
 
 $(window).resize(function(){

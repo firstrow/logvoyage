@@ -29,6 +29,7 @@
 #time_start, #time_stop {
 	width:130px;
 	text-align: center;
+	border:1px;
 }
 
 .timebox {

@@ -11,14 +11,6 @@
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-  <script>
-  less = {
-    env: "development",
-    async: false,
-    fileAsync: false,
-    poll: 1000,
-  };
-  </script>
   <link rel="stylesheet/less" type="text/css" href="/bower_components/bootstrap/less/bootstrap.less" />
   <script src="/bower_components/less/dist/less.min.js" type="text/javascript"></script>
 
@@ -68,9 +60,10 @@
         <div class="form-group">
           <input type="text"  name="q" class="form-control"  value="{{.query_text}}" style="width:400px" placeholder="Search">
         </div>
+        <button type="submit" class="btn btn-default">Find</button>
         <div class="form-group">
           <select class="form-control" name="time" id="time">
-            <option value="">All time</option>
+            <option>All</option>
             <option value="15m" {{if eq .time "15m"}}selected{{end}}>15m</option>
             <option value="30m" {{if eq .time "30m"}}selected{{end}}>30m</option>
             <option value="60m" {{if eq .time "60m"}}selected{{end}}>60m</option>
@@ -82,7 +75,12 @@
           <input type="text" class="timebox" name="time_start" id="time_start" value="{{.time_start}}">
           <input type="text" class="timebox" name="time_stop" id="time_stop" value="{{.time_stop}}">
         </div> 
-        <button type="submit" class="btn btn-default">Go</button>
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Create alert">
+          <span class="glyphicon glyphicon-bell"></span>
+        </button>
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Graphics">
+          <span class="glyphicon glyphicon-stats"></span>
+        </button>
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -99,4 +97,4 @@
     </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="row" style="margin-top:45px"></div>
+<div class="row" style="margin-top:41px"></div>
