@@ -13,6 +13,7 @@ import (
 	"github.com/firstrow/logvoyage/web/render"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/users"
+	"github.com/firstrow/logvoyage/web_socket"
 )
 
 func main() {
@@ -53,5 +54,6 @@ func main() {
 	m.Get("/dashboard", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)
 
+	go web_socket.StartServer()
 	m.Run()
 }

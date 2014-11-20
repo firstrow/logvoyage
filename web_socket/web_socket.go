@@ -2,6 +2,8 @@
 // This package starts separate websocket server and transfers all
 // messages from redis channel "ws" to client browser.
 //
+// Running server
+//   web_socket.StartServer()
 // Example code to send data to redis:
 //	c, _ := redis.Dial("tcp", ":6379")
 //  msg := web_socket.RedisMessage{"apiKey", map[string]interface{}{
@@ -10,7 +12,7 @@
 //  }}
 //  msg.Send(c)
 
-package main
+package web_socket
 
 import (
 	"encoding/json"
@@ -20,6 +22,10 @@ import (
 	"code.google.com/p/go.net/websocket"
 	"github.com/firstrow/logvoyage/common"
 	"github.com/garyburd/redigo/redis"
+)
+
+const (
+	redisChannel = "ws"
 )
 
 // Represents data to be sent to user by its apiKey
@@ -33,14 +39,14 @@ func (m *RedisMessage) Send(r redis.Conn) error {
 	if err != nil {
 		return err
 	}
-	r.Do("PUBLISH", "ws", string(j))
+	r.Do("PUBLISH", redisChannel, string(j))
 	return nil
 }
 
 // Store connected clients: [apikey]Connection
 var clients = make(map[string]*websocket.Conn)
 
-func main() {
+func StartServer() {
 	go startListetingRedis()
 
 	http.Handle("/ws", websocket.Handler(wsHandler))
@@ -58,7 +64,7 @@ func checkError(err error) {
 func startListetingRedis() {
 	c, err := redis.Dial("tcp", ":6379")
 	checkError(err)
-	c.Send("SUBSCRIBE", "ws")
+	c.Send("SUBSCRIBE", redisChannel)
 	c.Flush()
 
 	log.Println("Started server and connected to redis")
@@ -107,6 +113,7 @@ func wsHandler(ws *websocket.Conn) {
 	websocket.Message.Send(ws, "Hello dear user!")
 
 	for {
+		// Message received from client
 		var message string
 
 		// Read messages from client
