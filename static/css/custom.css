@@ -14,15 +14,8 @@
 }
 
 #pagination {
-	position: fixed;
-	bottom:-25px;
-	left:40%;
-}
-
-.pagination {
-	-webkit-box-shadow: 2px -1px 13px 0px rgba(50, 50, 50, 0.75);
-	-moz-box-shadow:    2px -1px 13px 0px rgba(50, 50, 50, 0.75);
-	box-shadow:         2px -1px 13px 0px rgba(50, 50, 50, 0.75);
+	margin: 0 auto;
+	position: absolute;
 }
 
 .error {

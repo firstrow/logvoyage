@@ -7,9 +7,20 @@
   <title>LogVoyage - Dashboard</title>
 
   <!-- Bootstrap -->
-  <link href="/css/sandstone.min.css" rel="stylesheet">
+  <!-- <link href="/css/sandstone.min.css" rel="stylesheet"> -->
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <script>
+  less = {
+    env: "development",
+    async: false,
+    fileAsync: false,
+    poll: 1000,
+  };
+  </script>
+  <link rel="stylesheet/less" type="text/css" href="/bower_components/bootstrap/less/bootstrap.less" />
+  <script src="/bower_components/less/dist/less.min.js" type="text/javascript"></script>
 
   <!-- JSON view -->
   <link href="/bower_components/jquery-jsonview/dist/jquery.jsonview.css" rel="stylesheet">
@@ -88,4 +99,4 @@
     </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<div class="row" style="margin-top:65px"></div>
+<div class="row" style="margin-top:45px"></div>

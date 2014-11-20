@@ -8,7 +8,8 @@
     "datetimepicker": "2.4.1",
     "bootstrap-multiselect": "v0.9.10",
     "d3": "3.4.13",
-    "epoch": "0.6.0"
+    "epoch": "0.6.0",
+    "less": "v2.0.0"
   },
   "private": true
 }
