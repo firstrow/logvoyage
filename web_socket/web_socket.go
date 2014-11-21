@@ -11,7 +11,6 @@
 //    "kbs_per_second": 128,
 //  }}
 //  msg.Send(c)
-
 package web_socket
 
 import (
