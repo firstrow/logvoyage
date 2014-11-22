@@ -9,7 +9,7 @@ const (
 	ApiKeyFormat = `^([a-z0-9]{8}-[a-z0-9]{4}-[1-5][a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{12})@([a-z0-9\_]{1,10})`
 )
 
-// Extracts api key from string
+// Extracts api key and log type from string
 func ExtractApiKey(message string) (string, string, error) {
 	re := regexp.MustCompile(ApiKeyFormat)
 	result := re.FindAllStringSubmatch(message, -1)

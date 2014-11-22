@@ -39,8 +39,8 @@ func main() {
 
 	// Receives new message and send it to Elastic server
 	// Message examples:
-	// apiKey Some text
-	// apiKey {message: "Some text", field:"value", ...}
+	// apiKey@logType Some text
+	// apiKey@logType {message: "Some text", field:"value", ...}
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		indexName, logType, err := extractIndexAndType(message)
 		if err != nil {
