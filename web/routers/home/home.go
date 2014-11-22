@@ -43,7 +43,7 @@ func buildSearchRequest(text string, indexes []string, size int, from int, datet
 		Text:      text,
 		Indexes:   indexes,
 		From:      from,
-		Types:     []string{"logs"},
+		Types:     []string{},
 		Size:      perPage,
 		TimeRange: datetime,
 	}

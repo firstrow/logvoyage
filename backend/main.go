@@ -42,7 +42,7 @@ func main() {
 	// apiKey Some text
 	// apiKey {message: "Some text", field:"value", ...}
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		indexName, err := getIndexName(message)
+		indexName, logType, err := extractIndexAndType(message)
 		if err != nil {
 			// TODO: Log error
 		} else {
@@ -55,14 +55,14 @@ func main() {
 			if err == nil {
 				// Save parsed json
 				data["datetime"] = time.Now().UTC()
-				toElastic(indexName, data)
+				toElastic(indexName, logType, data)
 			} else {
 				// Could not parse json, save entire message.
 				record := &common.LogRecord{
 					Message:  message,
 					Datetime: time.Now().UTC(),
 				}
-				toElastic(indexName, record)
+				toElastic(indexName, logType, record)
 			}
 
 			increaseCounter(indexName)
@@ -79,34 +79,30 @@ func main() {
 var userIndexNameCache = make(map[string]string)
 
 // Get users index name by apiKey
-func getIndexName(message string) (string, error) {
-	key, err := common.ExtractApiKey(message)
+func extractIndexAndType(message string) (string, string, error) {
+	key, logType, err := common.ExtractApiKey(message)
 	if err != nil {
-		log.Println(err.Error())
-		return "", err
+		return "", "", err
 	}
 
 	if indexName, ok := userIndexNameCache[key]; ok {
-		return indexName, nil
+		return indexName, logType, nil
 	} else {
-
 		user := common.FindUserByApiKey(key)
 		if user == nil {
-			log.Println("User not found")
-			return "", errors.New("Error. User not found")
+			return "", "", errors.New("Error. User not found")
 		}
 		userIndexNameCache[user.GetIndexName()] = user.GetIndexName()
-
-		return user.GetIndexName(), nil
+		return user.GetIndexName(), logType, nil
 	}
 }
 
 // Sends data to elastic index
-func toElastic(indexName string, record interface{}) {
+func toElastic(indexName string, logType string, record interface{}) {
 	j, err := json.Marshal(record)
 	if err != nil {
 		log.Print("Error encoding message to JSON")
 	} else {
-		common.SendToElastic(indexName+"/logs", "POST", j)
+		common.SendToElastic(indexName+"/"+logType, "POST", j)
 	}
 }
