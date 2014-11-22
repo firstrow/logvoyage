@@ -3,7 +3,6 @@ package home
 import (
 	"errors"
 	"github.com/belogik/goes"
-	_ "log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -38,12 +37,12 @@ type SearchRequest struct {
 	TimeRange DateTimeRange
 }
 
-func buildSearchRequest(text string, indexes []string, size int, from int, datetime DateTimeRange) SearchRequest {
+func buildSearchRequest(text string, indexes []string, types []string, size int, from int, datetime DateTimeRange) SearchRequest {
 	req := SearchRequest{
 		Text:      text,
 		Indexes:   indexes,
 		From:      from,
-		Types:     []string{},
+		Types:     types,
 		Size:      perPage,
 		TimeRange: datetime,
 	}
@@ -133,7 +132,9 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 
 func Index(req *http.Request, r *render.Render) {
 	user := common.FindUserByEmail(r.Context["email"].(string))
+	userLogTypes, _ := common.GetTypes(user.GetIndexName())
 	query_text := req.URL.Query().Get("q")
+	types := req.URL.Query()["types"]
 
 	// Pagination
 	pagination := widgets.NewPagination(req)
@@ -143,6 +144,7 @@ func Index(req *http.Request, r *render.Render) {
 	searchRequest := buildSearchRequest(
 		query_text,
 		[]string{user.GetIndexName()},
+		types,
 		pagination.GetPerPage(),
 		pagination.DetectFrom(),
 		buildTimeRange(req),
@@ -160,12 +162,14 @@ func Index(req *http.Request, r *render.Render) {
 	}
 
 	r.HTML(viewName, render.ViewData{
-		"logs":       data.Hits.Hits,
-		"total":      data.Hits.Total,
-		"time":       req.URL.Query().Get("time"),
-		"time_start": req.URL.Query().Get("time_start"),
-		"time_stop":  req.URL.Query().Get("time_stop"),
-		"query_text": query_text,
-		"pagination": pagination,
+		"logs":         data.Hits.Hits,
+		"total":        data.Hits.Total,
+		"userLogTypes": userLogTypes,
+		"types":        types,
+		"time":         req.URL.Query().Get("time"),
+		"time_start":   req.URL.Query().Get("time_start"),
+		"time_stop":    req.URL.Query().Get("time_stop"),
+		"query_text":   query_text,
+		"pagination":   pagination,
 	})
 }

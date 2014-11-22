@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Unknwon/com"
 	martiniRender "github.com/codegangsta/martini-contrib/render"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
@@ -29,7 +30,8 @@ func main() {
 				return "Unknown"
 			}
 		},
-		"eq": reflect.DeepEqual,
+		"eq":                 reflect.DeepEqual,
+		"isSliceContainsStr": com.IsSliceContainsStr,
 	}
 
 	m := martini.Classic()
