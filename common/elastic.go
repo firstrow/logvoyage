@@ -2,6 +2,8 @@ package common
 
 import (
 	"bytes"
+	"encoding/json"
+	"errors"
 	"github.com/belogik/goes"
 	"io/ioutil"
 	"log"
@@ -13,13 +15,39 @@ const (
 	ES_PORT = "9200"
 )
 
+var (
+	ErrSendingElasticSearchRequest = errors.New("Error sending request to ES.")
+	ErrDecodingJson                = errors.New("Error decoding ES response")
+)
+
 func GetConnection() *goes.Connection {
 	return goes.NewConnection(ES_HOST, ES_PORT)
 }
 
-// Send raw bytes to elastic search server
+type IndexMapping map[string]map[string]map[string]interface{}
+
+// Retuns list of types available in search index
+func GetTypes(index string) ([]string, error) {
+	var mapping IndexMapping
+	result, err := SendToElastic(index+"/_mapping", "GET", []byte{})
+	if err != nil {
+		return nil, ErrSendingElasticSearchRequest
+	}
+	err = json.Unmarshal([]byte(result), &mapping)
+	if err != nil {
+		return nil, ErrDecodingJson
+	}
+
+	keys := []string{}
+	for k := range mapping[index]["mappings"] {
+		keys = append(keys, k)
+	}
+	return keys, nil
+}
+
+// Send raw bytes to elastic search serve	r
 func SendToElastic(url string, method string, b []byte) (string, error) {
-	eurl := "http://localhost:9200/"
+	eurl := "http://" + ES_HOST + ":" + ES_PORT + "/"
 	eurl += url
 
 	req, err := http.NewRequest(method, eurl, bytes.NewBuffer(b))

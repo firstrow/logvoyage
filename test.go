@@ -2,12 +2,18 @@ package main
 
 import (
 	"bufio"
+	"github.com/firstrow/logvoyage/common"
 	"log"
 	"net"
 	"os"
 )
 
 func main() {
+	types, _ := common.GetTypes("0b137205-3291-5f5b-5832-ab2458b9936a")
+	log.Println(types)
+}
+
+func sendDocs() {
 	conn, err := net.Dial("tcp", "localhost:27077")
 	if err != nil {
 		log.Fatal("Error connecting to logvoyage")

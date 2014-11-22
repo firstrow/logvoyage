@@ -132,8 +132,8 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 }
 
 func Index(req *http.Request, r *render.Render) {
-	query_text := req.URL.Query().Get("q")
 	user := common.FindUserByEmail(r.Context["email"].(string))
+	query_text := req.URL.Query().Get("q")
 
 	// Pagination
 	pagination := widgets.NewPagination(req)
