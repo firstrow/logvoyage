@@ -13,6 +13,7 @@ import (
 	"github.com/firstrow/logvoyage/web/middleware"
 	"github.com/firstrow/logvoyage/web/render"
 	"github.com/firstrow/logvoyage/web/routers/home"
+	"github.com/firstrow/logvoyage/web/routers/profile"
 	"github.com/firstrow/logvoyage/web/routers/users"
 	"github.com/firstrow/logvoyage/web_socket"
 )
@@ -55,6 +56,7 @@ func main() {
 	// Auth routes
 	m.Get("/dashboard", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)
+	m.Get("/profile", middleware.Authorize, profile.Index)
 
 	go web_socket.StartServer()
 	m.Run()
