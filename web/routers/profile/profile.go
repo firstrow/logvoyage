@@ -31,12 +31,13 @@ func Index(ctx *context.Context) {
 		form.FirstName = ctx.Request.Form.Get("firstName")
 		form.LastName = ctx.Request.Form.Get("lastName")
 		form.SetupValidation()
-
 		if !form.EnableValidation.Valid.HasErrors() {
 			ctx.User.FirstName = form.FirstName
 			ctx.User.LastName = form.LastName
 			ctx.User.Save()
 		}
+		ctx.Session.AddFlash("Your data has been successfully saved.", "success")
+		ctx.Render.Redirect("/profile")
 	}
 
 	ctx.HTML("profile/index", context.ViewData{
