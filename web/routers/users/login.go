@@ -2,11 +2,10 @@ package users
 
 import (
 	"errors"
+
 	"github.com/Unknwon/com"
 	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/render"
-	"github.com/martini-contrib/sessions"
-	"net/http"
+	"github.com/firstrow/logvoyage/web/context"
 )
 
 type loginForm struct {
@@ -39,16 +38,16 @@ func findUser(form *loginForm) error {
 	return nil
 }
 
-func Login(req *http.Request, r *render.Render, sess sessions.Session) {
+func Login(ctx *context.Context) {
 	message := ""
-	req.ParseForm()
+	ctx.Request.ParseForm()
 	form := &loginForm{
 		EnableValidation: &EnableValidation{},
 	}
 
-	if req.Method == "POST" {
-		form.Email = req.Form.Get("email")
-		form.Password = req.Form.Get("password")
+	if ctx.Request.Method == "POST" {
+		form.Email = ctx.Request.Form.Get("email")
+		form.Password = ctx.Request.Form.Get("password")
 		form.SetupValidation()
 
 		if !form.EnableValidation.Valid.HasErrors() {
@@ -57,13 +56,13 @@ func Login(req *http.Request, r *render.Render, sess sessions.Session) {
 			if err != nil {
 				message = "User not found or wrong password"
 			} else {
-				sess.Set("email", form.Email)
-				r.Redirect("/dashboard")
+				ctx.Session.Set("email", form.Email)
+				ctx.Render.Redirect("/dashboard")
 			}
 		}
 	}
 
-	r.HTML("users/login", render.ViewData{
+	ctx.HTML("users/login", context.ViewData{
 		"form":    form,
 		"message": message,
 	})

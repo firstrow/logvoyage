@@ -1,22 +1,21 @@
 package main
 
 import (
-	"github.com/Unknwon/com"
-	martiniRender "github.com/codegangsta/martini-contrib/render"
-	"github.com/go-martini/martini"
-	"github.com/martini-contrib/sessions"
 	"html/template"
 	"reflect"
 	"runtime"
 	"time"
 
+	"github.com/Unknwon/com"
+	"github.com/codegangsta/martini-contrib/render"
 	"github.com/firstrow/logvoyage/web/context"
 	"github.com/firstrow/logvoyage/web/middleware"
-	"github.com/firstrow/logvoyage/web/render"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/profile"
 	"github.com/firstrow/logvoyage/web/routers/users"
 	"github.com/firstrow/logvoyage/web_socket"
+	"github.com/go-martini/martini"
+	"github.com/martini-contrib/sessions"
 )
 
 func main() {
@@ -38,7 +37,7 @@ func main() {
 
 	m := martini.Classic()
 	// Template
-	m.Use(martiniRender.Renderer(martiniRender.Options{
+	m.Use(render.Renderer(render.Options{
 		Funcs: []template.FuncMap{templateFunc},
 	}))
 	// Serve static files
@@ -47,9 +46,7 @@ func main() {
 	store := sessions.NewCookieStore([]byte("super_secret_key"))
 	m.Use(sessions.Sessions("default", store))
 
-	// Application renderer
 	m.Use(context.Contexter)
-	m.Use(render.RenderHandler)
 
 	// Routes
 	m.Any("/register", middleware.RedirectIfAuthorized, users.Register)

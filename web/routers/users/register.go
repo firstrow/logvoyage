@@ -1,15 +1,14 @@
 package users
 
 import (
+	"net/url"
+
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/belogik/goes"
-	"github.com/nu7hatch/gouuid"
-	"net/http"
-	"net/url"
-
 	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/render"
+	"github.com/firstrow/logvoyage/web/context"
+	"github.com/nu7hatch/gouuid"
 )
 
 type EnableValidation struct {
@@ -39,15 +38,15 @@ func (this *registerForm) SetupValidation() {
 	this.Valid.MaxSize(this.Password, 25, "Password")
 }
 
-func Register(req *http.Request, r *render.Render) {
-	req.ParseForm()
+func Register(ctx *context.Context) {
+	ctx.Request.ParseForm()
 	form := &registerForm{
 		EnableValidation: &EnableValidation{},
 	}
 
-	if req.Method == "POST" {
-		form.Email = req.Form.Get("email")
-		form.Password = req.Form.Get("password")
+	if ctx.Request.Method == "POST" {
+		form.Email = ctx.Request.Form.Get("email")
+		form.Password = ctx.Request.Form.Get("password")
 		form.SetupValidation()
 
 		if !form.EnableValidation.Valid.HasErrors() {
@@ -67,7 +66,7 @@ func Register(req *http.Request, r *render.Render) {
 		}
 	}
 
-	r.HTML("users/register", render.ViewData{
+	ctx.HTML("users/register", context.ViewData{
 		"form": form,
 	})
 }

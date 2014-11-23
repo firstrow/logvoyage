@@ -7,15 +7,14 @@ import (
 
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/context"
-	"github.com/firstrow/logvoyage/web/render"
 )
 
 // View log record
-func View(req *http.Request, res http.ResponseWriter, r *render.Render, ctx *context.Context) {
+func View(res http.ResponseWriter, ctx *context.Context) {
 	conn := common.GetConnection()
 
-	docId := req.URL.Query().Get("id")
-	docType := req.URL.Query().Get("type")
+	docId := ctx.Request.URL.Query().Get("id")
+	docType := ctx.Request.URL.Query().Get("type")
 
 	response, err := conn.Get(ctx.User.GetIndexName(), docType, docId, url.Values{})
 

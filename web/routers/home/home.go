@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/render"
 	"github.com/firstrow/logvoyage/web/widgets"
 )
 
@@ -131,7 +130,7 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 	}
 }
 
-func Index(r *render.Render, ctx *context.Context) {
+func Index(ctx *context.Context) {
 	query_text := ctx.Request.URL.Query().Get("q")
 	types := ctx.Request.URL.Query()["types"]
 
@@ -160,7 +159,7 @@ func Index(r *render.Render, ctx *context.Context) {
 		viewName = "home/no_records"
 	}
 
-	r.HTML(viewName, render.ViewData{
+	ctx.HTML(viewName, context.ViewData{
 		"logs":       data.Hits.Hits,
 		"total":      data.Hits.Total,
 		"types":      types,
