@@ -1,73 +1,67 @@
-{{template "base/head" .}}
 <div class="container-fluid">
   <div class="row" style="background-color:transparent;padding:2px">
-      <div class="col-md-12">
-        {{.total}} events
-      </div>
+    <div class="col-md-12">
+      {{.total}} events
+    </div>
   </div>
 </div>
-
 <div class="epoch-theme-default">
   <div id="barChart"  class="epoch category20c" style="width: 1450px; height: 60px"></div>
 </div>
 <script>
-  var barChartData = [
-  // First series
-  {
-    label: "PerSecond",
-    values: [
-      {time: 1370044800, y: 100},
-      {time: 1370044801, y: 135},
-      {time: 1370044801, y: 123},
-      {time: 1370044802, y: 78},
-    ]
+var barChartData = [
+// First series
+{
+  label: "PerSecond",
+  values: [
+  {time: 1370044800, y: 100},
+  {time: 1370044801, y: 135},
+  {time: 1370044801, y: 123},
+  {time: 1370044802, y: 78},
+  ]
   },
 ];
-  var chart = $('#barChart').epoch({
-    type: 'time.bar',
-    data: barChartData,
-    axes: [],
-    windowSize: 100
-  });
-  setInterval(function(){
-    var r = Math.floor((Math.random() * 100) + 20);
-    chart.push([{y: r}]);
-  },1000);
+var chart = $('#barChart').epoch({
+  type: 'time.bar',
+  data: barChartData,
+  axes: [],
+  windowSize: 100
+});
+setInterval(function(){
+  var r = Math.floor((Math.random() * 100) + 20);
+  chart.push([{y: r}]);
+},1000);
 </script>
-
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12 main no-padding">
-        <div class="table-responsive">
-          <table id="logstable" class="table table-striped">
-              <tbody>
-                {{range .logs}}
-                  <tr>
-                    <td style="min-width:160px;width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
-                    <td>
-                      <a href="/view/?type={{.Type}}&id={{.Id}}" class="view">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                      </a>
-                      {{.Source.message}}
-                    </td>
-                  </tr>
-                {{end}}
-              </tbody>
-            </table>
-          </div>
-        {{if .pagination.HasPages}}
-        <nav id="pagination">
-          <ul class="pagination pagination-sm">
-            {{.pagination.Render}}
-          </ul>
-        </nav>
-        {{end}}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 main no-padding">
+      <div class="table-responsive">
+        <table id="logstable" class="table table-striped">
+          <tbody>
+            {{range .logs}}
+            <tr>
+              <td style="min-width:160px;width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
+              <td>
+                <a href="/view/?type={{.Type}}&id={{.Id}}" class="view">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </a>
+                {{.Source.message}}
+              </td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
       </div>
+      {{if .pagination.HasPages}}
+      <nav id="pagination">
+        <ul class="pagination pagination-sm">
+          {{.pagination.Render}}
+        </ul>
+      </nav>
+      {{end}}
     </div>
   </div>
-{{template "base/footer" .}}
-
+</div>
 <!-- begin view log record modal -->
 <div class="modal modal-wide" id="viewRecordModal" tabindex="-1" role="dialog" aria-labelledby="RecordView" aria-hidden="true">
   <div class="modal-dialog">
@@ -75,12 +69,12 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title" id="myModalLabel">Record view</h4>
-        </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-        </div>
+        <h4 class="modal-title" id="myModalLabel">Record view</h4>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>

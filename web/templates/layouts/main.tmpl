@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>LogVoyage - Dashboard</title>
+		<!-- Bootstrap -->
+		<!-- <link href="/css/sandstone.min.css" rel="stylesheet"> -->
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<link rel="stylesheet/less" type="text/css" href="/bower_components/bootstrap/less/bootstrap.less" />
+		<script src="/bower_components/less/dist/less.min.js" type="text/javascript"></script>
+		<!-- JSON view -->
+		<link href="/bower_components/jquery-jsonview/dist/jquery.jsonview.css" rel="stylesheet">
+		<script src="/bower_components/jquery-jsonview/dist/jquery.jsonview.js"></script>
+		<!-- Datetime picker -->
+		<link href="/bower_components/datetimepicker/jquery.datetimepicker.css" rel="stylesheet">
+		<script src="/bower_components/datetimepicker/jquery.datetimepicker.js"></script>
+		<!-- Multiselect -->
+		<link href="/bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css" rel="stylesheet">
+		<script src="/bower_components/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+		<!-- Rickshaw -->
+		<script src="/bower_components/d3/d3.min.js"></script>
+		<link href="/bower_components/epoch/epoch.min.css" rel="stylesheet">
+		<script src="/bower_components/epoch/epoch.min.js"></script>
+		<!-- Application scripts -->
+		<link href="/css/custom.css" rel="stylesheet">
+		<script src="/js/init.js"></script>
+		<script src="/js/view.js"></script>
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<div class="row">
+						<div class="col-md-2" style="padding-left:20px;width:170px">
+							<a class="navbar-brand" href="/dashboard"><span class="glyphicon glyphicon-briefcase"></span> LogVoyage</a>
+						</div>
+					</div>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<form class="navbar-form navbar-left" role="search" action="/dashboard" method="get">
+						<div class="input-group">
+							<div class="input-group-btn">
+								<select class="form-control" id="logType" multiple="multiple" name="types">
+									{{range .context.User.GetLogTypes}}
+									<option value="{{.}}" {{if isSliceContainsStr $.types .}}selected{{end}}>{{.}}</option>
+									{{end}}
+								</select>
+							</div>
+							<input type="text"  name="q" class="form-control"  value="{{.query_text}}" style="width:400px" placeholder="Search">
+						</div>
+						<button type="submit" class="btn btn-default">
+						<span class="glyphicon glyphicon-search"></span>
+						</button>
+						<div class="form-group">
+							<select class="form-control" name="time" id="time">
+								<option>All</option>
+								<option value="15m" {{if eq .time "15m"}}selected{{end}}>15m</option>
+								<option value="30m" {{if eq .time "30m"}}selected{{end}}>30m</option>
+								<option value="60m" {{if eq .time "60m"}}selected{{end}}>60m</option>
+								<option value="12h" {{if eq .time "12h"}}selected{{end}}>12h</option>
+								<option value="24h" {{if eq .time "24h"}}selected{{end}}>24h</option>
+								<option value="week" {{if eq .time "week"}}selected{{end}}>7d</option>
+								<option value="custom"  {{if eq .time "custom"}}selected{{end }}>Custom</option>
+							</select>
+							<input type="text" class="timebox" name="time_start" id="time_start" value="{{.time_start}}">
+							<input type="text" class="timebox" name="time_stop" id="time_stop" value="{{.time_stop}}">
+						</div>
+						<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Create alert">
+						<span class="glyphicon glyphicon-bell"></span>
+						</button>
+						<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Graphics">
+						<span class="glyphicon glyphicon-stats"></span>
+						</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/profile">Profile</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+					</div><!-- /.navbar-collapse -->
+					</div><!-- /.container-fluid -->
+				</nav>
+				<div class="row" style="margin-top:42px"></div>
+				{{yield}}
+			</body>
+		</html>

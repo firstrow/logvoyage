@@ -38,7 +38,8 @@ func main() {
 	m := martini.Classic()
 	// Template
 	m.Use(render.Renderer(render.Options{
-		Funcs: []template.FuncMap{templateFunc},
+		Funcs:  []template.FuncMap{templateFunc},
+		Layout: "layouts/main",
 	}))
 	// Serve static files
 	m.Use(martini.Static("../static"))
