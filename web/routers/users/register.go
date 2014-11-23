@@ -4,30 +4,16 @@ import (
 	"net/url"
 
 	"github.com/Unknwon/com"
-	"github.com/astaxie/beego/validation"
 	"github.com/belogik/goes"
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/context"
 	"github.com/nu7hatch/gouuid"
 )
 
-type EnableValidation struct {
-	Valid validation.Validation
-}
-
-func (this *EnableValidation) GetError(key string) string {
-	for _, err := range this.Valid.Errors {
-		if err.Key == key {
-			return err.Message
-		}
-	}
-	return ""
-}
-
 type registerForm struct {
+	*common.EnableValidation
 	Email    string
 	Password string
-	*EnableValidation
 }
 
 func (this *registerForm) SetupValidation() {
@@ -41,7 +27,7 @@ func (this *registerForm) SetupValidation() {
 func Register(ctx *context.Context) {
 	ctx.Request.ParseForm()
 	form := &registerForm{
-		EnableValidation: &EnableValidation{},
+		EnableValidation: &common.EnableValidation{},
 	}
 
 	if ctx.Request.Method == "POST" {
@@ -63,6 +49,7 @@ func Register(ctx *context.Context) {
 			}
 			extraArgs := make(url.Values, 0)
 			common.GetConnection().Index(doc, extraArgs)
+			ctx.Render.Redirect("/login")
 		}
 	}
 

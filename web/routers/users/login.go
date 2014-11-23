@@ -9,9 +9,9 @@ import (
 )
 
 type loginForm struct {
+	*common.EnableValidation
 	Email    string
 	Password string
-	*EnableValidation
 }
 
 func (this *loginForm) SetupValidation() {
@@ -42,7 +42,7 @@ func Login(ctx *context.Context) {
 	message := ""
 	ctx.Request.ParseForm()
 	form := &loginForm{
-		EnableValidation: &EnableValidation{},
+		EnableValidation: &common.EnableValidation{},
 	}
 
 	if ctx.Request.Method == "POST" {

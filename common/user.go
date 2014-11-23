@@ -1,14 +1,18 @@
 package common
 
 import (
+	"github.com/belogik/goes"
 	"github.com/mitchellh/mapstructure"
 	"net/url"
 )
 
 type User struct {
-	Email    string
-	Password string
-	ApiKey   string
+	Id        string `json:"id"`
+	Email     string `json:"email"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Password  string `json:"password"`
+	ApiKey    string `json:"apiKey"`
 }
 
 // Returns index name to use in Elastic
@@ -27,6 +31,17 @@ func FindUserByEmail(email string) *User {
 
 func FindUserByApiKey(apiKey string) *User {
 	return FindUserBy("apiKey", apiKey)
+}
+
+func (this *User) Save() {
+	doc := goes.Document{
+		Index:  "users",
+		Type:   "user",
+		Id:     this.Id,
+		Fields: this,
+	}
+	extraArgs := make(url.Values, 0)
+	GetConnection().Index(doc, extraArgs)
 }
 
 func FindUserBy(key string, value string) *User {
@@ -52,6 +67,7 @@ func FindUserBy(key string, value string) *User {
 
 	user := &User{}
 	mapstructure.Decode(searchResults.Hits.Hits[0].Source, user)
+	user.Id = searchResults.Hits.Hits[0].Id
 
 	return user
 }

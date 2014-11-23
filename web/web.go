@@ -55,7 +55,7 @@ func main() {
 	// Auth routes
 	m.Get("/dashboard", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)
-	m.Get("/profile", middleware.Authorize, profile.Index)
+	m.Any("/profile", middleware.Authorize, profile.Index)
 
 	go web_socket.StartServer()
 	m.Run()
