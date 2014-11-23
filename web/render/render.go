@@ -4,6 +4,7 @@ package render
 
 import (
 	"github.com/codegangsta/martini-contrib/render"
+	"github.com/firstrow/logvoyage/web/context"
 	"github.com/go-martini/martini"
 )
 
@@ -13,16 +14,11 @@ type ViewData map[string]interface{}
 
 type Render struct {
 	renderer render.Render
-	// Allows to add data before render
-	// Used to add `global` values
-	Context ViewData
+	Context  *context.Context
 }
 
 func (r *Render) HTML(name string, bindings map[string]interface{}) {
-	// Merge `global` data and local
-	for key, val := range r.Context {
-		bindings[key] = val
-	}
+	bindings["context"] = r.Context
 	r.renderer.HTML(200, name, bindings)
 }
 
@@ -31,7 +27,7 @@ func (r *Render) Redirect(url string) {
 }
 
 // Render middleware
-func RenderHandler(c martini.Context, mr render.Render) {
-	r := &Render{mr, ViewData{}}
+func RenderHandler(c martini.Context, mr render.Render, ctx *context.Context) {
+	r := &Render{mr, ctx}
 	c.Map(r)
 }

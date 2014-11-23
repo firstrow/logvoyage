@@ -49,7 +49,7 @@
             <div class="input-group">
               <div class="input-group-btn">
                 <select class="form-control" id="logType" multiple="multiple" name="types">
-                  {{range .userLogTypes}}
+                  {{range .context.User.GetLogTypes}}
                     <option value="{{.}}" {{if isSliceContainsStr $.types .}}selected{{end}}>{{.}}</option>
                   {{end}}
                 </select>

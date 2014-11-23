@@ -3,6 +3,7 @@ package home
 import (
 	"errors"
 	"github.com/belogik/goes"
+	"github.com/firstrow/logvoyage/web/context"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -130,24 +131,22 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 	}
 }
 
-func Index(req *http.Request, r *render.Render) {
-	user := common.FindUserByEmail(r.Context["email"].(string))
-	userLogTypes, _ := common.GetTypes(user.GetIndexName())
-	query_text := req.URL.Query().Get("q")
-	types := req.URL.Query()["types"]
+func Index(r *render.Render, ctx *context.Context) {
+	query_text := ctx.Request.URL.Query().Get("q")
+	types := ctx.Request.URL.Query()["types"]
 
 	// Pagination
-	pagination := widgets.NewPagination(req)
+	pagination := widgets.NewPagination(ctx.Request)
 	pagination.SetPerPage(perPage)
 
 	// Load records
 	searchRequest := buildSearchRequest(
 		query_text,
-		[]string{user.GetIndexName()},
+		[]string{ctx.User.GetIndexName()},
 		types,
 		pagination.GetPerPage(),
 		pagination.DetectFrom(),
-		buildTimeRange(req),
+		buildTimeRange(ctx.Request),
 	)
 	// Search data in elastic
 	data, err := search(searchRequest)
@@ -162,14 +161,13 @@ func Index(req *http.Request, r *render.Render) {
 	}
 
 	r.HTML(viewName, render.ViewData{
-		"logs":         data.Hits.Hits,
-		"total":        data.Hits.Total,
-		"userLogTypes": userLogTypes,
-		"types":        types,
-		"time":         req.URL.Query().Get("time"),
-		"time_start":   req.URL.Query().Get("time_start"),
-		"time_stop":    req.URL.Query().Get("time_stop"),
-		"query_text":   query_text,
-		"pagination":   pagination,
+		"logs":       data.Hits.Hits,
+		"total":      data.Hits.Total,
+		"types":      types,
+		"time":       ctx.Request.URL.Query().Get("time"),
+		"time_start": ctx.Request.URL.Query().Get("time_start"),
+		"time_stop":  ctx.Request.URL.Query().Get("time_stop"),
+		"query_text": query_text,
+		"pagination": pagination,
 	})
 }

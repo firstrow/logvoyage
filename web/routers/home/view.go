@@ -6,18 +6,18 @@ import (
 	"net/url"
 
 	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/web/context"
 	"github.com/firstrow/logvoyage/web/render"
 )
 
 // View log record
-func View(req *http.Request, res http.ResponseWriter, r *render.Render) {
-	user := common.FindUserByEmail(r.Context["email"].(string))
+func View(req *http.Request, res http.ResponseWriter, r *render.Render, ctx *context.Context) {
 	conn := common.GetConnection()
 
 	docId := req.URL.Query().Get("id")
 	docType := req.URL.Query().Get("type")
 
-	response, err := conn.Get(user.GetIndexName(), docType, docId, url.Values{})
+	response, err := conn.Get(ctx.User.GetIndexName(), docType, docId, url.Values{})
 
 	if err != nil {
 		res.WriteHeader(404)

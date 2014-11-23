@@ -5,15 +5,6 @@ import (
 	"github.com/martini-contrib/sessions"
 )
 
-// Add some defaults to tempalte data each request
-func PopulateAppContext(r *render.Render, sess sessions.Session) {
-	r.Context["email"] = sess.Get("email")
-
-	if sess.Get("email") != nil {
-		r.Context["isGuest"] = false
-	}
-}
-
 // Check user authentication
 func Authorize(r *render.Render, sess sessions.Session) {
 	email := sess.Get("email")

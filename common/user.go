@@ -16,6 +16,11 @@ func (this *User) GetIndexName() string {
 	return this.ApiKey
 }
 
+func (this *User) GetLogTypes() []string {
+	userLogTypes, _ := GetTypes(this.GetIndexName())
+	return userLogTypes
+}
+
 func FindUserByEmail(email string) *User {
 	return FindUserBy("email", email)
 }
