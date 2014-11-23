@@ -14,8 +14,7 @@
 }
 
 #pagination {
-	margin: 0 auto;
-	position: absolute;
+	margin-left: 10px;
 }
 
 .error {
