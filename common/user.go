@@ -28,6 +28,10 @@ func (u *User) GetLogTypes() []string {
 	return userLogTypes
 }
 
+////////////////////////
+// Source groups
+////////////////////////
+
 // Source group represent group of log types.
 // Each log type can be in various groups at the same time.
 type SourceGroup struct {
@@ -41,11 +45,19 @@ func (u *User) AddSourceGroup(group *SourceGroup) *User {
 	if group.Id == "" {
 		key := com.RandomCreateBytes(5)
 		group.Id = string(key)
+		u.SourceGroups = append(u.SourceGroups, group)
 	} else {
-		u.DeleteSourceGroup(group.Id)
+		u.UpdateSourceGroup(group)
 	}
-	u.SourceGroups = append(u.SourceGroups, group)
 	return u
+}
+
+func (u *User) UpdateSourceGroup(group *SourceGroup) {
+	for key, g := range u.SourceGroups {
+		if group.Id == g.Id {
+			u.SourceGroups[key] = group
+		}
+	}
 }
 
 func (u *User) DeleteSourceGroup(id string) {
@@ -67,6 +79,10 @@ func (u *User) GetSourceGroup(id string) (*SourceGroup, error) {
 	}
 	return nil, errors.New("Source group not found")
 }
+
+////////////////////////
+// Finders
+////////////////////////
 
 func FindUserByEmail(email string) *User {
 	return FindUserBy("email", email)
