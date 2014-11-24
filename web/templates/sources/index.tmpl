@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-md-6">
       {{if isEmpty .context.User.SourceGroups}}
-        No groups found.
+      No groups found.
       {{end}}
       {{range .context.User.SourceGroups}}
       <div class="panel panel-default">
@@ -29,14 +29,22 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Description</label>
               <div class="col-sm-10" style="padding-top:10px">
-                {{.Description}}
+                {{if len .Description}}
+                  {{.Description}}
+                {{else}}
+                <span style="color:#979797">None</span>
+                {{end}}
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Types</label>
               <div class="col-sm-10" style="padding-top:10px">
-                {{range .Types}}
-                {{.}}
+                {{if len .Types}}
+                  {{range .Types}}
+                    {{.}}
+                  {{end}}
+                {{else}}
+                  <span style="color:#979797">Empty types list. You should add at least one type.</span>
                 {{end}}
               </div>
             </div>
