@@ -2,8 +2,6 @@ package home
 
 import (
 	"errors"
-	"github.com/belogik/goes"
-	"github.com/firstrow/logvoyage/web/context"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -11,6 +9,8 @@ import (
 
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/widgets"
+	"github.com/belogik/goes"
+	"github.com/firstrow/logvoyage/web/context"
 )
 
 const (
