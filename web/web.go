@@ -8,15 +8,17 @@ import (
 
 	"github.com/Unknwon/com"
 	"github.com/codegangsta/martini-contrib/render"
+	"github.com/go-martini/martini"
+	"github.com/martini-contrib/sessions"
+
 	"github.com/firstrow/logvoyage/web/context"
 	"github.com/firstrow/logvoyage/web/middleware"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/profile"
 	"github.com/firstrow/logvoyage/web/routers/sources"
 	"github.com/firstrow/logvoyage/web/routers/users"
+	"github.com/firstrow/logvoyage/web/widgets"
 	"github.com/firstrow/logvoyage/web_socket"
-	"github.com/go-martini/martini"
-	"github.com/martini-contrib/sessions"
 )
 
 func main() {
@@ -40,8 +42,9 @@ func main() {
 			}
 			return true
 		},
-		"eq":                 reflect.DeepEqual,
-		"isSliceContainsStr": com.IsSliceContainsStr,
+		"eq":                       reflect.DeepEqual,
+		"isSliceContainsStr":       com.IsSliceContainsStr,
+		"renderSourceGroupsWidget": widgets.NewSourceGroups,
 	}
 
 	m := martini.Classic()

@@ -54,17 +54,23 @@
 					<form class="navbar-form navbar-left" role="search" action="/dashboard" method="get">
 						<div class="input-group">
 							<div class="input-group-btn">
+								{{if isEmpty .context.User.SourceGroups}}
+								<a href="/sources/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one group">
+									Create first source
+								</a>
+								{{else}}
 								<select class="form-control" id="logType" multiple="multiple" name="types">
-									{{range .context.User.GetLogTypes}}
-									<option value="{{.}}" {{if isSliceContainsStr $.types .}}selected{{end}}>{{.}}</option>
-									{{end}}
+									{{renderSourceGroupsWidget .context.User.SourceGroups .types}}
 								</select>
+								{{end}}
 							</div>
 							<input type="text"  name="q" class="form-control"  value="{{.query_text}}" style="width:400px" placeholder="Search">
+							<div class="input-group-btn">
+								<button type="submit" class="btn btn-primary">
+								<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</div>
 						</div>
-						<button type="submit" class="btn btn-default">
-						<span class="glyphicon glyphicon-search"></span>
-						</button>
 						<div class="form-group">
 							<select class="form-control" name="time" id="time">
 								<option>All</option>
