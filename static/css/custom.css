@@ -37,6 +37,13 @@
 	outline: none;
 }
 
+h3 .actions {
+	float: right;
+	padding-right: 15px;
+	padding-top: 5px;
+	font-size:14px;
+}
+
 /* Bootstrap overrides */
 .modal.modal-wide .modal-dialog {
   width: 950px;

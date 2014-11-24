@@ -20,7 +20,6 @@ func (this *profileForm) SetupValidation() {
 }
 
 func Index(ctx *context.Context) {
-	ctx.Request.ParseForm()
 	form := &profileForm{
 		EnableValidation: &common.EnableValidation{},
 		FirstName:        ctx.User.FirstName,

@@ -38,7 +38,7 @@ func createUsersIndexFunc(c *cli.Context) {
 			"index": {
 				"number_of_shards": 5,
 				"number_of_replicas": 1,
-				"refresh_interval" : "1s"
+				"refresh_interval" : "0"
 			}
 		},
 		"mappings": {

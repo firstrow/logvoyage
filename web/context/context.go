@@ -1,11 +1,11 @@
 package context
 
 import (
-	"github.com/codegangsta/martini-contrib/render"
 	"net/http"
 
-	"github.com/codegangsta/martini"
+	"github.com/codegangsta/martini-contrib/render"
 	"github.com/firstrow/logvoyage/common"
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 )
 
@@ -24,13 +24,24 @@ func (c *Context) HTML(view string, data ViewData) {
 	c.Render.HTML(200, view, data)
 }
 
-func Contexter(c martini.Context, r render.Render, sess sessions.Session, req *http.Request) {
-	var user *common.User
+// Cache all authorized user in memmory
+// TODO: Clear cache in lastActivity < now() - 1minute
+var userCache = make(map[string]*common.User)
 
-	if sess.Get("email") != nil {
-		user = common.FindUserByEmail(sess.Get("email").(string))
+func loadUser(email string) *common.User {
+	if email != "" {
+		if val, ok := userCache[email]; ok {
+			return val
+		} else {
+			userCache[email] = common.FindUserByEmail(email)
+			return userCache[email]
+		}
 	}
+	return nil
+}
 
+func Contexter(c martini.Context, r render.Render, sess sessions.Session, req *http.Request) {
+	user := loadUser(sess.Get("email").(string))
 	ctx := &Context{
 		Session: sess,
 		IsGuest: user == nil,

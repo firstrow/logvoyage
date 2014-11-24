@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <h2>New source group</h2>
+      <div class="panel panel-default">
+        <div class="panel-footer">
+          <form class="form-horizontal" role="form" method="post">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10">
+                <input type="text" name="name" value="{{.form.Name}}" class="form-control" placeholder="First name">
+                <div class="error">
+                  {{.form.GetError "Name"}}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+              <div class="col-sm-10">
+                <input type="text" name="description" value="{{.form.Description}}" class="form-control" placeholder="Last name">
+                <div class="error">
+                  {{.form.GetError "Description"}}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Types</label>
+              <div class="col-sm-10" style="margin-top:5px">
+                <select name="types" class="chosen-select form-control" multiple="multiple" style="width:30%;">
+                  {{range .context.User.GetLogTypes}}
+                  <option value="{{.}}" {{if $.form.HasType .}}selected{{end}}>{{.}}</option>
+                  {{end}}
+                </select>
+                <div class="error">
+                  {{.form.GetError "Types"}}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+                or
+                <a href="/sources">Cancel</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

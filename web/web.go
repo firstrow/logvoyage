@@ -12,6 +12,7 @@ import (
 	"github.com/firstrow/logvoyage/web/middleware"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/profile"
+	"github.com/firstrow/logvoyage/web/routers/sources"
 	"github.com/firstrow/logvoyage/web/routers/users"
 	"github.com/firstrow/logvoyage/web_socket"
 	"github.com/go-martini/martini"
@@ -30,6 +31,14 @@ func main() {
 			} else {
 				return "Unknown"
 			}
+		},
+		"isEmpty": func(i interface{}) bool {
+			switch reflect.TypeOf(i).Kind() {
+			case reflect.Slice:
+				v := reflect.ValueOf(i)
+				return v.Len() == 0
+			}
+			return true
 		},
 		"eq":                 reflect.DeepEqual,
 		"isSliceContainsStr": com.IsSliceContainsStr,
@@ -56,6 +65,13 @@ func main() {
 	m.Get("/dashboard", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)
 	m.Any("/profile", middleware.Authorize, profile.Index)
+	// Sources
+	m.Group("/sources", func(r martini.Router) {
+		r.Any("", sources.Index)
+		r.Any("/new", sources.New)
+		r.Any("/edit/:id", sources.Edit)
+		r.Any("/delete/:id", sources.Delete)
+	}, middleware.Authorize)
 
 	go web_socket.StartServer()
 	m.Run()

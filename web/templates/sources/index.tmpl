@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>
+      Source groups
+      <span class="actions">
+      <a href="/sources/new">
+        <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span> Create
+      </a>
+      </span>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      {{if isEmpty .context.User.SourceGroups}}
+        No groups found.
+      {{end}}
+      {{range .context.User.SourceGroups}}
+      <div class="panel panel-default">
+        <div class="panel-footer">
+          <form class="form-horizontal" role="form" method="post">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10" style="padding-top:10px">
+                <a href="/sources/edit/{{.Id}}">{{.Name}}</a>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+              <div class="col-sm-10" style="padding-top:10px">
+                {{.Description}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Types</label>
+              <div class="col-sm-10" style="padding-top:10px">
+                {{range .Types}}
+                {{.}}
+                {{end}}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10" style="padding-top:10px">
+                <a href="/sources/delete/{{.Id}}">Delete</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</div>

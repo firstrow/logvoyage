@@ -9,7 +9,8 @@
     "bootstrap-multiselect": "v0.9.10",
     "d3": "3.4.13",
     "epoch": "0.6.0",
-    "less": "v2.0.0"
+    "less": "v2.0.0",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip"
   },
   "private": true
 }

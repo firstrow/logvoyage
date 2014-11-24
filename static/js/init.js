@@ -22,6 +22,7 @@ $(function() {
 	$("#time").change();
 
 	$('[data-toggle="tooltip"]').tooltip()
+	$(".chosen-select").chosen();
 });
 
 $(window).resize(function(){
