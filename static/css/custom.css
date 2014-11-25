@@ -46,6 +46,7 @@ h3 .actions {
 .search_info {
 	padding: 8px 8px 8px 5px;
 	background-color: #ebeddf;
+	/*border-bottom: 2px solid silver;*/
 }
 
 /* Bootstrap overrides */

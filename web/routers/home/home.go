@@ -38,7 +38,7 @@ type SearchRequest struct {
 }
 
 func buildSearchRequest(text string, indexes []string, types []string, size int, from int, datetime DateTimeRange) SearchRequest {
-	req := SearchRequest{
+	return SearchRequest{
 		Text:      text,
 		Indexes:   indexes,
 		From:      from,
@@ -46,7 +46,6 @@ func buildSearchRequest(text string, indexes []string, types []string, size int,
 		Size:      perPage,
 		TimeRange: datetime,
 	}
-	return req
 }
 
 // Detects time range from request and returns
