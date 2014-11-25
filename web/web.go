@@ -74,6 +74,9 @@ func main() {
 		r.Any("/new", sources.New)
 		r.Any("/edit/:id", sources.Edit)
 		r.Any("/delete/:id", sources.Delete)
+		// Types
+		r.Any("/types", sources.Types)
+		r.Any("/types/delete/:name", sources.DeleteType)
 	}, middleware.Authorize)
 
 	go web_socket.StartServer()

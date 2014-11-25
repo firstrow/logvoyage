@@ -45,7 +45,29 @@ func GetTypes(index string) ([]string, error) {
 	return keys, nil
 }
 
-// Send raw bytes to elastic search serve	r
+// Count documents in collection
+func CountTypeDocs(index string, logType string) float64 {
+	result, err := SendToElastic(index+"/"+logType+"/_count", "GET", nil)
+	if err != nil {
+		return 0
+	}
+
+	var m map[string]interface{}
+	err = json.Unmarshal([]byte(result), &m)
+	if err != nil {
+		return 0
+	}
+	return m["count"].(float64)
+}
+
+func DeleteType(index string, logType string) {
+	_, err := SendToElastic(index+"/"+logType, "DELETE", nil)
+	if err != nil {
+		// TODO: Log error
+	}
+}
+
+// Send raw bytes to elastic search server
 func SendToElastic(url string, method string, b []byte) (string, error) {
 	eurl := "http://" + ES_HOST + ":" + ES_PORT + "/"
 	eurl += url
