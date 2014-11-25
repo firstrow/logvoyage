@@ -49,22 +49,7 @@ func main() {
 			message = common.RemoveApiKey(message)
 			message = strings.TrimSpace(message)
 
-			var data map[string]interface{}
-			err := json.Unmarshal([]byte(message), &data)
-
-			if err == nil {
-				// Save parsed json
-				data["datetime"] = time.Now().UTC()
-				toElastic(indexName, logType, data)
-			} else {
-				// Could not parse json, save entire message.
-				record := &common.LogRecord{
-					Message:  message,
-					Datetime: time.Now().UTC(),
-				}
-				toElastic(indexName, logType, record)
-			}
-
+			toElastic(indexName, logType, buildMessage(message))
 			increaseCounter(indexName)
 		}
 	})
@@ -94,6 +79,24 @@ func extractIndexAndType(message string) (string, string, error) {
 		}
 		userIndexNameCache[user.GetIndexName()] = user.GetIndexName()
 		return user.GetIndexName(), logType, nil
+	}
+}
+
+// Build object from message
+func buildMessage(message string) interface{} {
+	var data map[string]interface{}
+	err := json.Unmarshal([]byte(message), &data)
+
+	if err == nil {
+		// Save parsed json
+		data["datetime"] = time.Now().UTC()
+		return data
+	} else {
+		// Could not parse json, save entire message.
+		return common.LogRecord{
+			Message:  message,
+			Datetime: time.Now().UTC(),
+		}
 	}
 }
 
