@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/widgets"
 	"github.com/belogik/goes"
+	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/context"
+	"github.com/firstrow/logvoyage/web/widgets"
 )
 
 const (
@@ -162,6 +162,7 @@ func Index(ctx *context.Context) {
 	ctx.HTML(viewName, context.ViewData{
 		"logs":       data.Hits.Hits,
 		"total":      data.Hits.Total,
+		"took":       data.Took,
 		"types":      types,
 		"time":       ctx.Request.URL.Query().Get("time"),
 		"time_start": ctx.Request.URL.Query().Get("time_start"),

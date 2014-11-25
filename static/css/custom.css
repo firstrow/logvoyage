@@ -43,6 +43,11 @@ h3 .actions {
 	font-size:14px;
 }
 
+.search_info {
+	padding: 8px 15px;
+	background-color: #ebeddf;
+}
+
 /* Bootstrap overrides */
 .modal.modal-wide .modal-dialog {
   width: 950px;

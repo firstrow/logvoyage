@@ -1,7 +1,6 @@
 <div class="container-fluid">
   <div class="row" style="background-color:transparent;padding:2px">
     <div class="col-md-12">
-      {{.total}} events
     </div>
   </div>
 </div>
@@ -35,6 +34,9 @@ setInterval(function(){
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 main no-padding">
+    <div class="search_info">
+      Found {{.total}} events in {{.took}}ms
+    </div>
       <div class="table-responsive">
         <table id="logstable" class="table table-striped">
           <tbody>
