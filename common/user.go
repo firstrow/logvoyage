@@ -2,10 +2,13 @@ package common
 
 import (
 	"errors"
+	"net/url"
+	"sort"
+
 	"github.com/Unknwon/com"
 	"github.com/belogik/goes"
 	"github.com/mitchellh/mapstructure"
-	"net/url"
+	"github.com/xlab/handysort"
 )
 
 type User struct {
@@ -23,9 +26,13 @@ func (u *User) GetIndexName() string {
 	return u.ApiKey
 }
 
+// Returns elastic search types
 func (u *User) GetLogTypes() []string {
-	userLogTypes, _ := GetTypes(u.GetIndexName())
-	return userLogTypes
+	t, err := GetTypes(u.GetIndexName())
+	if err != nil {
+		sort.Sort(handysort.Strings(t))
+	}
+	return t
 }
 
 ////////////////////////
