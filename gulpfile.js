@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var less = require('gulp-less');
 var path = require('path');
+var del = require('del')
 
 var js_files = [
 	'static/bower_components/jquery/dist/jquery.min.js',
@@ -26,7 +27,17 @@ var css_files = [
 	'static/css/custom.css',
 ]
 
+var buildCssTask = function(){
+		gulp.src(css_files)
+		.pipe(concat('all.css'))
+		.pipe(gulp.dest('static/build'))
+		.on('end', function() {
+			del(['static/bootstrap.css'])
+		});
+	}
+
 gulp.task('default', function() {
+	// Compile less
 	gulp.src(js_files)
 		.pipe(concat('all.js'))
 		.pipe(gulp.dest('static/build'));
@@ -34,9 +45,6 @@ gulp.task('default', function() {
 	// Less and css
 	gulp.src(['static/less/bootstrap.less'])
 		.pipe(less())
-		.pipe(gulp.dest('static'));
-
-	gulp.src(css_files)
-		.pipe(concat('all.css'))
-		.pipe(gulp.dest('static/build'));
+		.pipe(gulp.dest('static'))
+		.on('end', buildCssTask);
 });
