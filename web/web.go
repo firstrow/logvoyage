@@ -54,7 +54,10 @@ func main() {
 		Layout: "layouts/main",
 	}))
 	// Serve static files
-	m.Use(martini.Static("../static"))
+	m.Use(martini.Static("../static", martini.StaticOptions{
+		Prefix:      "static",
+		SkipLogging: true,
+	}))
 	// Sessions
 	store := sessions.NewCookieStore([]byte("super_secret_key"))
 	m.Use(sessions.Sessions("default", store))
