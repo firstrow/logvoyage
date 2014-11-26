@@ -20,3 +20,4 @@ npm install --save-dev path
 npm install --save-dev del
 gulp
 ```
+After gulp is done you can find result files in static/build directory.
