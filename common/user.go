@@ -100,6 +100,7 @@ func FindUserByApiKey(apiKey string) *User {
 }
 
 func (this *User) Save() {
+	println("Saving user-----------------------")
 	doc := goes.Document{
 		Index:  "users",
 		Type:   "user",

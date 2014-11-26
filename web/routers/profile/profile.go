@@ -15,11 +15,12 @@ type profileForm struct {
 func (this *profileForm) SetupValidation() {
 	this.Valid.Required(this.FirstName, "FirstName")
 	this.Valid.Required(this.LastName, "LastName")
-	this.Valid.MaxSize(this.FirstName, 25, "FristName")
+	this.Valid.MaxSize(this.FirstName, 25, "FirstName")
 	this.Valid.MaxSize(this.LastName, 25, "LastName")
 }
 
 func Index(ctx *context.Context) {
+	ctx.Request.ParseForm()
 	form := &profileForm{
 		EnableValidation: &common.EnableValidation{},
 		FirstName:        ctx.User.FirstName,
@@ -34,9 +35,10 @@ func Index(ctx *context.Context) {
 			ctx.User.FirstName = form.FirstName
 			ctx.User.LastName = form.LastName
 			ctx.User.Save()
+
+			ctx.Session.AddFlash("Your data has been successfully saved.", "success")
+			ctx.Render.Redirect("/profile")
 		}
-		ctx.Session.AddFlash("Your data has been successfully saved.", "success")
-		ctx.Render.Redirect("/profile")
 	}
 
 	ctx.HTML("profile/index", context.ViewData{
