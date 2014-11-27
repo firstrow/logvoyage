@@ -10,7 +10,8 @@
     "d3": "3.4.13",
     "epoch": "0.6.0",
     "less": "v2.0.0",
-    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip"
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
+    "ladda-bootstrap": "v0.1.0"
   },
   "private": true
 }

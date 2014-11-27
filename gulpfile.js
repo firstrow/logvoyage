@@ -14,6 +14,8 @@ var js_files = [
 	'static/bower_components/d3/d3.min.js',
 	'static/bower_components/epoch/epoch.min.js',
 	'static/bower_components/chosen/chosen.jquery.js',
+	'static/bower_components/ladda-bootstrap/dist/spin.min.js',
+	'static/bower_components/ladda-bootstrap/dist/ladda.min.js',
 	'static/js/*',
 ]
 
@@ -24,6 +26,7 @@ var css_files = [
 	'static/bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
 	'static/bower_components/epoch/epoch.min.css',
 	'static/bower_components/chosen/chosen.min.css',
+	'static/bower_components/ladda-bootstrap/dist/ladda-themeless.min.css',
 	'static/css/custom.css',
 ]
 

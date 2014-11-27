@@ -21,7 +21,11 @@ type Context struct {
 
 func (c *Context) HTML(view string, data ViewData) {
 	data["context"] = c
-	c.Render.HTML(200, view, data)
+	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
+		c.Render.HTML(200, view, data, render.HTMLOptions{Layout: ""})
+	} else {
+		c.Render.HTML(200, view, data)
+	}
 }
 
 // Cache all authorized user in memmory

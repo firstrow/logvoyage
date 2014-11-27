@@ -152,13 +152,7 @@ func Index(ctx *context.Context) {
 	pagination.SetTotalRecords(data.Hits.Total)
 
 	var viewName string
-	if data.Hits.Total > 0 && err == nil {
-		viewName = "home/index"
-	} else {
-		viewName = "home/no_records"
-	}
-
-	ctx.HTML(viewName, context.ViewData{
+	viewData := context.ViewData{
 		"logs":       data.Hits.Hits,
 		"total":      data.Hits.Total,
 		"took":       data.Took,
@@ -168,5 +162,17 @@ func Index(ctx *context.Context) {
 		"time_stop":  ctx.Request.URL.Query().Get("time_stop"),
 		"query_text": query_text,
 		"pagination": pagination,
-	})
+	}
+
+	if data.Hits.Total > 0 && err == nil {
+		if ctx.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
+			viewName = "home/table"
+		} else {
+			viewName = "home/index"
+		}
+	} else {
+		viewName = "home/no_records"
+	}
+
+	ctx.HTML(viewName, viewData)
 }

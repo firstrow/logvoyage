@@ -23,6 +23,8 @@ $(function() {
 
 	$('[data-toggle="tooltip"]').tooltip()
 	$(".chosen-select").chosen();
+
+	Ladda.bind('#searchButton');
 });
 
 $(window).resize(function(){
