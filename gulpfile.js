@@ -27,14 +27,14 @@ var css_files = [
 	'static/css/custom.css',
 ]
 
-var buildCssTask = function(){
-		gulp.src(css_files)
+var buildCssTask = function() {
+	gulp.src(css_files)
 		.pipe(concat('all.css'))
 		.pipe(gulp.dest('static/build'))
 		.on('end', function() {
 			del(['static/bootstrap.css'])
 		});
-	}
+}
 
 gulp.task('default', function() {
 	// Compile less
@@ -47,4 +47,8 @@ gulp.task('default', function() {
 		.pipe(less())
 		.pipe(gulp.dest('static'))
 		.on('end', buildCssTask);
+
+	// Copy images for chosen
+	gulp.src('static/bower_components/chosen/chosen-sprite@2x.png')
+		.pipe(gulp.dest('static/build'));
 });
