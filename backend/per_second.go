@@ -4,7 +4,6 @@
 package main
 
 import (
-	"log"
 	"sync"
 	"time"
 
@@ -29,8 +28,6 @@ func initTimers() {
 	defer redisConn.Close()
 
 	for _ = range ticker.C {
-		log.Println(prs)
-
 		prs.Lock()
 
 		var message web_socket.RedisMessage
