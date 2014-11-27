@@ -14,6 +14,7 @@ $(function() {
 				// we should add delay
 				setTimeout(function() {
 					Ladda.stopAll();
+					$("html, body").animate({ scrollTop: 0 }, "fast");
 				}, 300);
 			}
 		});
