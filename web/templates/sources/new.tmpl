@@ -31,7 +31,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Types</label>
               <div class="col-sm-10" style="margin-top:5px">
-                <select name="types" class="chosen-select form-control" multiple="multiple" style="width:30%;">
+                <select name="types" class="chosen-select form-control" multiple="multiple" style="width:400px;">
                   {{range .context.User.GetLogTypes}}
                   <option value="{{.}}" {{if $.form.HasType .}}selected{{end}}>{{.}}</option>
                   {{end}}

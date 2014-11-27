@@ -41,7 +41,13 @@ func loadUser(email string) *common.User {
 }
 
 func Contexter(c martini.Context, r render.Render, sess sessions.Session, req *http.Request) {
-	user := loadUser(sess.Get("email").(string))
+	email := sess.Get("email")
+	var user *common.User
+
+	if email != nil {
+		user = loadUser(sess.Get("email").(string))
+	}
+
 	ctx := &Context{
 		Session: sess,
 		IsGuest: user == nil,
