@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"github.com/belogik/goes"
 	"io/ioutil"
-	"log"
 	"net/http"
+
+	"github.com/belogik/goes"
 )
 
 const (
@@ -17,6 +17,8 @@ const (
 
 var (
 	ErrSendingElasticSearchRequest = errors.New("Error sending request to ES.")
+	ErrCreatingHttpRequest         = errors.New("Could not create http.NewRequest")
+	ErrReadResponse                = errors.New("Could not read ES response")
 	ErrDecodingJson                = errors.New("Error decoding ES response")
 )
 
@@ -69,27 +71,25 @@ func DeleteType(index string, logType string) {
 
 // Send raw bytes to elastic search server
 func SendToElastic(url string, method string, b []byte) (string, error) {
-	eurl := "http://" + ES_HOST + ":" + ES_PORT + "/"
-	eurl += url
+	eurl := "http://" + ES_HOST + ":" + ES_PORT + "/" + url
 
 	req, err := http.NewRequest(method, eurl, bytes.NewBuffer(b))
 	if err != nil {
-		log.Print("Error creating POST request to storage")
+		return "", ErrCreatingHttpRequest
 	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err
+		return "", ErrSendingElasticSearchRequest
 	}
 	defer resp.Body.Close()
 
 	// Read body to close connection
 	// If dont read body golang will keep connection open
 	r, err := ioutil.ReadAll(resp.Body)
-
 	if err != nil {
-		return "", err
+		return "", ErrReadResponse
 	}
 
 	return string(r), nil

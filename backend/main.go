@@ -16,8 +16,9 @@ import (
 )
 
 var (
-	defaultHost = ""
-	defaultPort = "27077"
+	defaultHost     = ""
+	defaultPort     = "27077"
+	errUserNotFound = errors.New("Error. User not found")
 )
 
 func main() {
@@ -44,7 +45,12 @@ func main() {
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
 		indexName, logType, err := extractIndexAndType(message)
 		if err != nil {
-			// TODO: Log error
+			switch err {
+			case common.ErrSendingElasticSearchRequest:
+				log.Println("Backend: ES is down. Enable backlog.")
+			case errUserNotFound:
+				log.Println("Backend: user not found.")
+			}
 		} else {
 			message = common.RemoveApiKey(message)
 			message = strings.TrimSpace(message)
@@ -72,14 +78,17 @@ func extractIndexAndType(message string) (string, string, error) {
 
 	if indexName, ok := userIndexNameCache[key]; ok {
 		return indexName, logType, nil
-	} else {
-		user := common.FindUserByApiKey(key)
-		if user == nil {
-			return "", "", errors.New("Error. User not found")
-		}
-		userIndexNameCache[user.GetIndexName()] = user.GetIndexName()
-		return user.GetIndexName(), logType, nil
 	}
+
+	user, err := common.FindUserByApiKey(key)
+	if err != nil {
+		return "", "", err
+	}
+	if user == nil {
+		return "", "", errUserNotFound
+	}
+	userIndexNameCache[user.GetIndexName()] = user.GetIndexName()
+	return user.GetIndexName(), logType, nil
 }
 
 // Build object from message
@@ -102,10 +111,16 @@ func buildMessage(message string) interface{} {
 
 // Sends data to elastic index
 func toElastic(indexName string, logType string, record interface{}) {
+	log.Println("KOKOKOKO")
 	j, err := json.Marshal(record)
 	if err != nil {
 		log.Print("Error encoding message to JSON")
 	} else {
-		common.SendToElastic(indexName+"/"+logType, "POST", j)
+		result, err := common.SendToElastic(indexName+"/"+logType, "POST", j)
+		if err != nil {
+			log.Println(err.Error())
+		} else {
+			log.Println(result)
+		}
 	}
 }

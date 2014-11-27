@@ -23,8 +23,8 @@ func (this *loginForm) SetupValidation() {
 }
 
 // Search user by login and password
-func findUser(form *loginForm) error {
-	user := common.FindUserByEmail(form.Email)
+func userExists(form *loginForm) error {
+	user, _ := common.FindUserByEmail(form.Email)
 
 	if user == nil {
 		return errors.New("User not found")
@@ -52,7 +52,7 @@ func Login(ctx *context.Context) {
 
 		if !form.EnableValidation.Valid.HasErrors() {
 			// find user
-			err := findUser(form)
+			err := userExists(form)
 			if err != nil {
 				message = "User not found or wrong password"
 			} else {

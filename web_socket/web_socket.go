@@ -125,7 +125,7 @@ func wsHandler(ws *websocket.Conn) {
 
 		// Register user
 		// TODO: Cache user
-		user := common.FindUserByApiKey(message)
+		user, _ := common.FindUserByApiKey(message)
 		if user != nil {
 			log.Println("Registering apiKey", user.ApiKey)
 			clients[user.ApiKey] = ws

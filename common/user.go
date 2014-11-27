@@ -91,16 +91,15 @@ func (u *User) GetSourceGroup(id string) (*SourceGroup, error) {
 // Finders
 ////////////////////////
 
-func FindUserByEmail(email string) *User {
+func FindUserByEmail(email string) (*User, error) {
 	return FindUserBy("email", email)
 }
 
-func FindUserByApiKey(apiKey string) *User {
+func FindUserByApiKey(apiKey string) (*User, error) {
 	return FindUserBy("apiKey", apiKey)
 }
 
 func (this *User) Save() {
-	println("Saving user-----------------------")
 	doc := goes.Document{
 		Index:  "users",
 		Type:   "user",
@@ -111,7 +110,10 @@ func (this *User) Save() {
 	GetConnection().Index(doc, extraArgs)
 }
 
-func FindUserBy(key string, value string) *User {
+// Find user by any param.
+// Returns err if ES can't perform/accept query,
+// and nil if user not found.
+func FindUserBy(key string, value string) (*User, error) {
 	var query = map[string]interface{}{
 		"query": map[string]interface{}{
 			"bool": map[string]interface{}{
@@ -128,13 +130,15 @@ func FindUserBy(key string, value string) *User {
 
 	searchResults, err := GetConnection().Search(query, []string{"users"}, []string{"user"}, url.Values{})
 
-	if err != nil || searchResults.Hits.Total == 0 {
-		return nil
+	if err != nil {
+		return nil, ErrSendingElasticSearchRequest
+	}
+	if searchResults.Hits.Total == 0 {
+		return nil, nil
 	}
 
 	user := &User{}
 	mapstructure.Decode(searchResults.Hits.Hits[0].Source, user)
 	user.Id = searchResults.Hits.Hits[0].Id
-
-	return user
+	return user, nil
 }

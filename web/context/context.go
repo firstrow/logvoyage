@@ -34,11 +34,14 @@ var userCache = make(map[string]*common.User)
 
 func loadUser(email string) *common.User {
 	if email != "" {
-		if val, ok := userCache[email]; ok {
-			return val
+		if u, ok := userCache[email]; ok {
+			return u
 		} else {
-			userCache[email] = common.FindUserByEmail(email)
-			return userCache[email]
+			user, _ := common.FindUserByEmail(email)
+			if user != nil {
+				userCache[email] = user
+				return userCache[email]
+			}
 		}
 	}
 	return nil
