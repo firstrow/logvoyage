@@ -18,4 +18,11 @@ $(function() {
 			}
 		});
 	});
+
+	$("body").on("click", "#pagination a", function(e) {
+		e.preventDefault();
+		$("#logTableContainer").load($(this).attr("href"), function(){
+			 $("html, body").animate({ scrollTop: 0 }, "fast");
+		});
+	});
 });
