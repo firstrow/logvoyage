@@ -21,3 +21,9 @@ npm install --save-dev del
 gulp
 ```
 After gulp is done you can find result files in static/build directory.
+
+### Auto rebuild  
+To automatically rebuild js & css files simply run in console
+```
+node watch.js
+```

@@ -3,6 +3,7 @@ var concat = require('gulp-concat');
 var less = require('gulp-less');
 var path = require('path');
 var del = require('del')
+var watch = require('gulp-watch');
 
 var js_files = [
 	'static/bower_components/jquery/dist/jquery.min.js',
@@ -13,8 +14,7 @@ var js_files = [
 	'static/bower_components/d3/d3.min.js',
 	'static/bower_components/epoch/epoch.min.js',
 	'static/bower_components/chosen/chosen.jquery.js',
-	'static/js/init.js',
-	'static/js/view.js',
+	'static/js/*',
 ]
 
 var css_files = [
@@ -30,13 +30,10 @@ var css_files = [
 var buildCssTask = function() {
 	gulp.src(css_files)
 		.pipe(concat('all.css'))
-		.pipe(gulp.dest('static/build'))
-		.on('end', function() {
-			del(['static/bootstrap.css'])
-		});
+		.pipe(gulp.dest('static/build'));
 }
 
-gulp.task('default', function() {
+var defaultTask = function() {
 	// Compile less
 	gulp.src(js_files)
 		.pipe(concat('all.js'))
@@ -47,8 +44,6 @@ gulp.task('default', function() {
 		.pipe(less())
 		.pipe(gulp.dest('static'))
 		.on('end', buildCssTask);
+}
 
-	// Copy images for chosen
-	gulp.src('static/bower_components/chosen/chosen-sprite@2x.png')
-		.pipe(gulp.dest('static/build'));
-});
+gulp.task('default', defaultTask);
