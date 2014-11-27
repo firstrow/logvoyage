@@ -1,7 +1,7 @@
 // Helps to view log records
 $(function() {
-	$("a.view").click(function(event) {
-		event.preventDefault();
+	$("body").on("click", "a.view", function(e) {
+		e.preventDefault();
 		$.getJSON($(this).attr("href"), function(data) {
 			$(".modal-body").JSONView(data);
 			$("#viewRecordModal").modal();
