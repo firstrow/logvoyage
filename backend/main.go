@@ -7,7 +7,6 @@ import (
 	"errors"
 	"flag"
 	"log"
-	"os"
 	"runtime"
 	"strings"
 	"time"
@@ -44,12 +43,12 @@ func main() {
 	// apiKey@logType Some text
 	// apiKey@logType {message: "Some text", field:"value", ...}
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
+		origMessage := message
 		indexName, logType, err := extractIndexAndType(message)
 		if err != nil {
 			switch err {
 			case common.ErrSendingElasticSearchRequest:
-				log.Println("Backend: ES is down. Enable backlog.")
-				writeToBacklog(message)
+				toBacklog(origMessage)
 			case errUserNotFound:
 				log.Println("Backend: user not found.")
 			}
@@ -57,7 +56,10 @@ func main() {
 			message = common.RemoveApiKey(message)
 			message = strings.TrimSpace(message)
 
-			toElastic(indexName, logType, buildMessage(message))
+			err = toElastic(indexName, logType, buildMessage(message))
+			if err == common.ErrSendingElasticSearchRequest {
+				toBacklog(origMessage)
+			}
 			increaseCounter(indexName)
 		}
 	})
@@ -111,30 +113,16 @@ func buildMessage(message string) interface{} {
 	}
 }
 
-func writeToBacklog(message string) {
-	path, err := os.Getwd()
-	if err != nil {
-		log.Fatal("Can not define current directory")
-	}
-	file, err := os.Open(path + string(os.PathSeparator) + "back.log")
-	if err != nil {
-		log.Fatal("Cant open backlog file")
-	}
-	defer file.Close()
-	file.Write([]byte(message))
-}
-
 // Sends data to elastic index
-func toElastic(indexName string, logType string, record interface{}) {
+func toElastic(indexName string, logType string, record interface{}) error {
 	j, err := json.Marshal(record)
 	if err != nil {
 		log.Print("Error encoding message to JSON")
 	} else {
-		result, err := common.SendToElastic(indexName+"/"+logType, "POST", j)
+		_, err := common.SendToElastic(indexName+"/"+logType, "POST", j)
 		if err != nil {
-			log.Println(err.Error())
-		} else {
-			log.Println(result)
+			return err
 		}
 	}
+	return nil
 }
