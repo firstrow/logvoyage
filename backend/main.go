@@ -95,7 +95,8 @@ func extractIndexAndType(message string) (string, string, error) {
 	return user.GetIndexName(), logType, nil
 }
 
-// Build object from message
+// Prepares message to be inserted into ES.
+// Builds object based on message.
 func buildMessage(message string) interface{} {
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(message), &data)
