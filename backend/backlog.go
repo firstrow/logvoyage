@@ -10,13 +10,14 @@ import (
 )
 
 const (
-	backFileName = "back.log"
+	fallbackFileName = "back.log"
+	checkFreq        = 10 // Number of seconds to run fallback check
 )
 
 var (
 	backFilePath   = ""
 	backlogManager = &backlog{}
-	numStoreMsg    = 5 // Hold in mem only N number of messages, otherwise write to file
+	numStoreMsg    = 10000 // Hold in mem only N number of messages, otherwise write to file
 )
 
 type backlog struct {
@@ -68,11 +69,11 @@ func getFallbackFile() string {
 	if err != nil {
 		return ""
 	}
-	return path + string(os.PathSeparator) + "backlog.txt"
+	return path + string(os.PathSeparator) + fallbackFileName
 }
 
 func initBacklog() {
-	ticker := time.NewTicker(10 * time.Second)
+	ticker := time.NewTicker(checkFreq * time.Second)
 	defer ticker.Stop()
 
 	for _ = range ticker.C {
