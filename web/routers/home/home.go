@@ -166,7 +166,7 @@ func Index(ctx *context.Context) {
 		"pagination": pagination,
 	}
 
-	if data.Hits.Total > 0 && err == nil {
+	if err == nil {
 		if ctx.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
 			viewName = "home/table"
 		} else {

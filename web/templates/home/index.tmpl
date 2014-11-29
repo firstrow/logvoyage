@@ -27,7 +27,11 @@ setInterval(function(){
 </script>
 
 <div id="logTableContainer">
-  {{template "home/table" .}}
+  {{if .total}}
+    {{template "home/table" .}}
+  {{else}}
+    {{template "home/no_records"}}
+  {{end}}
 </div>
 
 <!-- begin view log record modal -->
