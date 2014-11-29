@@ -53,6 +53,8 @@ h3 .actions {
 	-moz-box-shadow: none;
 	box-shadow: none;
 	border: 1px solid #3e3f3a;
+	background: rgb(47,48,44);
+	color: #e0d8c6;
 }
 
 /* Bootstrap overrides */
