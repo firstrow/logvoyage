@@ -4,6 +4,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"sync"
 	"time"
 )
@@ -15,7 +16,7 @@ const (
 var (
 	backFilePath   = ""
 	backlogManager = &backlog{}
-	numStoreMsg    = 10000 // Hold in mem only N number of messages, otherwise write to file
+	numStoreMsg    = 5 // Hold in mem only N number of messages, otherwise write to file
 )
 
 type backlog struct {
@@ -31,7 +32,8 @@ func (b *backlog) AddMessage(m string) {
 		b.lines = append(b.lines, m)
 		b.count++
 	} else {
-		log.Println("Backlog mem is full.")
+		log.Println("Backlog memory is full.")
+		saveMessageToFile(m)
 	}
 	b.Unlock()
 }
@@ -53,7 +55,20 @@ func toBacklog(m string) {
 }
 
 func saveMessageToFile(m string) {
+	file, err := os.OpenFile(getFallbackFile(), os.O_CREATE|os.O_RDWR|os.O_APPEND, 0660)
+	if err != nil {
+		log.Println("Error opening file", err)
+	}
+	defer file.Close()
+	file.WriteString(m)
+}
 
+func getFallbackFile() string {
+	path, err := os.Getwd()
+	if err != nil {
+		return ""
+	}
+	return path + string(os.PathSeparator) + "backlog.txt"
 }
 
 func initBacklog() {
