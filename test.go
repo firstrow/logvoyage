@@ -2,15 +2,13 @@ package main
 
 import (
 	"bufio"
-	"github.com/firstrow/logvoyage/common"
 	"log"
 	"net"
 	"os"
 )
 
 func main() {
-	types, _ := common.GetTypes("0b137205-3291-5f5b-5832-ab2458b9936a")
-	log.Println(types)
+	sendDocs()
 }
 
 func sendDocs() {
@@ -25,12 +23,13 @@ func sendDocs() {
 	}
 	defer file.Close()
 
+	var sent int64
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		conn.Write([]byte("0b137205-3291-5f5b-5832-ab2458b9936a" + scanner.Text() + "\n"))
-	}
-
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		conn.Write([]byte("0b137205-3291-5f5b-5832-ab2458b9936a@logs" + scanner.Text() + "\n"))
+		sent++
+		if sent == 50000 {
+			return
+		}
 	}
 }
