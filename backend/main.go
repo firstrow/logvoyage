@@ -28,6 +28,7 @@ func main() {
 
 	// Initalize counter timer
 	go initTimers()
+	go initBacklog()
 
 	host := flag.String("host", defaultHost, "Host to open server. Set to `localhost` to accept only local connections.")
 	port := flag.String("port", defaultPort, "Port to accept new connections. Default value: "+defaultPort)

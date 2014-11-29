@@ -1,25 +1,52 @@
+// Backlog - holds clients messages that were not delivered to ES.
+// Every 10sec backlog tries to resend messages to ES if backlog file isn't empty.
 package main
 
 import (
-	"log"
-	"os"
+	"sync"
+	"time"
 )
 
-func toBacklog(message string) {
-	path, err := os.Getwd()
-	if err != nil {
-		log.Println("Can't define current directory")
-	}
-	fullPath := path + string(os.PathSeparator) + "back.log"
-	file, err := os.OpenFile(fullPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0660)
-	if err != nil {
-		log.Println("Can't open backlog file")
-		return
-	}
-	defer file.Close()
-	file.Write([]byte(message))
+const (
+	backFileName = "back.log"
+)
+
+var (
+	backFilePath   = ""
+	backlogManager = &backlog{}
+)
+
+type backlog struct {
+	sync.RWMutex
+	lines []string
 }
 
-func resend() {
+// Add new message to queue
+func (b *backlog) AddMessage(m string) {
+	b.Lock()
+	b.lines = append(b.lines, m)
+	b.Unlock()
+}
 
+func (b *backlog) Resend() {
+	b.Lock()
+	processing := b.lines
+	b.lines = []string{}
+	b.Unlock()
+	for _, msg := range processing {
+		processMessage(msg)
+	}
+}
+
+func toBacklog(message string) {
+	backlogManager.AddMessage(message)
+}
+
+func initBacklog() {
+	ticker := time.NewTicker(2 * time.Second)
+	defer ticker.Stop()
+
+	for _ = range ticker.C {
+		backlogManager.Resend()
+	}
 }
