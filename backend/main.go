@@ -43,31 +43,35 @@ func main() {
 	// apiKey@logType Some text
 	// apiKey@logType {message: "Some text", field:"value", ...}
 	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		origMessage := message
-		indexName, logType, err := extractIndexAndType(message)
-		if err != nil {
-			switch err {
-			case common.ErrSendingElasticSearchRequest:
-				toBacklog(origMessage)
-			case errUserNotFound:
-				log.Println("Backend: user not found.")
-			}
-		} else {
-			message = common.RemoveApiKey(message)
-			message = strings.TrimSpace(message)
-
-			err = toElastic(indexName, logType, buildMessage(message))
-			if err == common.ErrSendingElasticSearchRequest {
-				toBacklog(origMessage)
-			}
-			increaseCounter(indexName)
-		}
+		processMessage(message)
 	})
 
 	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
 		log.Print("Client disconnected")
 	})
 	server.Listen()
+}
+
+func processMessage(message string) {
+	origMessage := message
+	indexName, logType, err := extractIndexAndType(message)
+	if err != nil {
+		switch err {
+		case common.ErrSendingElasticSearchRequest:
+			toBacklog(origMessage)
+		case errUserNotFound:
+			log.Println("Backend: user not found.")
+		}
+	} else {
+		message = common.RemoveApiKey(message)
+		message = strings.TrimSpace(message)
+
+		err = toElastic(indexName, logType, buildMessage(message))
+		if err == common.ErrSendingElasticSearchRequest {
+			toBacklog(origMessage)
+		}
+		increaseCounter(indexName)
+	}
 }
 
 // Stores [apiKey]indexName
