@@ -48,6 +48,8 @@ func initTimers() {
 
 // Increases counter of number of logs send to elastic
 func increaseCounter(apiKey string) {
+	prs.Lock()
+	defer prs.Unlock()
 	if _, ok := prs.Logs[apiKey]; ok {
 		prs.Logs[apiKey] += 1
 	} else {

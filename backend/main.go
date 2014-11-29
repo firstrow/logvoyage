@@ -7,6 +7,7 @@ import (
 	"errors"
 	"flag"
 	"log"
+	"os"
 	"runtime"
 	"strings"
 	"time"
@@ -48,6 +49,7 @@ func main() {
 			switch err {
 			case common.ErrSendingElasticSearchRequest:
 				log.Println("Backend: ES is down. Enable backlog.")
+				writeToBacklog(message)
 			case errUserNotFound:
 				log.Println("Backend: user not found.")
 			}
@@ -107,6 +109,19 @@ func buildMessage(message string) interface{} {
 			Datetime: time.Now().UTC(),
 		}
 	}
+}
+
+func writeToBacklog(message string) {
+	path, err := os.Getwd()
+	if err != nil {
+		log.Fatal("Can not define current directory")
+	}
+	file, err := os.Open(path + string(os.PathSeparator) + "back.log")
+	if err != nil {
+		log.Fatal("Cant open backlog file")
+	}
+	defer file.Close()
+	file.Write([]byte(message))
 }
 
 // Sends data to elastic index
