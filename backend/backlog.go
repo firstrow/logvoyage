@@ -31,7 +31,7 @@ func (b *backlog) AddMessage(m string) {
 		b.lines = append(b.lines, m)
 		b.count++
 	} else {
-		log.Println("Backlof is full.")
+		log.Println("Backlog mem is full.")
 	}
 	b.Unlock()
 }
