@@ -70,8 +70,9 @@ func processMessage(message string) {
 		err = toElastic(indexName, logType, buildMessage(message))
 		if err == common.ErrSendingElasticSearchRequest {
 			toBacklog(origMessage)
+		} else {
+			increaseCounter(indexName)
 		}
-		increaseCounter(indexName)
 	}
 }
 
