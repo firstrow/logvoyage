@@ -111,7 +111,6 @@ func buildMessage(message string) interface{} {
 
 // Sends data to elastic index
 func toElastic(indexName string, logType string, record interface{}) {
-	log.Println("KOKOKOKO")
 	j, err := json.Marshal(record)
 	if err != nil {
 		log.Print("Error encoding message to JSON")

@@ -46,7 +46,13 @@ h3 .actions {
 .search_info {
 	padding: 8px 8px 8px 5px;
 	background-color: #ebeddf;
-	/*border-bottom: 2px solid silver;*/
+}
+
+#searchBox {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	border: 1px solid #3e3f3a;
 }
 
 /* Bootstrap overrides */

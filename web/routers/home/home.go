@@ -137,6 +137,8 @@ func Index(ctx *context.Context) {
 	pagination := widgets.NewPagination(ctx.Request)
 	pagination.SetPerPage(perPage)
 
+	println(ctx.User)
+
 	// Load records
 	searchRequest := buildSearchRequest(
 		query_text,

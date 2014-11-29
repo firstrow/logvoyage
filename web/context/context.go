@@ -28,31 +28,14 @@ func (c *Context) HTML(view string, data ViewData) {
 	}
 }
 
-// Cache all authorized user in memmory
-// TODO: Clear cache in lastActivity < now() - 1minute
-var userCache = make(map[string]*common.User)
-
-func loadUser(email string) *common.User {
-	if email != "" {
-		if u, ok := userCache[email]; ok {
-			return u
-		} else {
-			user, _ := common.FindUserByEmail(email)
-			if user != nil {
-				userCache[email] = user
-				return userCache[email]
-			}
-		}
-	}
-	return nil
-}
-
 func Contexter(c martini.Context, r render.Render, sess sessions.Session, req *http.Request) {
 	email := sess.Get("email")
 	var user *common.User
 
 	if email != nil {
-		user = loadUser(sess.Get("email").(string))
+		user = common.FindCachedUser(email.(string))
+	} else {
+		user = nil
 	}
 
 	ctx := &Context{
