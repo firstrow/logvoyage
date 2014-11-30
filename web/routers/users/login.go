@@ -57,7 +57,7 @@ func Login(ctx *context.Context) {
 				message = "User not found or wrong password"
 			} else {
 				ctx.Session.Set("email", form.Email)
-				ctx.Render.Redirect("/dashboard")
+				ctx.Render.Redirect("/")
 			}
 		}
 	}

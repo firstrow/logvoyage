@@ -24,6 +24,6 @@ func Authorize(r render.Render, sess sessions.Session) {
 func RedirectIfAuthorized(r render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email != nil {
-		r.Redirect("/dashboard")
+		r.Redirect("/")
 	}
 }

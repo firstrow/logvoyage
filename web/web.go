@@ -71,7 +71,7 @@ func main() {
 		ctx.HTML("maintenance", context.ViewData{}, true)
 	})
 	// Auth routes
-	m.Get("/dashboard", middleware.Authorize, home.Index)
+	m.Get("/", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)
 	m.Any("/profile", middleware.Authorize, profile.Index)
 	// Sources
