@@ -67,3 +67,8 @@ func Login(ctx *context.Context) {
 		"message": message,
 	})
 }
+
+func Logout(ctx *context.Context) {
+	ctx.Session.Clear()
+	ctx.Render.Redirect("/")
+}

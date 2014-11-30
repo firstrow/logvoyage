@@ -13,10 +13,14 @@ func Authorize(r render.Render, sess sessions.Session) {
 		user, err := common.FindCachedUser(email.(string))
 		if err == common.ErrSendingElasticSearchRequest {
 			r.Redirect("/maintenance")
+			return
 		}
 		if user == nil {
 			r.Redirect("/login")
+			return
 		}
+	} else {
+		r.Redirect("/login")
 	}
 }
 

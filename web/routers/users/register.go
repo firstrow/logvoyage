@@ -1,13 +1,16 @@
 package users
 
 import (
+	"fmt"
 	"net/url"
+	"time"
 
 	"github.com/Unknwon/com"
 	"github.com/belogik/goes"
+	"github.com/nu7hatch/gouuid"
+
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/context"
-	"github.com/nu7hatch/gouuid"
 )
 
 type registerForm struct {
@@ -16,12 +19,21 @@ type registerForm struct {
 	Password string
 }
 
-func (this *registerForm) SetupValidation() {
-	this.Valid.Required(this.Email, "Email")
-	this.Valid.Email(this.Email, "Email")
-	this.Valid.Required(this.Password, "Password")
-	this.Valid.MinSize(this.Password, 5, "Password")
-	this.Valid.MaxSize(this.Password, 25, "Password")
+func (r *registerForm) IsValid() bool {
+	user, _ := common.FindUserByEmail(r.Email)
+	if user != nil {
+		r.Valid.SetError("Email", "This email is already taken")
+		return false
+	}
+	return true
+}
+
+func (r *registerForm) SetupValidation() {
+	r.Valid.Required(r.Email, "Email")
+	r.Valid.Email(r.Email, "Email")
+	r.Valid.Required(r.Password, "Password")
+	r.Valid.MinSize(r.Password, 5, "Password")
+	r.Valid.MaxSize(r.Password, 25, "Password")
 }
 
 func Register(ctx *context.Context) {
@@ -35,8 +47,7 @@ func Register(ctx *context.Context) {
 		form.Password = ctx.Request.Form.Get("password")
 		form.SetupValidation()
 
-		if !form.EnableValidation.Valid.HasErrors() {
-			apiKey, _ := uuid.NewV5(uuid.NamespaceURL, []byte(form.Email))
+		if !form.EnableValidation.Valid.HasErrors() && form.IsValid() {
 
 			doc := goes.Document{
 				Index: "users",
@@ -44,7 +55,7 @@ func Register(ctx *context.Context) {
 				Fields: map[string]string{
 					"email":    form.Email,
 					"password": com.Sha256(form.Password),
-					"apiKey":   apiKey.String(),
+					"apiKey":   buildApiKey(form.Email),
 				},
 			}
 			extraArgs := make(url.Values, 0)
@@ -56,4 +67,10 @@ func Register(ctx *context.Context) {
 	ctx.HTML("users/register", context.ViewData{
 		"form": form,
 	})
+}
+
+func buildApiKey(email string) string {
+	t := fmt.Sprintf("%%", email, time.Now().Nanosecond())
+	apiKey, _ := uuid.NewV5(uuid.NamespaceURL, []byte(t))
+	return apiKey.String()
 }
