@@ -149,7 +149,7 @@ func Index(ctx *context.Context) {
 		buildTimeRange(ctx.Request),
 	)
 	// Search data in elastic
-	data, err := search(searchRequest)
+	data, _ := search(searchRequest)
 
 	pagination.SetTotalRecords(data.Hits.Total)
 
@@ -166,14 +166,10 @@ func Index(ctx *context.Context) {
 		"pagination": pagination,
 	}
 
-	if err == nil {
-		if ctx.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
-			viewName = "home/table"
-		} else {
-			viewName = "home/index"
-		}
+	if ctx.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
+		viewName = "home/table"
 	} else {
-		viewName = "home/no_records"
+		viewName = "home/index"
 	}
 
 	ctx.HTML(viewName, viewData)

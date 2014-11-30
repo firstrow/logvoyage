@@ -91,9 +91,9 @@
 })(jQuery);
 
 $(function(){
-    // Shift+s - close all popups and focus on search box
-    $('body').hotKey({ key: 's', modifier: 'shift' }, function(){
-    	$(".close").click();
+    // Alt+s - close all popups and focus on search box
+    $('body').hotKey({ key: 's', modifier: 'alt' }, function(){
+    	$(".modal .close").click();
     	$("#searchBox").focus();
     });
 });
