@@ -10,7 +10,10 @@ import (
 func Authorize(r render.Render, sess sessions.Session) {
 	email := sess.Get("email")
 	if email != nil {
-		user := common.FindCachedUser(email.(string))
+		user, err := common.FindCachedUser(email.(string))
+		if err == common.ErrSendingElasticSearchRequest {
+			r.Redirect("/maintenance")
+		}
 		if user == nil {
 			r.Redirect("/login")
 		}

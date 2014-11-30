@@ -67,6 +67,9 @@ func main() {
 	// Routes
 	m.Any("/register", middleware.RedirectIfAuthorized, users.Register)
 	m.Any("/login", middleware.RedirectIfAuthorized, users.Login)
+	m.Get("/maintenance", func(ctx *context.Context) {
+		ctx.HTML("maintenance", context.ViewData{}, true)
+	})
 	// Auth routes
 	m.Get("/dashboard", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)

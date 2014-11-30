@@ -19,9 +19,9 @@ type Context struct {
 	IsGuest bool
 }
 
-func (c *Context) HTML(view string, data ViewData) {
+func (c *Context) HTML(view string, data ViewData, disLayout ...bool) {
 	data["context"] = c
-	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
+	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" || len(disLayout) > 0 {
 		c.Render.HTML(200, view, data, render.HTMLOptions{Layout: ""})
 	} else {
 		c.Render.HTML(200, view, data)
@@ -33,7 +33,7 @@ func Contexter(c martini.Context, r render.Render, sess sessions.Session, req *h
 	var user *common.User
 
 	if email != nil {
-		user = common.FindCachedUser(email.(string))
+		user, _ = common.FindCachedUser(email.(string))
 	} else {
 		user = nil
 	}
