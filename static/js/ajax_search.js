@@ -1,5 +1,11 @@
 // On submit log search form send ajax request
 $(function() {
+	// Enable ajax search only on start page.
+	// If user is on other page will work regular GET request
+	if (window.location.pathname != "/") {
+		return;
+	}
+	
 	$("#searchForm").submit(function(e) {
 		e.preventDefault();
 		$.ajax({
