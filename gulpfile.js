@@ -16,6 +16,7 @@ var js_files = [
 	'static/bower_components/chosen/chosen.jquery.js',
 	'static/bower_components/ladda-bootstrap/dist/spin.min.js',
 	'static/bower_components/ladda-bootstrap/dist/ladda.min.js',
+	'static/bower_components/jquery.hotkeys/jquery.hotkeys.js',
 	'static/js/*',
 ]
 
