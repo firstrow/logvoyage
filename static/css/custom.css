@@ -60,6 +60,10 @@ h3 .actions {
 #searchBox:focus {
 }
 
+.jsonview {
+	font-size:13px;
+}
+
 /* Bootstrap overrides */
 .modal.modal-wide .modal-dialog {
   width: 950px;

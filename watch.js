@@ -7,6 +7,10 @@ function puts(error, stdout, stderr) {
 	sys.puts(stdout)
 }
 
-gaze.on('all', function(event, filepath) {
+function runGulpRun() {
 	exec("gulp && sleep 1 && killall gulp", puts);
+}
+
+gaze.on('all', function(event, filepath) {
+	runGulpRun();
 });
