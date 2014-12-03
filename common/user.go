@@ -12,13 +12,13 @@ import (
 )
 
 type User struct {
-	Id           string         `json:"id"`
-	Email        string         `json:"email"`
-	FirstName    string         `json:"firstName"`
-	LastName     string         `json:"lastName"`
-	Password     string         `json:"password"`
-	ApiKey       string         `json:"apiKey"`
-	SourceGroups []*SourceGroup `json:"sourceGroups"`
+	Id        string     `json:"id"`
+	Email     string     `json:"email"`
+	FirstName string     `json:"firstName"`
+	LastName  string     `json:"lastName"`
+	Password  string     `json:"password"`
+	ApiKey    string     `json:"apiKey"`
+	Projects  []*Project `json:"projects"`
 }
 
 // Returns index name to use in Elastic
@@ -41,45 +41,45 @@ func (u *User) GetLogTypes() []string {
 
 // Source group represent group of log types.
 // Each log type can be in various groups at the same time.
-type SourceGroup struct {
+type Project struct {
 	Id          string   `json:"id"`
 	Name        string   `json:"name"`
 	Description string   `json:"description"`
 	Types       []string `json:"types"`
 }
 
-func (u *User) AddSourceGroup(group *SourceGroup) *User {
-	if group.Id == "" {
+func (u *User) AddProject(p *Project) *User {
+	if p.Id == "" {
 		key := com.RandomCreateBytes(5)
-		group.Id = string(key)
-		u.SourceGroups = append(u.SourceGroups, group)
+		p.Id = string(key)
+		u.Projects = append(u.Projects, p)
 	} else {
-		u.UpdateSourceGroup(group)
+		u.UpdateProject(p)
 	}
 	return u
 }
 
-func (u *User) UpdateSourceGroup(group *SourceGroup) {
-	for key, g := range u.SourceGroups {
-		if group.Id == g.Id {
-			u.SourceGroups[key] = group
+func (u *User) UpdateProject(p *Project) {
+	for key, g := range u.Projects {
+		if p.Id == g.Id {
+			u.Projects[key] = p
 		}
 	}
 }
 
-func (u *User) DeleteSourceGroup(id string) {
-	for i, val := range u.SourceGroups {
+func (u *User) DeleteProject(id string) {
+	for i, val := range u.Projects {
 		if val.Id == id {
-			copy(u.SourceGroups[i:], u.SourceGroups[i+1:])
-			u.SourceGroups[len(u.SourceGroups)-1] = nil // or the zero value of T
-			u.SourceGroups = u.SourceGroups[:len(u.SourceGroups)-1]
+			copy(u.Projects[i:], u.Projects[i+1:])
+			u.Projects[len(u.Projects)-1] = nil // or the zero value of T
+			u.Projects = u.Projects[:len(u.Projects)-1]
 			return
 		}
 	}
 }
 
-func (u *User) GetSourceGroup(id string) (*SourceGroup, error) {
-	for _, val := range u.SourceGroups {
+func (u *User) GetProject(id string) (*Project, error) {
+	for _, val := range u.Projects {
 		if val.Id == id {
 			return val, nil
 		}

@@ -11,11 +11,11 @@ import (
 // Renders widget with user source groups.
 // groups - user source groups
 // selected - list if types in query string
-func NewSourceGroups(groups []*common.SourceGroup, selected []string) template.HTML {
+func NewSourceGroups(project []*common.Project, selected []string) template.HTML {
 	var result string
-	// Iterate over users source groups
-	for _, gr := range groups {
-		// If group has some types
+	// Iterate over users projects
+	for _, gr := range project {
+		// If types has some types
 		if len(gr.Types) > 0 {
 			result += fmt.Sprintf(`<optgroup label="%s">`, gr.Name)
 			for _, t := range gr.Types {

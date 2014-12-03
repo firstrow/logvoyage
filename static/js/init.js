@@ -8,7 +8,7 @@ $(function() {
         enableClickableOptGroups: true,
 		buttonWidth: '200px',
 		numberDisplayed: 2,
-		nonSelectedText: 'All sources'
+		nonSelectedText: 'All projects'
     });
 
 	$("#time").change(function(){

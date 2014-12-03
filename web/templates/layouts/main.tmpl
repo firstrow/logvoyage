@@ -31,17 +31,17 @@
 					<form class="navbar-form navbar-left" role="search" action="/" method="get" id="searchForm">
 						<div class="input-group">
 							<div class="input-group-btn">
-								{{if isEmpty .context.User.SourceGroups}}
-								<a href="/sources/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one group">
-									Create first source
+								{{if isEmpty .context.User.Projects}}
+								<a href="/projects/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one group">
+									Create project
 								</a>
 								{{else}}
 								<select class="form-control" id="logType" multiple="multiple" name="types">
-									{{renderSourceGroupsWidget .context.User.SourceGroups .types}}
+									{{renderSourceGroupsWidget .context.User.Projects .types}}
 								</select>
 								{{end}}
 							</div>
-							<input type="text"  name="q" class="form-control" autocomplete="off" id="searchBox" value="{{.query_text}}" style="width:400px" placeholder="Search">
+							<input type="text"  name="q" class="form-control" autocomplete="off" id="searchBox" value="{{.query_text}}"placeholder="Search">
 							<div class="input-group-btn">
 								<button  data-style="zoom-in" type="submit" class="btn btn-primary ladda-button" id="searchButton">
 								<span class="glyphicon glyphicon-search ladda-label"></span>
@@ -67,8 +67,8 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="/profile">Profile</a></li>
-									<li><a href="/sources">Source groups</a></li>
-									<li><a href="/sources/types">Types</a></li>
+									<li><a href="/projects">Projects</a></li>
+									<li><a href="/projects/types">Types</a></li>
 									<li class="divider"></li>
 									<li><a href="/logout">Logout</a></li>
 								</ul>

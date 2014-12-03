@@ -37,7 +37,7 @@
 	outline: none;
 }
 
-h3 .actions {
+h2 .actions {
 	padding-right: 15px;
 	padding-top: 5px;
 	font-size:14px;
@@ -55,6 +55,7 @@ h3 .actions {
 	border: 1px solid #3e3f3a;
 	background: rgb(47,48,44);
 	color: #e0d8c6;
+	width:500px;
 }
 
 #searchBox:focus {
@@ -62,6 +63,7 @@ h3 .actions {
 
 .jsonview {
 	font-size:13px;
+	word-wrap: break-word;
 }
 
 /* Bootstrap overrides */

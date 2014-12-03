@@ -15,7 +15,7 @@ import (
 	"github.com/firstrow/logvoyage/web/middleware"
 	"github.com/firstrow/logvoyage/web/routers/home"
 	"github.com/firstrow/logvoyage/web/routers/profile"
-	"github.com/firstrow/logvoyage/web/routers/sources"
+	"github.com/firstrow/logvoyage/web/routers/projects"
 	"github.com/firstrow/logvoyage/web/routers/users"
 	"github.com/firstrow/logvoyage/web/widgets"
 	"github.com/firstrow/logvoyage/web_socket"
@@ -75,15 +75,15 @@ func main() {
 	m.Get("/", middleware.Authorize, home.Index)
 	m.Get("/view", middleware.Authorize, home.View)
 	m.Any("/profile", middleware.Authorize, profile.Index)
-	// Sources
-	m.Group("/sources", func(r martini.Router) {
-		r.Any("", sources.Index)
-		r.Any("/new", sources.New)
-		r.Any("/edit/:id", sources.Edit)
-		r.Any("/delete/:id", sources.Delete)
+	// Projects
+	m.Group("/projects", func(r martini.Router) {
+		r.Any("", projects.Index)
+		r.Any("/new", projects.New)
+		r.Any("/edit/:id", projects.Edit)
+		r.Any("/delete/:id", projects.Delete)
 		// Types
-		r.Any("/types", sources.Types)
-		r.Any("/types/delete/:name", sources.DeleteType)
+		r.Any("/types", projects.Types)
+		r.Any("/types/delete/:name", projects.DeleteType)
 	}, middleware.Authorize)
 
 	go web_socket.StartServer()

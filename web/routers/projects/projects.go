@@ -1,4 +1,4 @@
-package sources
+package projects
 
 import (
 	"github.com/Unknwon/com"
@@ -7,7 +7,7 @@ import (
 	"github.com/go-martini/martini"
 )
 
-type sourceGroupForm struct {
+type projectForm struct {
 	*common.EnableValidation
 	Name        string
 	Description string
@@ -15,18 +15,18 @@ type sourceGroupForm struct {
 	Id          string
 }
 
-func (s *sourceGroupForm) HasType(typeName string) bool {
+func (s *projectForm) HasType(typeName string) bool {
 	return com.IsSliceContainsStr(s.Types, typeName)
 }
 
-func (s *sourceGroupForm) SetupValidation() {
+func (s *projectForm) SetupValidation() {
 	s.Valid.Required(s.Name, "Name")
 	s.Valid.MaxSize(s.Name, 25, "Name")
 	s.Valid.MaxSize(s.Description, 250, "Description")
 }
 
 func Index(ctx *context.Context) {
-	ctx.HTML("sources/index", context.ViewData{})
+	ctx.HTML("projects/index", context.ViewData{})
 }
 
 func New(ctx *context.Context) {
@@ -36,7 +36,7 @@ func New(ctx *context.Context) {
 
 func Edit(ctx *context.Context, params martini.Params) {
 	form := buildForm(ctx)
-	group, err := ctx.User.GetSourceGroup(params["id"])
+	group, err := ctx.User.GetProject(params["id"])
 
 	if err != nil {
 		ctx.Render.Error(404)
@@ -50,21 +50,21 @@ func Edit(ctx *context.Context, params martini.Params) {
 }
 
 func Delete(ctx *context.Context, params martini.Params) {
-	ctx.User.DeleteSourceGroup(params["id"])
+	ctx.User.DeleteProject(params["id"])
 	ctx.User.Save()
-	ctx.Session.AddFlash("Source group has been successfully deleted.", "success")
-	ctx.Render.Redirect("/sources")
+	ctx.Session.AddFlash("Project has been successfully deleted.", "success")
+	ctx.Render.Redirect("/projects")
 }
 
-func buildForm(ctx *context.Context) *sourceGroupForm {
+func buildForm(ctx *context.Context) *projectForm {
 	ctx.Request.ParseForm()
-	form := &sourceGroupForm{
+	form := &projectForm{
 		EnableValidation: &common.EnableValidation{},
 	}
 	return form
 }
 
-func update(ctx *context.Context, form *sourceGroupForm) {
+func update(ctx *context.Context, form *projectForm) {
 	if ctx.Request.Method == "POST" {
 		form.Name = ctx.Request.Form.Get("name")
 		form.Description = ctx.Request.Form.Get("description")
@@ -72,19 +72,19 @@ func update(ctx *context.Context, form *sourceGroupForm) {
 		form.SetupValidation()
 
 		if !form.EnableValidation.Valid.HasErrors() {
-			group := &common.SourceGroup{
+			group := &common.Project{
 				Id:          form.Id,
 				Name:        form.Name,
 				Description: form.Description,
 				Types:       form.Types,
 			}
-			ctx.User.AddSourceGroup(group).Save()
-			ctx.Session.AddFlash("Source group has been successfully saved.", "success")
-			ctx.Render.Redirect("/sources")
+			ctx.User.AddProject(group).Save()
+			ctx.Session.AddFlash("Project has been successfully saved.", "success")
+			ctx.Render.Redirect("/projects")
 		}
 	}
 
-	ctx.HTML("sources/new", context.ViewData{
+	ctx.HTML("projects/new", context.ViewData{
 		"form": form,
 	})
 }
