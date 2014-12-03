@@ -42,9 +42,9 @@ func main() {
 			}
 			return true
 		},
-		"eq":                       reflect.DeepEqual,
-		"isSliceContainsStr":       com.IsSliceContainsStr,
-		"renderSourceGroupsWidget": widgets.NewSourceGroups,
+		"eq":                 reflect.DeepEqual,
+		"isSliceContainsStr": com.IsSliceContainsStr,
+		"projectsWidget":     widgets.ProjectsWidget,
 	}
 
 	m := martini.Classic()

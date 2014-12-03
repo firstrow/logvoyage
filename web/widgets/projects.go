@@ -11,7 +11,7 @@ import (
 // Renders widget with user source groups.
 // groups - user source groups
 // selected - list if types in query string
-func NewSourceGroups(project []*common.Project, selected []string) template.HTML {
+func ProjectsWidget(project []*common.Project, selected []string) template.HTML {
 	var result string
 	// Iterate over users projects
 	for _, gr := range project {

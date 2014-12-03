@@ -37,7 +37,7 @@
 								</a>
 								{{else}}
 								<select class="form-control" id="logType" multiple="multiple" name="types">
-									{{renderSourceGroupsWidget .context.User.Projects .types}}
+									{{projectsWidget .context.User.Projects .types}}
 								</select>
 								{{end}}
 							</div>
