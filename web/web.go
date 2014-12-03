@@ -45,6 +45,7 @@ func main() {
 		"eq":                 reflect.DeepEqual,
 		"isSliceContainsStr": com.IsSliceContainsStr,
 		"projectsWidget":     widgets.ProjectsWidget,
+		"buildLogLine":       widgets.BuildLogLine,
 	}
 
 	m := martini.Classic()

@@ -15,7 +15,7 @@
                 <a href="/view/?type={{.Type}}&id={{.Id}}" data-type="{{.Type}}" data-datetime="{{.Source.datetime | FormatTimeToHuman}}" class="view">
                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 </a>
-                {{.Source.message}}
+                {{.Source | buildLogLine}}
               </td>
             </tr>
             {{end}}
