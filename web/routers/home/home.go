@@ -65,7 +65,7 @@ func buildTimeRange(req *http.Request) DateTimeRange {
 	case "24h":
 		timeRange.Start = "now-24h"
 	case "week":
-		timeRange.Start = "now-1d"
+		timeRange.Start = "now-7d"
 	case "custom":
 		timeStart, err := time.Parse(timeLayout, req.URL.Query().Get("time_start"))
 		if err == nil {
@@ -136,8 +136,6 @@ func Index(ctx *context.Context) {
 	// Pagination
 	pagination := widgets.NewPagination(ctx.Request)
 	pagination.SetPerPage(perPage)
-
-	println(ctx.User)
 
 	// Load records
 	searchRequest := buildSearchRequest(
