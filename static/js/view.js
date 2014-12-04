@@ -5,7 +5,7 @@ $(function() {
 		var el = this;
 		$("#recordViewLabel").html($(this).data("type"));
 		$("#recordViewDateTime").html($(this).data("datetime"));
-		$("#viewRecordModal .btn-danger").click(function() {
+		$("#viewRecordModal .btn-danger").unbind("click").click(function() {
 			if (confirm("Are you sure want to delete this event?")) {
 				$.ajax({
 					url: $(el).attr("href"),
