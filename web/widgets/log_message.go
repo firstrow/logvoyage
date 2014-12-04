@@ -13,6 +13,7 @@ func BuildLogLine(s map[string]interface{}) string {
 	message := s["message"]
 	delete(s, "datetime")
 	delete(s, "message")
+	// If records has additional json attributes
 	if len(s) > 0 {
 		j, err := json.Marshal(s)
 		if err != nil {
