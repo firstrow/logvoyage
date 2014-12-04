@@ -74,8 +74,10 @@ func main() {
 	})
 	// Auth routes
 	m.Get("/", middleware.Authorize, home.Index)
-	m.Get("/view", middleware.Authorize, home.View)
 	m.Any("/profile", middleware.Authorize, profile.Index)
+	// Logs
+	m.Get("/log/:id/type/:type", middleware.Authorize, home.View)
+	m.Delete("/log/:id/type/:type", middleware.Authorize, home.Delete)
 	// Projects
 	m.Group("/projects", func(r martini.Router) {
 		r.Any("", projects.Index)

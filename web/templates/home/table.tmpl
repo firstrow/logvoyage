@@ -12,7 +12,7 @@
             <tr>
               <td style="min-width:160px;width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
               <td>
-                <a href="/view/?type={{.Type}}&id={{.Id}}" data-type="{{.Type}}" data-datetime="{{.Source.datetime | FormatTimeToHuman}}" class="view">
+                <a href="/log/{{.Id}}/type/{{.Type}}" data-type="{{.Type}}" data-datetime="{{.Source.datetime | FormatTimeToHuman}}" class="view">
                   <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                 </a>
                 {{.Source | buildLogLine}}
