@@ -13,7 +13,6 @@ $(function() {
 					success: function() {
 						$(".modal .close").click();
 						$(el).parents("tr").css("opacity", "0.2");
-						$(el).remove();
 					},
 					error: function() {
 						alert("Error: Record not deleted.")
