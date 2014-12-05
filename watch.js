@@ -11,6 +11,8 @@ function runGulpRun() {
 	exec("gulp && sleep 1 && killall gulp", puts);
 }
 
+runGulpRun();
+
 gaze.on('all', function(event, filepath) {
 	runGulpRun();
 });
