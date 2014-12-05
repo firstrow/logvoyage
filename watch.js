@@ -8,7 +8,7 @@ function puts(error, stdout, stderr) {
 }
 
 function runGulpRun() {
-	exec("gulp && sleep 1 && killall gulp", puts);
+	exec("gulp && sleep 0.5 && killall gulp", puts);
 }
 
 runGulpRun();
