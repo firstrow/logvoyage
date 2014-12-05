@@ -6,50 +6,48 @@
   </ol>
   <div class="row">
     <div class="col-md-6">
-      <h2>New project</h2>
-      <div class="panel panel-default">
-        <div class="panel-footer">
-          <form class="form-horizontal" role="form" method="post">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Name</label>
-              <div class="col-sm-10">
-                <input type="text" name="name" value="{{.form.Name}}" class="form-control" placeholder="First name">
-                <div class="error">
-                  {{.form.GetError "Name"}}
-                </div>
+      <div class="well bs-component">
+        <form class="form-horizontal" role="form" method="post">
+          <legend>New project</legend>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{.form.Name}}" class="form-control" placeholder="First name">
+              <div class="error">
+                {{.form.GetError "Name"}}
               </div>
             </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Description</label>
-              <div class="col-sm-10">
-                <input type="text" name="description" value="{{.form.Description}}" class="form-control" placeholder="Last name">
-                <div class="error">
-                  {{.form.GetError "Description"}}
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+              <input type="text" name="description" value="{{.form.Description}}" class="form-control" placeholder="Last name">
+              <div class="error">
+                {{.form.GetError "Description"}}
               </div>
             </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Types</label>
-              <div class="col-sm-10" style="margin-top:5px">
-                <select name="types" class="chosen-select form-control" multiple="multiple" style="width:400px;">
-                  {{range .context.User.GetLogTypes}}
-                  <option value="{{.}}" {{if $.form.HasType .}}selected{{end}}>{{.}}</option>
-                  {{end}}
-                </select>
-                <div class="error">
-                  {{.form.GetError "Types"}}
-                </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Types</label>
+            <div class="col-sm-10" style="margin-top:5px">
+              <select name="types" class="chosen-select form-control" multiple="multiple" style="width:400px;">
+                {{range .context.User.GetLogTypes}}
+                <option value="{{.}}" {{if $.form.HasType .}}selected{{end}}>{{.}}</option>
+                {{end}}
+              </select>
+              <div class="error">
+                {{.form.GetError "Types"}}
               </div>
             </div>
-            <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Save</button>
-                or
-                <a href="/projects">Cancel</a>
-              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Save</button>
+              or
+              <a href="/projects">Cancel</a>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
