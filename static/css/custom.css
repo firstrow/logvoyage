@@ -59,6 +59,7 @@ h2 .actions {
 }
 
 #searchBox:focus {
+	/*TODO: Add bg;*/
 }
 
 .jsonview {
