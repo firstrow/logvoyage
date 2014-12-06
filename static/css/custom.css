@@ -71,6 +71,21 @@ a.view {
 	text-decoration: none;
 }
 
+.list_actions {
+	position:absolute;
+	right:40px;
+	z-index:100;
+	display: none;
+}
+
+.list_actions a {
+	text-decoration: none;
+}
+
+.well:hover .list_actions {
+	display: block;
+}
+
 /* Bootstrap overrides */
 .modal.modal-wide .modal-dialog {
   width: 950px;

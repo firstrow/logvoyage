@@ -1,10 +1,8 @@
 <div class="container-fluid">
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li class="active">Projects</li>
-  </ol>
+  <div class="row"></div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
       <h2>
       Projects
       <span class="actions">
@@ -13,60 +11,52 @@
       </a>
       </span>
       </h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
       {{if isEmpty .context.User.Projects}}
       No projects found.
       {{end}}
       {{range .context.User.Projects}}
-      <div class="panel panel-default">
-        <div class="panel-footer">
-          <form class="form-horizontal" role="form" method="post">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Name</label>
-              <div class="col-sm-10" style="padding-top:10px">
-                <a href="/projects/edit/{{.Id}}">{{.Name}}</a>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Description</label>
-              <div class="col-sm-10" style="padding-top:10px">
-                {{if len .Description}}
-                {{.Description}}
-                {{else}}
-                <span style="color:#979797">None</span>
-                {{end}}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Types</label>
-              <div class="col-sm-10" style="padding-top:10px">
-                {{if len .Types}}
-                {{range .Types}}
-                {{.}}
-                {{end}}
-                {{else}}
-                <span style="color:#979797">Empty types list. You should add at least one type.</span>
-                {{end}}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label"></label>
-              <div class="col-sm-10" style="padding-top:10px">
-                <a href="/projects/edit/{{.Id}}"  class="btn btn-sm btn-success">
-                  <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
-                </a>
-                <a href="/projects/delete/{{.Id}}"  class="btn btn-sm btn-danger confirm">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
-                </a>
-              </div>
-            </div>
-          </form>
+      <div class="well bs-component">
+        <div class="list_actions">
+          <a href="/projects/edit/{{.Id}}">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+          </a>
+          <a href="/projects/delete/{{.Id}}" class="confirm">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </a>
         </div>
+        <form class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10" style="padding-top:10px">
+              <a href="/projects/edit/{{.Id}}">{{.Name}}</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10" style="padding-top:10px">
+              {{if len .Description}}
+              {{.Description}}
+              {{else}}
+              <span style="color:#979797">None</span>
+              {{end}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Types</label>
+            <div class="col-sm-10" style="padding-top:10px">
+              {{if len .Types}}
+              {{range .Types}}
+              {{.}}
+              {{end}}
+              {{else}}
+              <span style="color:#979797">Empty types list. You should add at least one type.</span>
+              {{end}}
+            </div>
+          </div>
+        </form>
       </div>
       {{end}}
     </div>
+    <div class="col-xs-3"></div>
   </div>
 </div>
