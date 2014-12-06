@@ -86,6 +86,10 @@ a.view {
 	display: block;
 }
 
+.top50px {
+	margin-top: 50px;
+}
+
 /* Bootstrap overrides */
 .modal.modal-wide .modal-dialog {
   width: 950px;
