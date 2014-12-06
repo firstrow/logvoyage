@@ -66,6 +66,10 @@ h2 .actions {
 	word-wrap: break-word;
 }
 
+a.view {
+	text-decoration: none;
+}
+
 /* Bootstrap overrides */
 .modal.modal-wide .modal-dialog {
   width: 950px;
