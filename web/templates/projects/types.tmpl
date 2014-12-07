@@ -1,46 +1,35 @@
 <div class="container-fluid">
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li class="active">Types</li>
-  </ol>
   <div class="row">
+    <div class="col-xs-3"></div>
     <div class="col-md-6">
-      <h2>Types list</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
+      <h2>Types</h2>
       {{if isEmpty .context.User.GetLogTypes}}
       No types found.
       {{end}}
       {{range .context.User.GetLogTypes}}
-      <div class="panel panel-default">
-        <div class="panel-footer">
-          <form class="form-horizontal" role="form" method="post">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Name</label>
-              <div class="col-sm-10" style="padding-top:11px">
-              {{.}}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Events</label>
-              <div class="col-sm-10" style="padding-top:11px">
-              {{call $.docCounter $.context.User.GetIndexName .}}
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label"></label>
-              <div class="col-sm-10" style="padding-top:11px">
-                <a href="/projects/types/delete/{{.}}"  class="btn btn-sm btn-danger confirm">
-                  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete
-                </a>
-              </div>
-            </div>
-          </form>
-        </div>
+      <div class="well bs-component">
+      <div class="list_actions">
+        <a href="/projects/types/delete/{{.}}"  class="confirm">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </a>
       </div>
-      {{end}}
+      <form class="form-horizontal" role="form" method="post">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Name</label>
+          <div class="col-sm-10" style="padding-top:11px">
+            {{.}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Events</label>
+          <div class="col-sm-10" style="padding-top:11px">
+            {{call $.docCounter $.context.User.GetIndexName .}}
+          </div>
+        </div>
+      </form>
     </div>
+    {{end}}
   </div>
+  <div class="col-xs-3"></div>
+</div>
 </div>
