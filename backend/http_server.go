@@ -18,11 +18,13 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	key := fmt.Sprintf("%s@%s", apiKey, logType)
+
 	reader := bufio.NewReader(r.Body)
 	for {
 		line, err := reader.ReadString('\n')
 		if line != "" {
-			processMessage(fmt.Sprintf("%s@%s %s", apiKey, logType, line))
+			processMessage(fmt.Sprintf("%s %s", key, line))
 		}
 		if err != nil {
 			return

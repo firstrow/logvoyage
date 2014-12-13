@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -49,7 +50,7 @@ func GetTypes(index string) ([]string, error) {
 
 // Count documents in collection
 func CountTypeDocs(index string, logType string) float64 {
-	result, err := SendToElastic(index+"/"+logType+"/_count", "GET", nil)
+	result, err := SendToElastic(fmt.Sprintf("%s/%s/_count", index, logType), "GET", nil)
 	if err != nil {
 		return 0
 	}
@@ -63,7 +64,7 @@ func CountTypeDocs(index string, logType string) float64 {
 }
 
 func DeleteType(index string, logType string) {
-	_, err := SendToElastic(index+"/"+logType, "DELETE", nil)
+	_, err := SendToElastic(fmt.Sprint("%s/%s", index, logType), "DELETE", nil)
 	if err != nil {
 		// TODO: Log error
 	}
@@ -71,7 +72,7 @@ func DeleteType(index string, logType string) {
 
 // Send raw bytes to elastic search server
 func SendToElastic(url string, method string, b []byte) (string, error) {
-	eurl := "http://" + ES_HOST + ":" + ES_PORT + "/" + url
+	eurl := fmt.Sprintf("http://%s:%s/%s", ES_HOST, ES_PORT, url)
 
 	req, err := http.NewRequest(method, eurl, bytes.NewBuffer(b))
 	if err != nil {
