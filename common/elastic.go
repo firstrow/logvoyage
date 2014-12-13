@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/belogik/goes"
@@ -64,9 +65,9 @@ func CountTypeDocs(index string, logType string) float64 {
 }
 
 func DeleteType(index string, logType string) {
-	_, err := SendToElastic(fmt.Sprint("%s/%s", index, logType), "DELETE", nil)
+	_, err := SendToElastic(fmt.Sprintf("%s/%s", index, logType), "DELETE", nil)
 	if err != nil {
-		// TODO: Log error
+		log.Println(err.Error())
 	}
 }
 
@@ -76,7 +77,7 @@ func SendToElastic(url string, method string, b []byte) (string, error) {
 
 	req, err := http.NewRequest(method, eurl, bytes.NewBuffer(b))
 	if err != nil {
-		return "", ErrCreatingHttpRequest
+		return "", err
 	}
 
 	client := &http.Client{}
