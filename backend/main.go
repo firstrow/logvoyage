@@ -16,10 +16,16 @@ import (
 )
 
 var (
-	defaultHost     = ""
-	defaultPort     = "27077"
+	host            = ""
+	port            = "27077"
 	errUserNotFound = errors.New("Error. User not found")
 )
+
+func init() {
+	flag.StringVar(&host, "host", "", "Host to open server. Set to `localhost` to accept only local connections.")
+	flag.StringVar(&port, "port", "27077", "Port to accept new connections. Default value: ")
+	flag.Parse()
+}
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
@@ -29,12 +35,11 @@ func main() {
 	// Initalize counter timer
 	go initTimers()
 	go initBacklog()
+	go initTcpServer()
+}
 
-	host := flag.String("host", defaultHost, "Host to open server. Set to `localhost` to accept only local connections.")
-	port := flag.String("port", defaultPort, "Port to accept new connections. Default value: "+defaultPort)
-	flag.Parse()
-
-	server := tcp_server.New(*host + ":" + *port)
+func initTcpServer() {
+	server := tcp_server.New(host + ":" + port)
 	server.OnNewClient(func(c *tcp_server.Client) {
 		log.Print("New client")
 	})
