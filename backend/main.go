@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/tcp_server"
 )
 
 var (
@@ -39,26 +38,11 @@ func main() {
 	initHttpServer()
 }
 
-func initTcpServer() {
-	server := tcp_server.New(tcpDsn)
-	server.OnNewClient(func(c *tcp_server.Client) {
-		log.Print("New client")
-	})
-
-	// Receives new message and send it to Elastic server
-	// Message examples:
-	// apiKey@logType Some text
-	// apiKey@logType {message: "Some text", field:"value", ...}
-	server.OnNewMessage(func(c *tcp_server.Client, message string) {
-		processMessage(message)
-	})
-
-	server.OnClientConnectionClosed(func(c *tcp_server.Client, err error) {
-		log.Print("Client disconnected")
-	})
-	server.Listen()
-}
-
+// Process text message from tcp or http client
+// Extract user api key, check send message to search index.
+// Message examples:
+// apiKey@logType Some text
+// apiKey@logType {message: "Some text", field:"value", ...}
 func processMessage(message string) {
 	origMessage := message
 	indexName, logType, err := extractIndexAndType(message)
