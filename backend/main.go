@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"fmt"
 	"log"
 	"runtime"
 	"strings"
@@ -116,7 +117,7 @@ func toElastic(indexName string, logType string, record interface{}) error {
 	if err != nil {
 		log.Print("Error encoding message to JSON")
 	} else {
-		_, err := common.SendToElastic(indexName+"/"+logType, "POST", j)
+		_, err := common.SendToElastic(fmt.Sprintf("%s/%s", indexName, logType), "POST", j)
 		if err != nil {
 			return err
 		}

@@ -1,10 +1,33 @@
+// Accept http messages.
+// bulk?apiKey=XXX&type=XXX - accepts bulk of messages separated by newline.
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"net/http"
 )
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
+	apiKey := r.URL.Query().Get("apiKey")
+	if apiKey == "" {
+		return
+	}
+	logType := r.URL.Query().Get("type")
+	if logType == "" {
+		return
+	}
+
+	reader := bufio.NewReader(r.Body)
+	for {
+		line, err := reader.ReadString('\n')
+		if line != "" {
+			processMessage(fmt.Sprintf("%s@%s %s", apiKey, logType, line))
+		}
+		if err != nil {
+			return
+		}
+	}
 }
 
 func initHttpServer() {
