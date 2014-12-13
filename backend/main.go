@@ -16,14 +16,14 @@ import (
 )
 
 var (
-	host            = ""
-	port            = "27077"
+	tcpDsn          string
+	httpDsn         string
 	errUserNotFound = errors.New("Error. User not found")
 )
 
 func init() {
-	flag.StringVar(&host, "host", "", "Host to open server. Set to `localhost` to accept only local connections.")
-	flag.StringVar(&port, "port", "27077", "Port to accept new connections. Default value: ")
+	flag.StringVar(&tcpDsn, "tcpDsn", ":27077", "Host and port to accept tcp connections.")
+	flag.StringVar(&httpDsn, "httpDsn", ":27078", "Host and port to accept http messages.")
 	flag.Parse()
 }
 
@@ -36,10 +36,11 @@ func main() {
 	go initTimers()
 	go initBacklog()
 	go initTcpServer()
+	initHttpServer()
 }
 
 func initTcpServer() {
-	server := tcp_server.New(host + ":" + port)
+	server := tcp_server.New(tcpDsn)
 	server.OnNewClient(func(c *tcp_server.Client) {
 		log.Print("New client")
 	})
@@ -107,7 +108,7 @@ func extractIndexAndType(message string) (string, string, error) {
 }
 
 // Prepares message to be inserted into ES.
-// Builds object based on message.
+// Builds struct based on message.
 func buildMessage(message string) interface{} {
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(message), &data)
