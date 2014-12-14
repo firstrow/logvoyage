@@ -33,13 +33,12 @@ type RedisMessage struct {
 	Data   interface{}
 }
 
-func (m *RedisMessage) Send(r redis.Conn) error {
+func (m *RedisMessage) Send(r redis.Conn) (interface{}, error) {
 	j, err := json.Marshal(m)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	r.Do("PUBLISH", redisChannel, string(j))
-	return nil
+	return r.Do("PUBLISH", redisChannel, string(j))
 }
 
 // Store connected clients: [apikey]Connection

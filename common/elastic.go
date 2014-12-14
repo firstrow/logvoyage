@@ -72,6 +72,7 @@ func DeleteType(index string, logType string) {
 }
 
 // Send raw bytes to elastic search server
+// TODO: Bulk processing
 func SendToElastic(url string, method string, b []byte) (string, error) {
 	eurl := fmt.Sprintf("http://%s:%s/%s", ES_HOST, ES_PORT, url)
 
