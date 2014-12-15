@@ -35,8 +35,6 @@ func main() {
 	log.Print("Initializing server")
 
 	initRedis()
-
-	// Initalize componentes
 	go initTimers()
 	go initBacklog()
 	go initTcpServer()
