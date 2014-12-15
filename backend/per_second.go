@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/firstrow/logvoyage/web_socket"
-	"github.com/garyburd/redigo/redis"
 )
 
 type perSecondStorage struct {
@@ -21,11 +20,7 @@ var prs = perSecondStorage{Logs: make(map[string]int)}
 func initTimers() {
 	ticker := time.NewTicker(1 * time.Second)
 
-	redisConn, _ := redis.Dial("tcp", ":6379")
-	redisConn.Flush()
-
 	defer ticker.Stop()
-	defer redisConn.Close()
 
 	for _ = range ticker.C {
 		prs.Lock()

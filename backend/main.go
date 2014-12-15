@@ -13,12 +13,14 @@ import (
 	"time"
 
 	"github.com/firstrow/logvoyage/common"
+	"github.com/garyburd/redigo/redis"
 )
 
 var (
 	tcpDsn          string
 	httpDsn         string
 	errUserNotFound = errors.New("Error. User not found")
+	redisConn       redis.Conn
 )
 
 func init() {
@@ -32,11 +34,22 @@ func main() {
 
 	log.Print("Initializing server")
 
-	// Initalize counter timer
+	initRedis()
+
+	// Initalize componentes
 	go initTimers()
 	go initBacklog()
 	go initTcpServer()
 	initHttpServer()
+}
+
+func initRedis() {
+	r, err := redis.Dial("tcp", ":6379")
+	if err != nil {
+		log.Fatal("Cannot connect to redis")
+	}
+	r.Flush()
+	redisConn = r
 }
 
 // Process text message from tcp or http client
@@ -58,12 +71,13 @@ func processMessage(message string) {
 		message = common.RemoveApiKey(message)
 		message = strings.TrimSpace(message)
 
-		err = toElastic(indexName, logType, buildMessage(message))
+		err = toElastic(indexName, logType, buildMessageStruct(message))
 		if err == common.ErrSendingElasticSearchRequest {
 			toBacklog(origMessage)
 		} else {
 			increaseCounter(indexName)
 		}
+		toWebSocket(indexName, message)
 	}
 }
 
@@ -94,7 +108,7 @@ func extractIndexAndType(message string) (string, string, error) {
 
 // Prepares message to be inserted into ES.
 // Builds struct based on message.
-func buildMessage(message string) interface{} {
+func buildMessageStruct(message string) interface{} {
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(message), &data)
 
@@ -123,4 +137,8 @@ func toElastic(indexName string, logType string, record interface{}) error {
 		}
 	}
 	return nil
+}
+
+func toWebSocket(indexName string, message string) {
+
 }
