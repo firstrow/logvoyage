@@ -7,6 +7,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/firstrow/logvoyage/web_socket"
 	"log"
 	"runtime"
 	"strings"
@@ -75,7 +76,7 @@ func processMessage(message string) {
 		} else {
 			increaseCounter(indexName)
 		}
-		toWebSocket(indexName, message)
+		toRedis(indexName, message)
 	}
 }
 
@@ -137,6 +138,11 @@ func toElastic(indexName string, logType string, record interface{}) error {
 	return nil
 }
 
-func toWebSocket(indexName string, message string) {
-
+func toRedis(indexName string, m string) {
+	var message web_socket.RedisMessage
+	message = web_socket.RedisMessage{ApiKey: indexName, Data: map[string]string{
+		"type":    "log_message",
+		"message": m,
+	}}
+	message.Send(redisConn)
 }

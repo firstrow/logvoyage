@@ -28,8 +28,9 @@ func initTimers() {
 		var message web_socket.RedisMessage
 		for apiKey, logsPerSecond := range prs.Logs {
 			if logsPerSecond > 0 {
-				message = web_socket.RedisMessage{ApiKey: apiKey, Data: map[string]int{
-					"logs_per_second": logsPerSecond,
+				message = web_socket.RedisMessage{ApiKey: apiKey, Data: map[string]interface{}{
+					"type":  "logs_per_second",
+					"count": logsPerSecond,
 				}}
 
 				message.Send(redisConn)
