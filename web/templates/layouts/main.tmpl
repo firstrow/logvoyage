@@ -61,31 +61,35 @@
 							</select>
 							<input type="text" class="timebox" name="time_start" id="time_start" value="{{.time_start}}">
 							<input type="text" class="timebox" name="time_stop" id="time_stop" value="{{.time_stop}}">
-						</div>	</form>
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="/profile">Profile</a></li>
-									<li><a href="/projects">Projects</a></li>
-									<li><a href="/projects/types">Types</a></li>
-									<li class="divider"></li>
-									<li><a href="/logout">Logout</a></li>
-								</ul>
-							</li>
-						</ul>
-						</div><!-- /.navbar-collapse -->
-						</div><!-- /.container-fluid -->
-					</nav>
-					{{end}}
-					<div class="row" style="margin-top:41px"></div>
-					{{range .context.Session.Flashes "success"}}
-					<div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0px">
-						<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						{{.}}
-					</div>
-					{{end}}
-					<!-- content -->
-					{{yield}}
-				</body>
-			</html>
+						</div>
+						<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Live logs">
+						<span class="glyphicon glyphicon-circle-arrow-right"></span>
+						</a>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/profile">Profile</a></li>
+								<li><a href="/projects">Projects</a></li>
+								<li><a href="/projects/types">Types</a></li>
+								<li class="divider"></li>
+								<li><a href="/logout">Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+					</div><!-- /.navbar-collapse -->
+					</div><!-- /.container-fluid -->
+				</nav>
+				{{end}}
+				<div class="row" style="margin-top:41px"></div>
+				{{range .context.Session.Flashes "success"}}
+				<div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0px">
+					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					{{.}}
+				</div>
+				{{end}}
+				<!-- content -->
+				{{yield}}
+			</body>
+		</html>
