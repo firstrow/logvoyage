@@ -9,7 +9,6 @@ kill:
 	@kill `cat $(PID)` || true
  
 restart:
-	echo "Restarting..."
 	@make kill
 	@go run $(GO_FILES) & echo $$! > $(PID)
  
