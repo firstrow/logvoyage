@@ -108,7 +108,7 @@ func startListetingRedis() {
 func wsHandler(ws *websocket.Conn) {
 	log.Println("New client")
 	defer ws.Close()
-	websocket.Message.Send(ws, "Hello dear user!")
+	// websocket.Message.Send(ws, "Hello dear user!")
 
 	for {
 		// Message received from client

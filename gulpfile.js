@@ -1,9 +1,11 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var less = require('gulp-less');
-var path = require('path');
-var del = require('del')
-var watch = require('gulp-watch');
+var gulp = require('gulp'),
+	concat = require('gulp-concat'),
+	less = require('gulp-less'),
+	coffee = require('gulp-coffee'),
+	path = require('path'),
+	del = require('del'),
+	watch = require('gulp-watch'),
+	addsrc = require('gulp-add-src');
 
 var js_files = [
 	'static/bower_components/jquery/dist/jquery.min.js',
@@ -17,7 +19,9 @@ var js_files = [
 	'static/bower_components/ladda-bootstrap/dist/spin.min.js',
 	'static/bower_components/ladda-bootstrap/dist/ladda.min.js',
 	'static/bower_components/jquery.hotkeys/jquery.hotkeys.js',
-	'static/js/*',
+	'static/bower_components/sockjs-client/dist/sockjs.js',
+	'static/bower_components/pubsub-js/src/pubsub.js',
+	'static/js/*.js',
 ]
 
 var css_files = [
@@ -38,9 +42,13 @@ var buildCssTask = function() {
 }
 
 var defaultTask = function() {
-	// Compile less
-	gulp.src(js_files)
-		.pipe(concat('all.js'))
+	// Compile coffee-script files
+	gulp.src('static/js/*.coffee')
+		.pipe(coffee({
+			bare: true
+		}))
+		.pipe(addsrc(js_files))
+		.pipe(concat("all.js"))
 		.pipe(gulp.dest('static/build'));
 
 	// Less and css
@@ -48,6 +56,9 @@ var defaultTask = function() {
 		.pipe(less())
 		.pipe(gulp.dest('static'))
 		.on('end', buildCssTask);
+
+	gulp.src('static/bower_components/chosen/chosen-sprite@2x.png')
+		.pipe(gulp.dest('static/build'));
 }
 
 gulp.task('default', defaultTask);
