@@ -5,7 +5,8 @@ var gulp = require('gulp'),
 	path = require('path'),
 	del = require('del'),
 	watch = require('gulp-watch'),
-	addsrc = require('gulp-add-src');
+	addsrc = require('gulp-add-src'),
+	clean = require('gulp-clean');
 
 var js_files = [
 	'static/bower_components/jquery/dist/jquery.min.js',
@@ -42,21 +43,26 @@ var buildCssTask = function() {
 }
 
 var defaultTask = function() {
-	// Compile coffee-script files
+	 gulp.src('static/build', {read: false})
+        .pipe(clean());
+
 	gulp.src('static/js/*.coffee')
 		.pipe(coffee({
 			bare: true
-		}))
-		.pipe(addsrc(js_files))
-		.pipe(concat("all.js"))
+		})).on('error', function(e){console.log(e)})
+		.pipe(concat("app.js"))
 		.pipe(gulp.dest('static/build'));
 
-	// Less and css
+	gulp.src(js_files)
+		.pipe(concat("vendors.js"))
+		.pipe(gulp.dest('static/build'));
+
 	gulp.src(['static/less/bootstrap.less'])
 		.pipe(less())
 		.pipe(gulp.dest('static'))
 		.on('end', buildCssTask);
 
+	// Copy chosen image
 	gulp.src('static/bower_components/chosen/chosen-sprite@2x.png')
 		.pipe(gulp.dest('static/build'));
 }

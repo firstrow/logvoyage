@@ -18,6 +18,7 @@ npm install --save-dev gulp-concat
 npm install --save-dev gulp-less 
 npm install --save-dev gulp-coffee
 npm install --save-dev gulp-add-src
+npm install --save-dev gulp-clean
 npm install --save-dev path
 npm install --save-dev del
 gulp
