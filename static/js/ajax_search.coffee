@@ -12,7 +12,6 @@ $ ->
       data: $(this).serialize() 
       success: (data) ->
         $("#logTableContainer").html data
-
       complete: ->
         # Search is really fast, we should add delay
         setTimeout (->
