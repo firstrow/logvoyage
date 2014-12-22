@@ -6,6 +6,15 @@
 		<title>LogVoyage - Dashboard</title>
 		<!-- Bootstrap -->
 		<link href="/static/build/all.css" rel="stylesheet">
+
+		{{if not .context.IsGuest}}
+		<script type="text/javascript">
+			var options = {
+				apiKey: {{.context.User.ApiKey}},
+			};
+		</script>
+		{{end}}
+
 		<script src="/static/build/vendors.js"></script>
 		<script src="/static/build/app.js"></script>
 		<!--[if lt IE 9]>
