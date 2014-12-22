@@ -34,22 +34,33 @@ var css_files = [
 	'static/bower_components/chosen/chosen.min.css',
 	'static/bower_components/ladda-bootstrap/dist/ladda-themeless.min.css',
 	'static/css/custom.css',
+	'static/less/*.css',
 ]
 
 var buildCssTask = function() {
 	gulp.src(css_files)
 		.pipe(concat('all.css'))
-		.pipe(gulp.dest('static/build'));
+		.pipe(gulp.dest('static/build'))
+		.on('end', function() {
+			gulp.src('static/less/*.css', {
+					read: false
+				})
+				.pipe(clean());
+		});
 }
 
 var defaultTask = function() {
-	 gulp.src('static/build', {read: false})
-        .pipe(clean());
+	gulp.src('static/build', {
+			read: false
+		})
+		.pipe(clean());
 
 	gulp.src('static/js/*.coffee')
 		.pipe(coffee({
 			bare: true
-		})).on('error', function(e){console.log(e)})
+		})).on('error', function(e) {
+			console.log(e)
+		})
 		.pipe(concat("app.js"))
 		.pipe(gulp.dest('static/build'));
 
@@ -59,7 +70,7 @@ var defaultTask = function() {
 
 	gulp.src(['static/less/*.less'])
 		.pipe(less())
-		.pipe(gulp.dest('static'))
+		.pipe(gulp.dest('static/less'))
 		.on('end', buildCssTask);
 
 	// Copy chosen image
