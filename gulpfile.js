@@ -57,7 +57,7 @@ var defaultTask = function() {
 		.pipe(concat("vendors.js"))
 		.pipe(gulp.dest('static/build'));
 
-	gulp.src(['static/less/bootstrap.less'])
+	gulp.src(['static/less/*.less'])
 		.pipe(less())
 		.pipe(gulp.dest('static'))
 		.on('end', buildCssTask);
