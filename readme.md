@@ -32,6 +32,11 @@ node watch.js
 ```
 
 # WebSocket messages
+``` coffee
+// Sample coffescript code
+PubSub.subscribe "log_message", (type, data) ->
+  console.log data.message
+```
 ``` json
 {
 	"type": "log_message",

@@ -15,5 +15,3 @@ class WSocket
 
 $ ->
 	new WSocket(options.apiKey)
-	PubSub.subscribe "log_message", (type, data) ->
-		console.log data.message
