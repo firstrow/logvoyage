@@ -7,7 +7,7 @@ class WSocket
 
 	onMessage: (event) ->
 		data = JSON.parse event.data
-		console.log data
+		PubSub.publish data.type, data
 
 	register: ->
 		@ws.send @apiKey
@@ -15,3 +15,5 @@ class WSocket
 
 $ ->
 	new WSocket(options.apiKey)
+	PubSub.subscribe "log_message", (type, data) ->
+		console.log data.message
