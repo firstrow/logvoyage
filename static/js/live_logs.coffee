@@ -10,6 +10,13 @@ class LiveLogs
 			@getContainer().width $(window).width()
 			@getContainer().height $(window).height()
 		@getContainer().show()
+		# Subscribe to new log event
+		PubSub.subscribe "log_message", (type, data) =>
+			console.log data
+			@appendMessage data.message
+
+	appendMessage: (message) ->
+		@getContainer().html(message)
 
 	getContainer: ->
 		$(@opts.container)
