@@ -76,7 +76,7 @@ func processMessage(message string) {
 		} else {
 			increaseCounter(indexName)
 		}
-		toRedis(indexName, message)
+		toRedis(indexName, logType, message)
 	}
 }
 
@@ -138,11 +138,12 @@ func toElastic(indexName string, logType string, record interface{}) error {
 	return nil
 }
 
-func toRedis(indexName string, m string) {
+func toRedis(indexName string, logType string, msg string) {
 	var message web_socket.RedisMessage
 	message = web_socket.RedisMessage{ApiKey: indexName, Data: map[string]string{
-		"type":    "log_message",
-		"message": m,
+		"type":     "log_message",
+		"log_type": logType,
+		"message":  msg,
 	}}
 	message.Send(redisConn)
 }

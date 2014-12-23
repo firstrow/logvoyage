@@ -31,6 +31,7 @@ PubSub.subscribe "log_message", (type, data) ->
 ``` json
 {
 	"type": "log_message",
+	"log_type": "nginx_access",
 	"message": "test received log message goes here..."
 }
 ```
