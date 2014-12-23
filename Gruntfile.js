@@ -53,15 +53,34 @@ module.exports = function(grunt) {
           'static/build/app.js': ['static/js/*.coffee']
         }
       },
-    }
+    },
+    watch: {
+      scripts: {
+        files: ['static/js/*.*'],
+        tasks: ['js'],
+        options: {
+          spawn: false,
+        },
+      },
+      css: {
+        files: ['static/less/*.less'],
+        tasks: ['css'],
+        options: {
+          spawn: false,
+        },
+      },
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
   grunt.registerTask('default', ['all']);
-  grunt.registerTask('all', ['concat', 'coffee', 'less']);
+  grunt.registerTask('all', ['js', 'css']);
+  grunt.registerTask('js', ['concat:javascripts', 'coffee']);
+  grunt.registerTask('css', ['concat:css', 'less']);
 
 };
