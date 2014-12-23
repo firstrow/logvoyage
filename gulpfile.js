@@ -26,7 +26,6 @@ var js_files = [
 ]
 
 var css_files = [
-	'static/bootstrap.css',
 	'static/bower_components/jquery-jsonview/dist/jquery.jsonview.css',
 	'static/bower_components/datetimepicker/jquery.datetimepicker.css',
 	'static/bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
@@ -70,6 +69,7 @@ var defaultTask = function() {
 
 	gulp.src(['static/less/*.less'])
 		.pipe(less())
+		.pipe(concat('compiled.css'))
 		.pipe(gulp.dest('static/less'))
 		.on('end', buildCssTask);
 
