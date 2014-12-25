@@ -3,23 +3,24 @@ class LiveLogs
 		# Root container of all elements
 		container: "#liveLogsContainer"
 	}
+	# Root container
+	container: null
+
+	constructor: ->
+		@container= $(@opts.container)
 
 	init: ->
 		# On browser resize keep root container size equal
 		$(window).resize =>
-			@getContainer().width $(window).width()
-			@getContainer().height $(window).height()
-		@getContainer().show()
+			@container.width $(window).width()
+			@container.height $(window).height()
+		@container.show()
 		# Subscribe to new log event
 		PubSub.subscribe "log_message", (type, data) =>
-			console.log data
 			@appendMessage data.message
 
 	appendMessage: (message) ->
-		@getContainer().html(message)
-
-	getContainer: ->
-		$(@opts.container)
+		@container.html(message)
 
 $ ->
 	$("#live_logs").click ->
