@@ -14,6 +14,7 @@ import (
 	"github.com/firstrow/logvoyage/web/context"
 	"github.com/firstrow/logvoyage/web/middleware"
 	"github.com/firstrow/logvoyage/web/routers/home"
+	"github.com/firstrow/logvoyage/web/routers/live"
 	"github.com/firstrow/logvoyage/web/routers/profile"
 	"github.com/firstrow/logvoyage/web/routers/projects"
 	"github.com/firstrow/logvoyage/web/routers/users"
@@ -70,11 +71,12 @@ func main() {
 	m.Any("/login", middleware.RedirectIfAuthorized, users.Login)
 	m.Any("/logout", middleware.Authorize, users.Logout)
 	m.Get("/maintenance", func(ctx *context.Context) {
-		ctx.HTML("maintenance", context.ViewData{}, true)
+		ctx.HTML("maintenance", context.ViewData{}, "layouts/simple")
 	})
 	// Auth routes
 	m.Get("/", middleware.Authorize, home.Index)
 	m.Any("/profile", middleware.Authorize, profile.Index)
+	m.Any("/live", middleware.Authorize, live.Index)
 	// Logs
 	m.Get("/log/:id/type/:type", middleware.Authorize, home.View)
 	m.Delete("/log/:id/type/:type", middleware.Authorize, home.Delete)

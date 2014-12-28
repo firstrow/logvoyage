@@ -19,12 +19,19 @@ type Context struct {
 	IsGuest bool
 }
 
-func (c *Context) HTML(view string, data ViewData, disLayout ...bool) {
+func (c *Context) HTML(view string, data ViewData, layout ...string) {
 	data["context"] = c
-	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" || len(disLayout) > 0 {
+	if c.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
+		// Disable layout for ajax requests
 		c.Render.HTML(200, view, data, render.HTMLOptions{Layout: ""})
 	} else {
-		c.Render.HTML(200, view, data)
+		var l string
+		if len(layout) > 0 {
+			l = layout[0]
+		} else {
+			l = "layouts/main"
+		}
+		c.Render.HTML(200, view, data, render.HTMLOptions{Layout: l})
 	}
 }
 

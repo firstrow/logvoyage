@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"time"
 )
 
 func main() {
@@ -24,12 +25,16 @@ func sendDocs() {
 	defer file.Close()
 
 	var sent int64
+	var totalSent int64
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		conn.Write([]byte("0b137205-3291-5f5b-5832-ab2458b9936a@logs" + scanner.Text() + "\n"))
+		totalSent++
 		sent++
-		if sent == 50000 {
-			return
+		if sent == 30 {
+			time.Sleep(1 * time.Second)
+			sent = 0
 		}
+		// println(totalSent)
 	}
 }
