@@ -2,6 +2,7 @@ class window.LiveLogs
 	opts: {
 		# Root container of all elements
 		container: "#liveLogsContainer"
+		stackLimit: 2000
 	}
 	# Root container
 	container: null
@@ -22,12 +23,13 @@ class window.LiveLogs
 			@appendMessage data.type, data.message
 
 	appendMessage: (type, message) ->
-		@container.append("<p>" + "<span class='type'>" + type + "</span>"  + message + "</p>")
-		@container.scrollTop(@container.prop('scrollHeight')) if @autoScroll
+		@container.append("<p><span class='type'>" + type + "</span>"  + message + "</p>")
 		@addedMessages++
-		if @addedMessages >= 120
-			@container.find("p").slice(0, 20).remove()
-			@addedMessages = 100
+		if @addedMessages == @opts.stackLimit
+			console.log "stack limit reached"
+			@container.find("p").slice(0, 1).remove()
+			@addedMessages--
+		@container.scrollTop(@container.prop('scrollHeight')) if @autoScroll
 
 	_detectAutoScroll: (e) =>
 		@autoScroll = (@container.height() + @container.scrollTop()) == @container.prop('scrollHeight')
