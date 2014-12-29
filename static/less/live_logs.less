@@ -9,7 +9,8 @@
 	}
 
 	span.highlight {
-		background-color: #ffe54d;
+		background-color: rgb(165, 119, 5);
+		color: #000;
 	}
 
 	.type {
@@ -36,11 +37,19 @@
 
 	form {
 		input[type=text] {
-			background: transparent;
+			background: rgb(34, 34, 34);
 			border: 0;
 			outline: none;
-			width: 50%;
+			width: 500px;
 			color: #999999;
+		}
+		button {
+			background: transparent;
+			color: #999999;
+			outline: none;
+			&:hover {
+				color: #fff;
+			}
 		}
 	}
 }

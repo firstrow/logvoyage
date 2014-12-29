@@ -17,9 +17,9 @@ class window.LiveLogs
 
 	init: ->
 		# On browser resize keep root container size equal
-		@container.height $(window).height() - 28
+		@container.height $(window).height() - 36
 		$(window).resize =>
-			@container.height $(window).height() - 28
+			@container.height $(window).height() - 36
 		@container.scroll @_detectAutoScroll
 		# Subscribe to new log event
 		PubSub.subscribe "log_message", (type, data) =>
@@ -35,7 +35,14 @@ class window.LiveLogs
 			message = @_filterMessage message
 		if message
 			@container.append "<p><span class='type'>#{type}</span>#{message}</p>"
-		@container.scrollTop(@container.prop('scrollHeight')) if @autoScroll
+		@scrollToBottom() if @autoScroll
+
+	clear: ->
+		@container.html ''
+		@messages = []
+
+	scrollToBottom: ->
+		@container.scrollTop @container.prop('scrollHeight')
 
 	_detectAutoScroll: (e) =>
 		@autoScroll = (@container.height() + @container.scrollTop()) == @container.prop('scrollHeight')

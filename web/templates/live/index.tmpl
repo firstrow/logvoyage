@@ -1,6 +1,6 @@
 <script type="text/javascript">
+	var live_logs;
 	$(function(){
-		var live_logs;
 		live_logs = new LiveLogs();
 		live_logs.init();
 	});
@@ -9,7 +9,13 @@
 	<div id="liveLogsContainer" class="dark"></div>
 	<div id="liveLogsSearch">
 		<form>
-			<input type="text" class="query" placeholder="Filter"></input>
+			<input type="text" class="query" placeholder="Filter"/>
+			<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Clear logs" onclick="live_logs.clear();">
+				<span class="glyphicon glyphicon-ban-circle"></span>
+			</button>
+			<button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Scroll to bottom" onclick="live_logs.scrollToBottom();">
+				<span class="glyphicon glyphicon-arrow-down"></span>
+			</button>
 		</form>
 	</div>
 </div>
