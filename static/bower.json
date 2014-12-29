@@ -12,6 +12,7 @@
     "less": "v2.0.0",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
     "ladda-bootstrap": "v0.1.0",
+    "jquery-cookie": "v1.4.1",
     "pubsub-js": "v1.5.0"
   },
   "private": true

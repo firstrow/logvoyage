@@ -14,6 +14,7 @@ class window.LiveLogs
 	constructor: ->
 		@container = $(@opts.container)
 		@filterContainer = $(@opts.filterContainer)
+		@setTheme $.cookie("livelogstheme")
 
 	init: ->
 		# On browser resize keep root container size equal
@@ -43,6 +44,17 @@ class window.LiveLogs
 
 	scrollToBottom: ->
 		@container.scrollTop @container.prop('scrollHeight')
+
+	switchTheme: ->
+		if @container.hasClass "dark"
+			@setTheme "light"
+		else
+			@setTheme "dark"
+
+	setTheme: (t) =>
+		if t == "dark" or t == "light"
+			@container.removeClass().addClass(t)
+			$.cookie("livelogstheme", t)
 
 	_detectAutoScroll: (e) =>
 		@autoScroll = (@container.height() + @container.scrollTop()) == @container.prop('scrollHeight')

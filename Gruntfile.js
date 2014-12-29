@@ -11,6 +11,7 @@ module.exports = function(grunt) {
           'static/bower_components/jquery/dist/jquery.min.js',
           'static/bower_components/bootstrap/dist/js/bootstrap.min.js',
           'static/bower_components/jquery-jsonview/dist/jquery.jsonview.js',
+          'static/bower_components/jquery-cookie/jquery.cookie.js',
           'static/bower_components/datetimepicker/jquery.datetimepicker.js',
           'static/bower_components/bootstrap-multiselect/dist/js/bootstrap-multiselect.js',
           'static/bower_components/d3/d3.min.js',
