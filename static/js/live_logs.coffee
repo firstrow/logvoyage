@@ -8,7 +8,7 @@ class window.LiveLogs
 	# Root container
 	container: null
 	autoScroll: true
-	addedMessages: 0
+	messages: []
 	filter: null
 
 	constructor: ->
@@ -23,26 +23,18 @@ class window.LiveLogs
 		@container.scroll @_detectAutoScroll
 		# Subscribe to new log event
 		PubSub.subscribe "log_message", (type, data) =>
+			# TODO: Find out some way to limit number of displayed messages
+			@messages.push data
 			@appendMessage data.type, data.message
 		# Filter events
 		@filterContainer.find("input.query").keyup @_filter
 
 	appendMessage: (type, message) ->
-		# @filter = if filter then new RegExp "(#{filter})", 'ig' else null
 		message = @escapeHtml message
-		cls = ""
 		if @filter
-			_msg = @_filterMessage message
-			message = if _msg then _msg else message
-			cls = if _msg then "" else "hidden" 
-
-		@container.append("<p class='#{cls}'><span class='type'>#{type}</span>#{message}</p>")
-
-		@addedMessages++
-		if @addedMessages == @opts.stackLimit
-			console.log "stack limit reached"
-			@container.find("p").slice(0, 1).remove()
-			@addedMessages--
+			message = @_filterMessage message
+		if message
+			@container.append "<p><span class='type'>#{type}</span>#{message}</p>"
 		@container.scrollTop(@container.prop('scrollHeight')) if @autoScroll
 
 	_detectAutoScroll: (e) =>
@@ -51,26 +43,15 @@ class window.LiveLogs
 	_filter: (e) =>
 		wait = =>
 			@filter = $(e.target).val()
-
-			if @filter == ""
-				$("#{@opts.container} p").removeClass("hidden")
-			else
-				$(@opts.container).find("p").each @_filterAllMessages
-		$(@opts.container).find(".highlight").each @_removeHighlight
+			@_filterAllMessages()
 		setTimeout wait, 300
 
-	_removeHighlight: (index, el) =>
-		$(el).html($(el).text())
+	_filterAllMessages: =>
+		@container.html ''
+		for data in @messages
+			@appendMessage data.type, data.message
 
-	_filterAllMessages: (index, el) =>
-		result = @_filterMessage $(el).html()
-		if result 
-			$(el).html result
-			$(el).removeClass "hidden"
-		else
-			$(el).addClass "hidden"
-
-	# Returns highlughted text if mached search
+	# Returns highlighted text if mached search
 	# or false if not
 	_filterMessage: (text) =>
 		re = new RegExp("(#{@filter})", 'ig')
@@ -78,7 +59,7 @@ class window.LiveLogs
 			return text.replace(re, '<span class="highlight">$1</span>')
 		false
 
-	escapeHtml: (unsafe) ->
+	escapeHtml: (unsafe) =>
 		unsafe.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
 		.replace(/>/g, "&gt;")
