@@ -8,6 +8,10 @@
 		font-size: 12px;
 	}
 
+	span.highlight {
+		background-color: #ffe54d;
+	}
+
 	.type {
 		padding-right: 5px;
 	}
@@ -17,6 +21,30 @@
 		color: #859900;
 		.type {
 			color: #268bd2;
+		}
+	}
+
+	.hidden {
+		display: none;
+	}
+}
+
+#liveLogsSearch {
+	position: fixed;
+	float: auto;
+	width: 300px;
+	bottom: 0;
+	width: 100%;
+	background: #171717;
+	padding: 3px;
+
+	form {
+		input[type=text] {
+			background: transparent;
+			border: 0;
+			outline: none;
+			width: 30%;
+			color: #999999;
 		}
 	}
 }

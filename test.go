@@ -31,7 +31,7 @@ func sendDocs() {
 		conn.Write([]byte("0b137205-3291-5f5b-5832-ab2458b9936a@logs" + scanner.Text() + "\n"))
 		totalSent++
 		sent++
-		if sent == 50 {
+		if sent == 10 {
 			time.Sleep(1 * time.Second)
 			sent = 0
 		}
