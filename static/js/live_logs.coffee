@@ -35,7 +35,7 @@ class window.LiveLogs
 		if @filter
 			message = @_filterMessage message
 		if message
-			@container.append "<p><span class='type'>#{type}</span>#{message}</p>"
+			@container.append "<p><span class='type'>#{type}</span><span class='message'>#{message}</span></p>"
 		@scrollToBottom() if @autoScroll
 
 	clear: ->
@@ -63,7 +63,7 @@ class window.LiveLogs
 		wait = =>
 			@filter = $(e.target).val()
 			@_filterAllMessages()
-		setTimeout wait, 300
+		setTimeout wait, 500
 
 	_filterAllMessages: =>
 		@container.html ''
