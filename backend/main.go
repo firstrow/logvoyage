@@ -33,7 +33,7 @@ func init() {
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	log.Print("Initializing server")
+	log.Println("Initializing server")
 
 	initRedis()
 	go initTimers()
@@ -60,6 +60,7 @@ func processMessage(message string) {
 	origMessage := message
 	indexName, logType, err := extractIndexAndType(message)
 	if err != nil {
+		log.Println("Error extracting index name and type", err.Error())
 		switch err {
 		case common.ErrSendingElasticSearchRequest:
 			toBacklog(origMessage)
@@ -69,6 +70,8 @@ func processMessage(message string) {
 	} else {
 		message = common.RemoveApiKey(message)
 		message = strings.TrimSpace(message)
+
+		log.Println("Sending message to elastic")
 
 		err = toElastic(indexName, logType, buildMessageStruct(message))
 		if err == common.ErrSendingElasticSearchRequest {
@@ -128,7 +131,7 @@ func buildMessageStruct(message string) interface{} {
 func toElastic(indexName string, logType string, record interface{}) error {
 	j, err := json.Marshal(record)
 	if err != nil {
-		log.Print("Error encoding message to JSON")
+		log.Println("Error encoding message to JSON")
 	} else {
 		_, err := common.SendToElastic(fmt.Sprintf("%s/%s", indexName, logType), "POST", j)
 		if err != nil {
@@ -140,6 +143,7 @@ func toElastic(indexName string, logType string, record interface{}) error {
 
 func toRedis(indexName string, logType string, msg string) {
 	var message web_socket.RedisMessage
+	log.Println("Sending message to redis")
 	message = web_socket.RedisMessage{ApiKey: indexName, Data: map[string]string{
 		"type":     "log_message",
 		"log_type": logType,

@@ -28,6 +28,7 @@ type backlog struct {
 
 // Add new message to queue
 func (b *backlog) AddMessage(m string) {
+	log.Println("Adding new message to backlog")
 	b.Lock()
 	if len(b.lines) <= numStoreMsg {
 		b.lines = append(b.lines, m)
@@ -44,6 +45,8 @@ func (b *backlog) Resend() {
 	b.Lock()
 	processing := b.lines
 	b.lines = []string{}
+	log.Println("Resending messages. Count: ", len(processing))
+
 	b.count = 0
 	b.Unlock()
 	for _, msg := range processing {
