@@ -19,7 +19,7 @@ import (
 	"net/http"
 
 	"code.google.com/p/go.net/websocket"
-	"github.com/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/common"
 	"github.com/garyburd/redigo/redis"
 )
 

@@ -11,15 +11,15 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 
-	"github.com/firstrow/logvoyage/web/context"
-	"github.com/firstrow/logvoyage/web/middleware"
-	"github.com/firstrow/logvoyage/web/routers/home"
-	"github.com/firstrow/logvoyage/web/routers/live"
-	"github.com/firstrow/logvoyage/web/routers/profile"
-	"github.com/firstrow/logvoyage/web/routers/projects"
-	"github.com/firstrow/logvoyage/web/routers/users"
-	"github.com/firstrow/logvoyage/web/widgets"
-	"github.com/firstrow/logvoyage/web_socket"
+	"bitbucket.org/firstrow/logvoyage/web/context"
+	"bitbucket.org/firstrow/logvoyage/web/middleware"
+	"bitbucket.org/firstrow/logvoyage/web/routers/home"
+	"bitbucket.org/firstrow/logvoyage/web/routers/live"
+	"bitbucket.org/firstrow/logvoyage/web/routers/profile"
+	"bitbucket.org/firstrow/logvoyage/web/routers/projects"
+	"bitbucket.org/firstrow/logvoyage/web/routers/users"
+	"bitbucket.org/firstrow/logvoyage/web/widgets"
+	"bitbucket.org/firstrow/logvoyage/web_socket"
 )
 
 func main() {

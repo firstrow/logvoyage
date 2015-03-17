@@ -1,7 +1,7 @@
 package live
 
 import (
-	"github.com/firstrow/logvoyage/web/context"
+	"bitbucket.org/firstrow/logvoyage/web/context"
 )
 
 func Index(ctx *context.Context) {

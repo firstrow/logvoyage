@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/common"
 	"log"
 	"os"
 )

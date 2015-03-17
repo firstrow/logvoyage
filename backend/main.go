@@ -7,13 +7,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/firstrow/logvoyage/web_socket"
+	"bitbucket.org/firstrow/logvoyage/web_socket"
 	"log"
 	"runtime"
 	"strings"
 	"time"
 
-	"github.com/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/common"
 	"github.com/garyburd/redigo/redis"
 )
 

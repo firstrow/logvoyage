@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/codegangsta/martini-contrib/render"
-	"github.com/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/common"
 	"github.com/martini-contrib/sessions"
 )
 

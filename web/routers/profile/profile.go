@@ -1,8 +1,8 @@
 package profile
 
 import (
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
+	"bitbucket.org/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/web/context"
 )
 
 type profileForm struct {

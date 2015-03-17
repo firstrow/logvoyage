@@ -5,7 +5,7 @@ import (
 	"html/template"
 
 	"github.com/Unknwon/com"
-	"github.com/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/common"
 )
 
 // Renders widget with user source groups.

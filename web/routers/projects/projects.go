@@ -2,8 +2,8 @@ package projects
 
 import (
 	"github.com/Unknwon/com"
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
+	"bitbucket.org/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/web/context"
 	"github.com/go-martini/martini"
 )
 

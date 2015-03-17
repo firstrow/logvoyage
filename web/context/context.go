@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/codegangsta/martini-contrib/render"
-	"github.com/firstrow/logvoyage/common"
+	"bitbucket.org/firstrow/logvoyage/common"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 )
