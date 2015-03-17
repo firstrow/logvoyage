@@ -9,6 +9,7 @@ import (
 	"github.com/belogik/goes"
 	"github.com/mitchellh/mapstructure"
 	"github.com/xlab/handysort"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -33,6 +34,18 @@ func (u *User) GetLogTypes() []string {
 		sort.Sort(handysort.Strings(t))
 	}
 	return t
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	if err != nil {
+		return "", errors.New("Error crypt password")
+	}
+	return string(hashedPassword), nil
+}
+
+func CompareHashAndPassword(hash, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 }
 
 ////////////////////////

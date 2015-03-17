@@ -5,7 +5,6 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/Unknwon/com"
 	"github.com/belogik/goes"
 	"github.com/nu7hatch/gouuid"
 
@@ -49,12 +48,18 @@ func Register(ctx *context.Context) {
 
 		if !form.EnableValidation.Valid.HasErrors() && form.IsValid() {
 
+			password, err := common.HashPassword(form.Password)
+
+			if err != nil {
+				panic(err.Error())
+			}
+
 			doc := goes.Document{
 				Index: "users",
 				Type:  "user",
 				Fields: map[string]string{
 					"email":    form.Email,
-					"password": com.Sha256(form.Password),
+					"password": password,
 					"apiKey":   buildApiKey(form.Email),
 				},
 			}
