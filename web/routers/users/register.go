@@ -47,7 +47,6 @@ func Register(ctx *context.Context) {
 		form.SetupValidation()
 
 		if !form.EnableValidation.Valid.HasErrors() && form.IsValid() {
-
 			password, err := common.HashPassword(form.Password)
 
 			if err != nil {

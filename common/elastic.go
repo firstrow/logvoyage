@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	ES_HOST = "localhost"
+	ES_HOST = "127.0.0.1"
 	ES_PORT = "9200"
 )
 

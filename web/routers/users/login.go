@@ -1,9 +1,9 @@
 package users
 
 import (
-	"errors"
 	"bitbucket.org/firstrow/logvoyage/common"
 	"bitbucket.org/firstrow/logvoyage/web/context"
+	"errors"
 	"log"
 )
 
@@ -11,7 +11,6 @@ type loginForm struct {
 	*common.EnableValidation
 	Email    string
 	Password string
-	
 }
 
 func (this *loginForm) SetupValidation() {
@@ -20,7 +19,7 @@ func (this *loginForm) SetupValidation() {
 	this.Valid.Required(this.Password, "Password")
 	this.Valid.MinSize(this.Password, 5, "Password")
 	this.Valid.MaxSize(this.Password, 25, "Password")
-	
+
 }
 
 // Check of user exists by email and password
@@ -29,7 +28,7 @@ func userExists(form *loginForm) error {
 
 	if user == nil {
 		return errors.New("User not found")
-		
+
 	}
 
 	err := common.CompareHashAndPassword(user.Password, form.Password)
@@ -38,7 +37,6 @@ func userExists(form *loginForm) error {
 	}
 
 	return nil
-	
 }
 
 func Login(ctx *context.Context) {
@@ -46,7 +44,6 @@ func Login(ctx *context.Context) {
 	ctx.Request.ParseForm()
 	form := &loginForm{
 		EnableValidation: &common.EnableValidation{},
-		
 	}
 
 	if ctx.Request.Method == "POST" {
@@ -60,27 +57,23 @@ func Login(ctx *context.Context) {
 			if err != nil {
 				log.Println(err.Error())
 				message = "User not found or wrong password"
-				
+
 			} else {
 				ctx.Session.Set("email", form.Email)
 				ctx.Render.Redirect("/")
-				
 			}
-			
 		}
-		
 	}
 
 	ctx.HTML("users/login", context.ViewData{
 		"form":    form,
 		"message": message,
-		
 	})
-	
+
 }
 
 func Logout(ctx *context.Context) {
 	ctx.Session.Clear()
 	ctx.Render.Redirect("/")
-	
+
 }
