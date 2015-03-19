@@ -1,6 +1,6 @@
 class WSocket
 	constructor: (@apiKey) ->
-		@ws = new WebSocket("ws://" + window.location.host + ":12345/ws")
+		@ws = new WebSocket("ws://" + window.hostname + ":12345/ws")
 		@ws.onopen = (=> this.register())
 		@ws.onmessage = (=> this.onMessage(event))
 

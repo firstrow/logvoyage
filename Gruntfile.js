@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        separator: "\n",
+        separator: "\n"
       },
       javascripts: {
         src: [
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
           'static/bower_components/pubsub-js/src/pubsub.js',
           'static/js/*.js',
         ],
-        dest: 'static/build/all.js',
+        dest: 'static/build/all.js'
       },
       css: {
         src: [
@@ -35,8 +35,8 @@ module.exports = function(grunt) {
           'static/bower_components/chosen/chosen.min.css',
           'static/bower_components/ladda-bootstrap/dist/ladda-themeless.min.css',
         ],
-        dest: 'static/build/all.css',
-      },
+        dest: 'static/build/all.css'
+      }
     },
     less: {
       development: {
@@ -60,17 +60,17 @@ module.exports = function(grunt) {
         files: ['static/js/*.*'],
         tasks: ['js'],
         options: {
-          spawn: false,
-        },
+          spawn: false
+        }
       },
       css: {
         files: ['static/less/*.less'],
         tasks: ['css'],
         options: {
-          spawn: false,
-        },
-      },
-    },
+          spawn: false
+        }
+      }
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');

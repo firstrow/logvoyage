@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/codegangsta/cli"
 	"bitbucket.org/firstrow/logvoyage/common"
+	"github.com/codegangsta/cli"
 	"log"
 	"os"
 )
@@ -38,7 +38,7 @@ func createUsersIndexFunc(c *cli.Context) {
 			"index": {
 				"number_of_shards": 5,
 				"number_of_replicas": 1,
-				"refresh_interval" : "0"
+				"refresh_interval" : "1s"
 			}
 		},
 		"mappings": {

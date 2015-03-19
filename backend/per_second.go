@@ -22,7 +22,7 @@ func initTimers() {
 
 	defer ticker.Stop()
 
-	for _ = range ticker.C {
+	for range ticker.C {
 		prs.Lock()
 
 		var message web_socket.RedisMessage
