@@ -28,6 +28,7 @@ module.exports = function(grunt) {
       },
       css: {
         src: [
+          'static/bower_components/bootstrap/dist/css/bootstrap.css',
           'static/bower_components/jquery-jsonview/dist/jquery.jsonview.css',
           'static/bower_components/datetimepicker/jquery.datetimepicker.css',
           'static/bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css',
@@ -43,7 +44,7 @@ module.exports = function(grunt) {
         files: {
           "static/build/app.css": "static/less/*.less"
         }
-      },
+      }
     },
     coffee: {
       compileJoined: {
