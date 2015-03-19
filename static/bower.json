@@ -7,14 +7,12 @@
     "jquery-jsonview": "1.2.0",
     "datetimepicker": "2.4.1",
     "bootstrap-multiselect": "v0.9.10",
-    "d3": "3.4.13",
-    "epoch": "0.6.0",
     "less": "v2.0.0",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
     "ladda-bootstrap": "v0.1.0",
     "jquery-cookie": "v1.4.1",
-     "pubsub-js": "v1.5.0",
-     "bootstrap-material-design": "0.3.0"
+    "pubsub-js": "v1.5.0",
+    "bootstrap-material-design": "0.3.0"
   },
   "private": true
 }

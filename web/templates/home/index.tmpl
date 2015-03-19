@@ -1,31 +1,3 @@
-<div class="epoch-theme-default">
-  <div id="barChart"  class="epoch category20c" style="width: 1450px; height: 60px"></div>
-</div>
-<script>
-var barChartData = [
-// First series
-{
-  label: "PerSecond",
-  values: [
-  {time: 1370044800, y: 100},
-  {time: 1370044801, y: 135},
-  {time: 1370044801, y: 123},
-  {time: 1370044802, y: 78},
-  ]
-  },
-];
-var chart = $('#barChart').epoch({
-  type: 'time.bar',
-  data: barChartData,
-  axes: [],
-  windowSize: 100
-});
-setInterval(function(){
-  var r = Math.floor((Math.random() * 100) + 20);
-  chart.push([{y: r}]);
-},1000);
-</script>
-
 <div id="logTableContainer">
   {{if .total}}
     {{template "home/table" .}}
