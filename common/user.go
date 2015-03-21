@@ -49,10 +49,10 @@ func CompareHashAndPassword(hash, password string) error {
 }
 
 ////////////////////////
-// Source groups
+// Projects
 ////////////////////////
 
-// Source group represent group of log types.
+// Project represent group of log types.
 // Each log type can be in various groups at the same time.
 type Project struct {
 	Id          string   `json:"id"`
@@ -63,7 +63,8 @@ type Project struct {
 
 func (u *User) AddProject(p *Project) *User {
 	if p.Id == "" {
-		key := com.RandomCreateBytes(5)
+		key := com.RandomCreateBytes(10)
+		// TODO: Check key already exists
 		p.Id = string(key)
 		u.Projects = append(u.Projects, p)
 	} else {
@@ -84,7 +85,7 @@ func (u *User) DeleteProject(id string) {
 	for i, val := range u.Projects {
 		if val.Id == id {
 			copy(u.Projects[i:], u.Projects[i+1:])
-			u.Projects[len(u.Projects)-1] = nil // or the zero value of T
+			u.Projects[len(u.Projects)-1] = nil
 			u.Projects = u.Projects[:len(u.Projects)-1]
 			return
 		}
@@ -97,7 +98,7 @@ func (u *User) GetProject(id string) (*Project, error) {
 			return val, nil
 		}
 	}
-	return nil, errors.New("Source group not found")
+	return nil, errors.New("Project not found")
 }
 
 ////////////////////////

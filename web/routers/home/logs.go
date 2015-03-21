@@ -29,7 +29,7 @@ func View(res http.ResponseWriter, ctx *context.Context, params martini.Params) 
 	res.Write(j)
 }
 
-// View log record
+// Delete log record
 func Delete(res http.ResponseWriter, ctx *context.Context, params martini.Params) {
 	conn := common.GetConnection()
 	d := goes.Document{

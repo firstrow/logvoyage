@@ -8,6 +8,8 @@ import (
 	"time"
 
 	"github.com/belogik/goes"
+	"github.com/go-martini/martini"
+
 	"bitbucket.org/firstrow/logvoyage/common"
 	"bitbucket.org/firstrow/logvoyage/web/context"
 	"bitbucket.org/firstrow/logvoyage/web/widgets"
@@ -104,6 +106,7 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 		},
 	}
 
+	// Build time range query
 	if searchRequest.TimeRange.IsValid() {
 		datetime := make(map[string]string)
 		if searchRequest.TimeRange.Start != "" {
@@ -119,7 +122,7 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 		}
 	}
 
-	extraArgs := make(url.Values, 1)
+	extraArgs := make(url.Values, 0)
 	searchResults, err := conn.Search(query, searchRequest.Indexes, searchRequest.Types, extraArgs)
 
 	if err != nil {
@@ -153,6 +156,71 @@ func Index(ctx *context.Context) {
 
 	var viewName string
 	viewData := context.ViewData{
+		"logs":       data.Hits.Hits,
+		"total":      data.Hits.Total,
+		"took":       data.Took,
+		"types":      types,
+		"time":       ctx.Request.URL.Query().Get("time"),
+		"time_start": ctx.Request.URL.Query().Get("time_start"),
+		"time_stop":  ctx.Request.URL.Query().Get("time_stop"),
+		"query_text": query_text,
+		"pagination": pagination,
+	}
+
+	if ctx.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
+		viewName = "home/table"
+	} else {
+		viewName = "home/index"
+	}
+
+	ctx.HTML(viewName, viewData)
+}
+
+func ProjectSearch(ctx *context.Context, params martini.Params) {
+	query_text := ctx.Request.URL.Query().Get("q")
+	selected_types := ctx.Request.URL.Query()["types"]
+	project, err := ctx.User.GetProject(params["id"])
+
+	if err != nil {
+		ctx.HTML("shared/error", context.ViewData{
+			"message": "Project not found",
+		})
+		return
+	}
+
+	if len(project.Types) == 0 {
+		ctx.HTML("home/empty_project", context.ViewData{})
+		return
+	}
+
+	var types []string
+	if len(selected_types) > 0 {
+		types = selected_types
+	} else {
+		types = project.Types
+	}
+
+	// Pagination
+	pagination := widgets.NewPagination(ctx.Request)
+	pagination.SetPerPage(perPage)
+
+	// Load records
+	searchRequest := buildSearchRequest(
+		query_text,
+		[]string{ctx.User.GetIndexName()},
+		types,
+		pagination.GetPerPage(),
+		pagination.DetectFrom(),
+		buildTimeRange(ctx.Request),
+	)
+	// Search data in elastic
+	data, _ := search(searchRequest)
+
+	pagination.SetTotalRecords(data.Hits.Total)
+
+	var viewName string
+	viewData := context.ViewData{
+		"project":    project,
 		"logs":       data.Hits.Hits,
 		"total":      data.Hits.Total,
 		"took":       data.Took,

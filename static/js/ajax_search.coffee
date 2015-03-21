@@ -2,14 +2,17 @@ $ ->
   # On submit log search form send ajax request
   # Enable ajax search only on start page.
   # If user is on other page will work regular GET request
-  return unless window.location.pathname is "/"
+  p = window.location.pathname
+  if p != "/" and p.substring(0, 9) != "/project/"
+    return
 
+  $("#searchForm").attr 'action', p
   $("#searchForm").submit (e) ->
     e.preventDefault()
     $.ajax
       type: "GET"
       url: $(this).attr("action")
-      data: $(this).serialize() 
+      data: $(this).serialize()
       success: (data) ->
         $("#logTableContainer").html data
       complete: ->

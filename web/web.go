@@ -45,7 +45,6 @@ func main() {
 		},
 		"eq":                 reflect.DeepEqual,
 		"isSliceContainsStr": com.IsSliceContainsStr,
-		"projectsWidget":     widgets.ProjectsWidget,
 		"buildLogLine":       widgets.BuildLogLine,
 	}
 
@@ -80,6 +79,7 @@ func main() {
 	// Logs
 	m.Get("/log/:id/type/:type", middleware.Authorize, home.View)
 	m.Delete("/log/:id/type/:type", middleware.Authorize, home.Delete)
+	m.Any("/project/:id", middleware.Authorize, home.ProjectSearch)
 	// Projects
 	m.Group("/projects", func(r martini.Router) {
 		r.Any("", projects.Index)
