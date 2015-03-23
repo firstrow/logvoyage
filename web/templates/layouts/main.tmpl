@@ -48,6 +48,9 @@
 						</div>
 					</form>
 					<ul class="nav navbar-nav navbar-right">
+                                                {{if .project}}
+                                                <li><a id="current-project">{{.project.Name}}</a></li>
+                                                {{end}}
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span></a>
 							<ul class="dropdown-menu" role="menu">
@@ -76,7 +79,7 @@
 					</div><!-- /.container-fluid -->
 				</nav>
 				{{end}}
-				<div class="row" style="margin-top:50px"></div>
+				<div class="row" style="margin-top:52px"></div>
 				{{range .context.Session.Flashes "success"}}
 				<div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0px">
 					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

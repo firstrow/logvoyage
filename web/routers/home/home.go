@@ -132,72 +132,34 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 	}
 }
 
-func Index(ctx *context.Context) {
-	query_text := ctx.Request.URL.Query().Get("q")
-	types := ctx.Request.URL.Query()["types"]
-
-	// Pagination
-	pagination := widgets.NewPagination(ctx.Request)
-	pagination.SetPerPage(perPage)
-
-	// Load records
-	searchRequest := buildSearchRequest(
-		query_text,
-		[]string{ctx.User.GetIndexName()},
-		types,
-		pagination.GetPerPage(),
-		pagination.DetectFrom(),
-		buildTimeRange(ctx.Request),
-	)
-	// Search data in elastic
-	data, _ := search(searchRequest)
-
-	pagination.SetTotalRecords(data.Hits.Total)
-
-	var viewName string
-	viewData := context.ViewData{
-		"logs":       data.Hits.Hits,
-		"total":      data.Hits.Total,
-		"took":       data.Took,
-		"types":      types,
-		"time":       ctx.Request.URL.Query().Get("time"),
-		"time_start": ctx.Request.URL.Query().Get("time_start"),
-		"time_stop":  ctx.Request.URL.Query().Get("time_stop"),
-		"query_text": query_text,
-		"pagination": pagination,
-	}
-
-	if ctx.Request.Header.Get("X-Requested-With") == "XMLHttpRequest" {
-		viewName = "home/table"
-	} else {
-		viewName = "home/index"
-	}
-
-	ctx.HTML(viewName, viewData)
-}
-
+// This function handles two routes "/" and "/project/:id"
 func ProjectSearch(ctx *context.Context, params martini.Params) {
+	var types []string
+	var project *common.Project
+
 	query_text := ctx.Request.URL.Query().Get("q")
 	selected_types := ctx.Request.URL.Query()["types"]
-	project, err := ctx.User.GetProject(params["id"])
 
-	if err != nil {
-		ctx.HTML("shared/error", context.ViewData{
-			"message": "Project not found",
-		})
-		return
-	}
-
-	if len(project.Types) == 0 {
-		ctx.HTML("home/empty_project", context.ViewData{})
-		return
-	}
-
-	var types []string
-	if len(selected_types) > 0 {
-		types = selected_types
-	} else {
-		types = project.Types
+	// Project scope
+	if _, err := params["id"]; err {
+		project, err := ctx.User.GetProject(params["id"])
+		if err != nil {
+			ctx.HTML("shared/error", context.ViewData{
+				"message": "Project not found",
+			})
+			return
+		}
+		if len(project.Types) == 0 {
+			ctx.HTML("home/empty_project", context.ViewData{
+				"project": project,
+			})
+			return
+		}
+		if len(selected_types) > 0 {
+			types = selected_types
+		} else {
+			types = project.Types
+		}
 	}
 
 	// Pagination

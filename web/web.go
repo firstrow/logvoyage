@@ -73,13 +73,13 @@ func main() {
 		ctx.HTML("maintenance", context.ViewData{}, "layouts/simple")
 	})
 	// Auth routes
-	m.Get("/", middleware.Authorize, home.Index)
+	m.Any("/", middleware.Authorize, home.ProjectSearch)
+	m.Any("/project/:id", middleware.Authorize, home.ProjectSearch)
 	m.Any("/profile", middleware.Authorize, profile.Index)
 	m.Any("/live", middleware.Authorize, live.Index)
 	// Logs
 	m.Get("/log/:id/type/:type", middleware.Authorize, home.View)
 	m.Delete("/log/:id/type/:type", middleware.Authorize, home.Delete)
-	m.Any("/project/:id", middleware.Authorize, home.ProjectSearch)
 	// Projects
 	m.Group("/projects", func(r martini.Router) {
 		r.Any("", projects.Index)
