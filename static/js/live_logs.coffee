@@ -26,7 +26,7 @@ class window.LiveLogs
 		PubSub.subscribe "log_message", (type, data) =>
 			# TODO: Find out some way to limit number of displayed messages
 			@messages.push data
-			@appendMessage data.type, data.message
+			@appendMessage data.log_type, data.message
 		# Filter events
 		@filterContainer.find("input.query").keyup @_filter
 
