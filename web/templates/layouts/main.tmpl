@@ -20,7 +20,7 @@
 						<div class="input-group">
 							<div class="input-group-btn">
 								{{if isEmpty .context.User.Projects}}
-								<a href="/projects/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one group">
+								<a href="/projects/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one project">
 									Create project
 								</a>
 								{{end}}
@@ -52,7 +52,7 @@
                                                 <li><a id="current-project">{{.project.Name}}</a></li>
                                                 {{end}}
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-option-vertical"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="/projects">Projects</a></li>
 								<li><a href="/projects/types">Types</a></li>
@@ -66,6 +66,7 @@
 								{{end}}
 							</ul>
 						</li>
+                                                <li><a href="/live" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Live logs"><span class="glyphicon glyphicon-eye-open"></span></a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
 							<ul class="dropdown-menu" role="menu">
