@@ -1,37 +1,35 @@
 {{if .total}}
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-xs-12 main no-padding">
-      <div class="search_info">
-         Found {{.total}} events in {{.took}}ms
-      </div>
-      <div class="table-responsive">
-        <table id="logstable" class="table table-striped">
-          <tbody>
-            {{range .logs}}
-            <tr>
-              <td style="min-width:160px;width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
-              <td>
-                <a href="/log/{{.Id}}/type/{{.Type}}" data-type="{{.Type}}" data-datetime="{{.Source.datetime | FormatTimeToHuman}}" class="view">
-                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                </a>
-                {{.Source | buildLogLine}}
-              </td>
-            </tr>
+    <div class="row">
+        <div class="col-xs-12 main no-padding">
+            <div class="search_info">
+                Found {{.total}} events in {{.took}}ms
+            </div>
+            <div class="table-responsive">
+                <table id="logstable" class="table table-striped">
+                    <tbody>
+                        {{range .logs}}
+                        <tr>
+                            <td style="min-width:160px;width:160px;">{{.Source.datetime | FormatTimeToHuman}}</td>
+                            <td>
+                                <a href="/log/{{.Id}}/type/{{.Type}}" data-type="{{.Type}}" data-datetime="{{.Source.datetime | FormatTimeToHuman}}" class="view">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </a>
+                                {{.Source | buildLogLine}}
+                            </td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+            {{if .pagination.HasPages}}
+            <nav id="pagination">
+                <ul class="pagination pagination-sm">
+                    {{.pagination.Render}}
+                </ul>
+            </nav>
             {{end}}
-          </tbody>
-        </table>
-      </div>
-      {{if .pagination.HasPages}}
-      <nav id="pagination">
-        <ul class="pagination pagination-sm">
-          {{.pagination.Render}}
-        </ul>
-      </nav>
-      {{end}}
+        </div>
     </div>
-  </div>
 </div>
-{{else}}
-  {{template "home/no_records"}}
-{{end}}
+{{else}} {{template "home/no_records"}} {{end}}

@@ -1,93 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>LogVoyage</title>
-		{{template "shared/head" .}}
-	</head>
-	<body>
-		{{if .context.IsGuest}}
-		<!-- Guest related header -->
-		{{else}}
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header" style="padding:10px;">
-                                    <a href="/" style="font-size:22px;color:#fff;"><i class="fa fa-ship"></i></a>
-				</div>
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<form class="navbar-form navbar-left" role="search" action="/" method="get" id="searchForm">
-						<div class="input-group">
-							<div class="input-group-btn">
-								{{if isEmpty .context.User.Projects}}
-								<a href="/projects/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one project">
-									Create project
-								</a>
-								{{end}}
-							</div>
-							<input type="text"  name="q" class="form-control" autocomplete="off" id="searchBox" value="{{.query_text}}"placeholder="Search">
-							<div class="input-group-btn">
-								<button  data-style="zoom-in" type="submit" class="btn btn-primary ladda-button" id="searchButton">
-								<span class="glyphicon glyphicon-search ladda-label"></span>
-								</button>
-							</div>
-						</div>
-						<div class="form-group">
-							<select class="form-control" name="time" id="time">
-								<option>All</option>
-								<option value="15m" {{if eq .time "15m"}}selected{{end}}>15m</option>
-								<option value="30m" {{if eq .time "30m"}}selected{{end}}>30m</option>
-								<option value="60m" {{if eq .time "60m"}}selected{{end}}>60m</option>
-								<option value="12h" {{if eq .time "12h"}}selected{{end}}>12h</option>
-								<option value="24h" {{if eq .time "24h"}}selected{{end}}>24h</option>
-								<option value="week" {{if eq .time "week"}}selected{{end}}>7d</option>
-								<option value="custom"  {{if eq .time "custom"}}selected{{end }}>Custom</option>
-							</select>
-							<input type="text" class="timebox" name="time_start" id="time_start" value="{{.time_start}}">
-							<input type="text" class="timebox" name="time_stop" id="time_stop" value="{{.time_stop}}">
-						</div>
-					</form>
-					<ul class="nav navbar-nav navbar-right">
-                                                {{if .project}}
-                                                <li><a id="current-project">{{.project.Name}}</a></li>
-                                                {{end}}
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-option-vertical"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="/projects">Projects</a></li>
-								<li><a href="/projects/types">Types</a></li>
-								<li class="divider"></li>
-								{{if isEmpty .context.User.Projects}}
-                                                                    <li><a href="/projects/new">Create project</a></li>
-								{{else}}
-                                                                    {{range .context.User.Projects}}
-                                                                        <li><a href="/project/{{.Id}}">{{.Name}}</a></li>
-                                                                    {{end}}
-								{{end}}
-							</ul>
-						</li>
-                                                <li><a href="/live" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Live logs"><span class="glyphicon glyphicon-eye-open"></span></a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="/profile">Profile</a></li>
-								<li class="divider"></li>
-								<li><a href="/logout">Logout</a></li>
-							</ul>
-						</li>
-					</ul>
-					</div><!-- /.navbar-collapse -->
-					</div><!-- /.container-fluid -->
-				</nav>
-				{{end}}
-				<div class="row" style="margin-top:52px"></div>
-				{{range .context.Session.Flashes "success"}}
-				<div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0px">
-					<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					{{.}}
-				</div>
-				{{end}}
-				<!-- content -->
-				{{yield}}
-			</body>
-		</html>
+
+<head>
+    <title>LogVoyage</title>
+    {{template "shared/head" .}}
+</head>
+
+<body>
+    {{if .context.IsGuest}}
+    <!-- Guest related header -->
+    {{else}}
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header" style="padding:10px;">
+                <a href="/" style="font-size:22px;color:#fff;"><i class="fa fa-ship"></i></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-left" role="search" action="/" method="get" id="searchForm">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            {{if isEmpty .context.User.Projects}}
+                            <a href="/projects/new" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="You shoud add at least one project">
+                                Create project
+                            </a> {{end}}
+                        </div>
+                        <input type="text" name="q" class="form-control" autocomplete="off" id="searchBox" value="{{.query_text}}" placeholder="Search">
+                        <div class="input-group-btn">
+                            <button data-style="zoom-in" type="submit" class="btn btn-primary ladda-button" id="searchButton">
+                                <span class="glyphicon glyphicon-search ladda-label"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="time" id="time">
+                            <option>All</option>
+                            <option value="15m" {{if eq .time "15m"}}selected{{end}}>15m</option>
+                            <option value="30m" {{if eq .time "30m"}}selected{{end}}>30m</option>
+                            <option value="60m" {{if eq .time "60m"}}selected{{end}}>60m</option>
+                            <option value="12h" {{if eq .time "12h"}}selected{{end}}>12h</option>
+                            <option value="24h" {{if eq .time "24h"}}selected{{end}}>24h</option>
+                            <option value="week" {{if eq .time "week"}}selected{{end}}>7d</option>
+                            <option value="custom" {{if eq .time "custom"}}selected{{end }}>Custom</option>
+                        </select>
+                        <input type="text" class="timebox" name="time_start" id="time_start" value="{{.time_start}}">
+                        <input type="text" class="timebox" name="time_stop" id="time_stop" value="{{.time_stop}}">
+                    </div>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    {{if .project}}
+                    <li><a id="current-project">{{.project.Name}}</a></li>
+                    {{end}}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-option-vertical"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/projects">Projects</a></li>
+                            <li><a href="/projects/types">Types</a></li>
+                            <li class="divider"></li>
+                            {{if isEmpty .context.User.Projects}}
+                            <li><a href="/projects/new">Create project</a></li>
+                            {{else}} {{range .context.User.Projects}}
+                            <li><a href="/project/{{.Id}}">{{.Name}}</a></li>
+                            {{end}} {{end}}
+                        </ul>
+                    </li>
+                    <li><a href="/live" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Live logs"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/profile">Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    {{end}}
+    <div class="row" style="margin-top:52px"></div>
+    {{range .context.Session.Flashes "success"}}
+    <div class="alert alert-success alert-dismissible" role="alert" style="border-radius:0px">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        {{.}}
+    </div>
+    {{end}}
+    <!-- content -->
+    {{yield}}
+</body>
+
+</html>
