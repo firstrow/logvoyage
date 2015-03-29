@@ -4,23 +4,23 @@ TODO: Screenshot
 
 ## Installation
 
-###Pre-Requirements.
+### Pre-Requirements.
 - Redis
 - ElasticSearch
 
-###Installing LogVoyage is as easy installing any other go package:
+### Installing LogVoyage is as easy installing any other go package:
 ``` bash
 > go get github.com/firstrow/logvoyage
 ```
 
 ## Front-end development
-###Bower
+### Bower
 To manage 3rd-party libraries simply add it to static/bower.json and run
 ```
 bower install
 ```
 
-###Building
+### Building
 We are using grunt to build project js and css files.
 Execute next commands to setup environment:
 ```
