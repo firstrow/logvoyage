@@ -2,7 +2,8 @@
 
 LogVoyage is front-end for ElasticSearch. It allows you to store and explore your logs in real-time with friendly web ui.
 
-TODO: Screenshot
+![Dashboard](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/dashboard.png)
+![Live logs](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/live-logs.png)
 
 ## Installation
 
