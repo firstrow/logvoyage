@@ -5,7 +5,6 @@ package backend
 import (
 	"encoding/json"
 	"errors"
-	"flag"
 	"fmt"
 	"log"
 	"strings"
@@ -17,19 +16,21 @@ import (
 )
 
 var (
-	tcpDsn          string
-	httpDsn         string
+	tcpDsn    = ":27077"
+	httpDsn   = ":27078"
+	redisConn redis.Conn
+
 	errUserNotFound = errors.New("Error. User not found")
-	redisConn       redis.Conn
 )
 
-func init() {
-	flag.StringVar(&tcpDsn, "tcpDsn", ":27077", "Host and port to accept tcp connections.")
-	flag.StringVar(&httpDsn, "httpDsn", ":27078", "Host and port to accept http messages.")
-	flag.Parse()
-}
+func Start(userTcpDsn, userHttpDsn string) {
+	if userTcpDsn != "" {
+		tcpDsn = userTcpDsn
+	}
+	if userHttpDsn != "" {
+		httpDsn = userHttpDsn
+	}
 
-func Start() {
 	log.Println("Initializing server")
 
 	initRedis()

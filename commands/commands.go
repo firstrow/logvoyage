@@ -37,6 +37,16 @@ var StartBackendServer = cli.Command{
 	Name:   "backend",
 	Usage:  "Starts TCP server to accept logs from clients",
 	Action: startBackendServer,
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "tcp-dsn",
+			Usage: "Use different TCP host and port. Default is :27077",
+		},
+		cli.StringFlag{
+			Name:  "http-dsn",
+			Usage: "Use different HTTP host and port. Default is :27078",
+		},
+	},
 }
 
 var StartWebServer = cli.Command{
@@ -44,7 +54,6 @@ var StartWebServer = cli.Command{
 	Usage:       "Starts web-ui server",
 	Description: "",
 	Action:      startWebServer,
-	Flags:       []cli.Flag{},
 }
 
 var StartAll = cli.Command{
@@ -52,11 +61,20 @@ var StartAll = cli.Command{
 	Usage:       "Starts backend and web server",
 	Description: "",
 	Action:      startAll,
-	Flags:       []cli.Flag{},
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "tcp-dsn",
+			Usage: "Use different TCP host and port. Default is :27077",
+		},
+		cli.StringFlag{
+			Name:  "http-dsn",
+			Usage: "Use different HTTP host and port. Default is :27078",
+		},
+	},
 }
 
 func startBackendServer(c *cli.Context) {
-	backend.Start()
+	backend.Start(c.String("tcp-dsn"), c.String("http-dsn"))
 }
 
 func startWebServer(c *cli.Context) {
@@ -64,7 +82,7 @@ func startWebServer(c *cli.Context) {
 }
 
 func startAll(c *cli.Context) {
-	go backend.Start()
+	go backend.Start(c.String("tcp-dsn"), c.String("http-dsn"))
 	web.Start()
 }
 
