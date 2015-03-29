@@ -1,0 +1,155 @@
+.navbar-inverse {
+  background-color: #3d4a57;
+  border-color: #333;
+}
+.navbar-inverse .navbar-nav > li > a,
+.navbar .navbar-brand {
+  color: #fbfbfb;
+  text-decoration: none;
+}
+.main {
+  font-size: 12px;
+}
+#logstable td {
+  word-wrap: break-word;
+  font-size: 12px;
+  vertical-align: text-top;
+}
+#logstable tr:hover td {
+  cursor: pointer;
+  background: #E3F2FD;
+}
+#pagination {
+  margin-left: 10px;
+}
+.error {
+  color: red;
+}
+.no-padding {
+  padding: 0;
+}
+#time_start,
+#time_stop {
+  width: 130px;
+  text-align: center;
+  border: 1px;
+}
+.timebox {
+  display: none;
+  border-bottom: 3px solid silver;
+  outline: none;
+}
+h2 .actions {
+  padding-right: 15px;
+  padding-top: 5px;
+  font-size: 14px;
+}
+.search_info {
+  padding: 8px 8px 8px 5px;
+  background-color: #cfd8dc;
+}
+#searchBox {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid #3e3f3a;
+  background: #2f302c;
+  color: #e0d8c6;
+  width: 500px;
+}
+#searchBox:focus {
+  /*TODO: Add bg;*/
+}
+.jsonview {
+  font-size: 13px;
+  word-wrap: break-word;
+}
+a.view {
+  text-decoration: none;
+}
+.list_actions {
+  position: absolute;
+  right: 40px;
+  z-index: 100;
+  display: none;
+}
+.list_actions a {
+  text-decoration: none;
+}
+.well:hover .list_actions {
+  display: block;
+}
+.top50px {
+  margin-top: 50px;
+}
+/* Bootstrap overrides */
+.modal.modal-wide .modal-dialog {
+  width: 950px;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+.modal-backdrop {
+  height: 100%;
+  z-index: 1030;
+}
+a#current-project {
+  color: #c4c4c4;
+  cursor: default;
+}
+
+#liveLogsContainer {
+  width: 100%;
+  overflow: auto;
+}
+#liveLogsContainer p {
+  margin: 0 0 0 5px;
+  padding: 0;
+  font-size: 12px;
+  word-wrap: break-word;
+}
+#liveLogsContainer span.highlight {
+  background-color: #a57705;
+  color: #000;
+}
+#liveLogsContainer .type {
+  padding-right: 5px;
+}
+#liveLogsContainer.dark {
+  background: #1d1d1d;
+  color: #859900;
+}
+#liveLogsContainer.dark .type {
+  color: #268bd2;
+}
+#liveLogsContainer.light {
+  background: #fdf5db;
+  color: #1f9283;
+}
+#liveLogsContainer.light .type {
+  color: #268bd2;
+}
+#liveLogsSearch {
+  position: fixed;
+  float: auto;
+  width: 300px;
+  bottom: 0;
+  width: 100%;
+  background: #171717;
+  padding: 3px;
+}
+#liveLogsSearch form input[type=text] {
+  background: #222222;
+  border: 0;
+  outline: none;
+  width: 500px;
+  color: #999999;
+}
+#liveLogsSearch form button {
+  background: transparent;
+  color: #999999;
+  outline: none;
+}
+#liveLogsSearch form button:hover {
+  color: #fff;
+}

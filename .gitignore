@@ -1,6 +1,5 @@
 gin-bin
 node_modules
-static/build
 static/bower_components
 backend/backend
 cmd/cmd
