@@ -86,24 +86,22 @@ func buildTimeRange(req *http.Request) DateTimeRange {
 func search(searchRequest SearchRequest) (goes.Response, error) {
 	conn := common.GetConnection()
 
-	if len(searchRequest.Text) > 0 {
-		strconv.Quote(searchRequest.Text)
-	} else {
-		searchRequest.Text = "*"
-	}
-
 	var query = map[string]interface{}{
-		"query": map[string]interface{}{
-			"query_string": map[string]string{
-				"default_field": "message",
-				"query":         searchRequest.Text,
-			},
-		},
 		"from": searchRequest.From,
 		"size": searchRequest.Size,
 		"sort": map[string]string{
 			"datetime": "desc",
 		},
+	}
+
+	if len(searchRequest.Text) > 0 {
+		strconv.Quote(searchRequest.Text)
+		query["query"] = map[string]interface{}{
+			"query_string": map[string]string{
+				"default_field": "message",
+				"query":         searchRequest.Text,
+			},
+		}
 	}
 
 	// Build time range query
