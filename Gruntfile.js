@@ -21,7 +21,7 @@ module.exports = function(grunt) {
           'static/bower_components/pubsub-js/src/pubsub.js',
           'static/js/*.js',
         ],
-        dest: 'static/build/all.js'
+        dest: 'static/build/all.min.js'
       },
       css: {
         src: [
@@ -33,13 +33,13 @@ module.exports = function(grunt) {
           'static/bower_components/chosen/chosen.min.css',
           'static/bower_components/ladda-bootstrap/dist/ladda-themeless.min.css',
         ],
-        dest: 'static/build/all.css'
+        dest: 'static/build/all.min.css'
       }
     },
     less: {
       development: {
         files: {
-          "static/build/app.css": "static/less/*.less"
+          "static/build/app.min.css": "static/less/*.less"
         }
       }
     },
@@ -49,9 +49,9 @@ module.exports = function(grunt) {
           join: true
         },
         files: {
-          'static/build/app.js': ['static/js/*.coffee']
+          'static/build/app.min.js': ['static/js/*.coffee']
         }
-      },
+      }
     },
     watch: {
       scripts: {
