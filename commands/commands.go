@@ -27,7 +27,7 @@ var DeleteIndex = cli.Command{
 
 var CreateIndex = cli.Command{
 	Name:        "create_index",
-	Usage:       "create search index",
+	Usage:       "Create search index",
 	Description: "",
 	Action:      createIndexFunc,
 	Flags:       []cli.Flag{},
@@ -35,17 +35,25 @@ var CreateIndex = cli.Command{
 
 var StartBackendServer = cli.Command{
 	Name:        "backend",
-	Usage:       "",
-	Description: "Starts LogVoyage backend server",
+	Usage:       "Starts TCP server to accept logs from clients",
+	Description: "",
 	Action:      startBackendServer,
 	Flags:       []cli.Flag{},
 }
 
 var StartWebServer = cli.Command{
 	Name:        "web",
-	Usage:       "",
-	Description: "Starts LogVoyage front-end server",
+	Usage:       "Starts web-ui server",
+	Description: "",
 	Action:      startWebServer,
+	Flags:       []cli.Flag{},
+}
+
+var StartAll = cli.Command{
+	Name:        "start-all",
+	Usage:       "Starts backend and web server",
+	Description: "",
+	Action:      startAll,
 	Flags:       []cli.Flag{},
 }
 
@@ -54,6 +62,11 @@ func startBackendServer(c *cli.Context) {
 }
 
 func startWebServer(c *cli.Context) {
+	web.Start()
+}
+
+func startAll(c *cli.Context) {
+	go backend.Start()
 	web.Start()
 }
 

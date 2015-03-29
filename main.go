@@ -15,6 +15,7 @@ func main() {
 	app.Commands = []cli.Command{
 		commands.StartBackendServer,
 		commands.StartWebServer,
+		commands.StartAll,
 		commands.CreateUsersIndex,
 		commands.DeleteIndex,
 		commands.CreateIndex,

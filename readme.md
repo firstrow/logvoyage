@@ -20,7 +20,15 @@ go get ./...
 ```
 
 ## Usage
-Once you installed LogVoyage you need to start backend and web servers
+Once you installed LogVoyage you need to start backend and web servers.
+``` bash
+logvoyage start-all
+```
+Or you can start/stop servers separately
+``` bash
+logvoyage backend
+logvoyage web
+```
 
 ## Front-end development
 ### Bower
@@ -38,7 +46,7 @@ grunt
 ```
 After grunt is done, you can find result files in static/build directory.
 
-### Auto rebuild  
+### Auto rebuild
 To automatically rebuild js, css, coffee, less files simply run in console
 ```
 grunt watch
