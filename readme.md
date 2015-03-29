@@ -1,4 +1,4 @@
-# LogVoyage - fast and simple logging service.
+# LogVoyage - fast and simple logging service
 
 TODO: Screenshot
 
