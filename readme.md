@@ -1,17 +1,23 @@
-# LogVoyage - fast and simple logging service
+# LogVoyage - fast and simple open-source logging service
+
+LogVoyage is front-end for ElasticSearch. It allows you store and explore your logs in real-time with friendly web ui.
 
 TODO: Screenshot
 
 ## Installation
 
 ### Pre-Requirements.
-- Redis
 - ElasticSearch
+- Redis
 
-### Installing LogVoyage is as easy installing any other go package:
+### Installing
+Installing LogVoyage is as easy as installing any other go package:
 ``` bash
-> go get github.com/firstrow/logvoyage
+go get github.com/firstrow/logvoyage
 ```
+
+## Usage
+Once you installed LogVoyage you need to start backend and web servers
 
 ## Front-end development
 ### Bower
@@ -41,6 +47,9 @@ grunt watch
 PubSub.subscribe "log_message", (type, data) ->
   console.log data.message
 ```
+
+Sample messages:
+
 ``` json
 {
 	"type": "log_message",
