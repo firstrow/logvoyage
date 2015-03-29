@@ -54,6 +54,12 @@ var StartWebServer = cli.Command{
 	Usage:       "Starts web-ui server",
 	Description: "",
 	Action:      startWebServer,
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "webui-dsn",
+			Usage: "Use different host and port for webio. Default is :3000",
+		},
+	},
 }
 
 var StartAll = cli.Command{
@@ -70,6 +76,10 @@ var StartAll = cli.Command{
 			Name:  "http-dsn",
 			Usage: "Use different HTTP host and port. Default is :27078",
 		},
+		cli.StringFlag{
+			Name:  "webui-dsn",
+			Usage: "Use different host and port for webio. Default is :3000",
+		},
 	},
 }
 
@@ -78,12 +88,12 @@ func startBackendServer(c *cli.Context) {
 }
 
 func startWebServer(c *cli.Context) {
-	web.Start()
+	web.Start(c.String("webui-dsn"))
 }
 
 func startAll(c *cli.Context) {
 	go backend.Start(c.String("tcp-dsn"), c.String("http-dsn"))
-	web.Start()
+	web.Start(c.String("webui-dsn"))
 }
 
 func createUsersIndexFunc(c *cli.Context) {

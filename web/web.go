@@ -23,7 +23,14 @@ import (
 	"github.com/firstrow/logvoyage/web_socket"
 )
 
-func Start() {
+var (
+	webuiDsn = ":3000"
+)
+
+func Start(customWebuiDsn string) {
+	if customWebuiDsn != "" {
+		webuiDsn = customWebuiDsn
+	}
 	// Template methods
 	templateFunc := template.FuncMap{
 		"FormatTimeToHuman": func(s ...string) string {
@@ -94,5 +101,5 @@ func Start() {
 	}, middleware.Authorize)
 
 	go web_socket.StartServer()
-	m.Run()
+	m.RunOnAddr(webuiDsn)
 }
