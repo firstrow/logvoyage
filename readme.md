@@ -1,6 +1,19 @@
-LogVoyage - logging service you always wanted.
+# LogVoyage - fast and simple logging service.
 
-## Working with frontend
+TODO: Screenshot
+
+## Installation
+
+###Pre-Requirements.
+- Redis
+- ElasticSearch
+
+###Installing LogVoyage is as easy installing any other go package:
+``` bash
+> go get github.com/firstrow/logvoyage
+```
+
+## Front-end development
 ###Bower
 To manage 3rd-party libraries simply add it to static/bower.json and run
 ```
