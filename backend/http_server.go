@@ -5,6 +5,7 @@ package backend
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -33,6 +34,7 @@ func httpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func initHttpServer() {
+	log.Print("Starting HTTP server at " + httpDsn)
 	http.HandleFunc("/bulk", httpHandler)
 	http.ListenAndServe(httpDsn, nil)
 }

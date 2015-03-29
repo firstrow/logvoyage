@@ -34,11 +34,9 @@ var CreateIndex = cli.Command{
 }
 
 var StartBackendServer = cli.Command{
-	Name:        "backend",
-	Usage:       "Starts TCP server to accept logs from clients",
-	Description: "",
-	Action:      startBackendServer,
-	Flags:       []cli.Flag{},
+	Name:   "backend",
+	Usage:  "Starts TCP server to accept logs from clients",
+	Action: startBackendServer,
 }
 
 var StartWebServer = cli.Command{

@@ -29,6 +29,7 @@ Or you can start/stop servers separately
 logvoyage backend
 logvoyage web
 ```
+Once server started you can access it by http://localhost:3000
 
 ## Front-end development
 ### Bower

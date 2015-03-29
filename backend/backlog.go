@@ -45,7 +45,6 @@ func (b *backlog) Resend() {
 	b.Lock()
 	processing := b.lines
 	b.lines = []string{}
-	log.Println("Resending messages. Count: ", len(processing))
 
 	b.count = 0
 	b.Unlock()
