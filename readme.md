@@ -42,6 +42,9 @@ TODO
 ## Contribution
 TODO
 
+## License
+TODO
+
 ## Front-end development
 ### Bower
 To manage 3rd-party libraries simply add it to static/bower.json and run
