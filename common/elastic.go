@@ -41,7 +41,6 @@ func GetTypes(index string) ([]string, error) {
 	if err != nil {
 		return nil, ErrDecodingJson
 	}
-
 	keys := []string{}
 	for k := range mapping[index]["mappings"] {
 		keys = append(keys, k)

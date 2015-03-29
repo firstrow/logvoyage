@@ -3,11 +3,11 @@
 package main
 
 import (
+	"bitbucket.org/firstrow/logvoyage/web_socket"
 	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
-	"bitbucket.org/firstrow/logvoyage/web_socket"
 	"log"
 	"runtime"
 	"strings"

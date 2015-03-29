@@ -18,8 +18,9 @@ import (
 	"log"
 	"net/http"
 
-	"code.google.com/p/go.net/websocket"
 	"bitbucket.org/firstrow/logvoyage/common"
+
+	"code.google.com/p/go.net/websocket"
 	"github.com/garyburd/redigo/redis"
 )
 
@@ -115,7 +116,7 @@ func wsHandler(ws *websocket.Conn) {
 		var message string
 
 		// Read messages from client
-		// Code blocks here, after any message received it
+		// Code blocks here, after any message received
 		// will resume execution.
 		if err := websocket.Message.Receive(ws, &message); err != nil {
 			log.Println("Error receiving message. Closing connection.")
