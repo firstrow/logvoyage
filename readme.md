@@ -41,7 +41,7 @@ To automatically rebuild js, css, coffee, less files simply run in console
 grunt watch
 ```
 
-# WebSocket messages
+### WebSocket messages
 ``` coffee
 // Sample coffescript code
 PubSub.subscribe "log_message", (type, data) ->
