@@ -1,8 +1,8 @@
 package users
 
 import (
-	"bitbucket.org/firstrow/logvoyage/common"
-	"bitbucket.org/firstrow/logvoyage/web/context"
+	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/web/context"
 	"errors"
 	"log"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bitbucket.org/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/common"
 	"github.com/codegangsta/cli"
 	"log"
 	"os"

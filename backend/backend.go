@@ -3,7 +3,7 @@
 package main
 
 import (
-	"bitbucket.org/firstrow/logvoyage/web_socket"
+	"github.com/firstrow/logvoyage/web_socket"
 	"encoding/json"
 	"errors"
 	"flag"
@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"bitbucket.org/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/common"
 	"github.com/garyburd/redigo/redis"
 )
 

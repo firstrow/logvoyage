@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"bitbucket.org/firstrow/logvoyage/web_socket"
+	"github.com/firstrow/logvoyage/web_socket"
 )
 
 type perSecondStorage struct {
