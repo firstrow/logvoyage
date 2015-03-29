@@ -1,9 +1,10 @@
-package main
+package web
 
 import (
 	"html/template"
+	"log"
+	"os"
 	"reflect"
-	"runtime"
 	"time"
 
 	"github.com/Unknwon/com"
@@ -22,9 +23,7 @@ import (
 	"github.com/firstrow/logvoyage/web_socket"
 )
 
-func main() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-
+func Start() {
 	// Template methods
 	templateFunc := template.FuncMap{
 		"FormatTimeToHuman": func(s ...string) string {
@@ -51,11 +50,14 @@ func main() {
 	m := martini.Classic()
 	// Template
 	m.Use(render.Renderer(render.Options{
-		Funcs:  []template.FuncMap{templateFunc},
-		Layout: "layouts/main",
+		Directory: "/Users/andrew/Code/go/src/github.com/firstrow/logvoyage/web/templates",
+		Funcs:     []template.FuncMap{templateFunc},
+		Layout:    "layouts/main",
 	}))
 	// Serve static files
-	m.Use(martini.Static("../static", martini.StaticOptions{
+	assets_dir := os.Getenv("GOPATH") + "/src/github.com/firstrow/logvoyage/static"
+	log.Println("Assets directory", assets_dir)
+	m.Use(martini.Static(assets_dir, martini.StaticOptions{
 		Prefix:      "static",
 		SkipLogging: true,
 	}))

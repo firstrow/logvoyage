@@ -1,6 +1,6 @@
 // Accept http messages.
 // bulk?apiKey=XXX&type=XXX - accepts bulk of messages separated by newline.
-package main
+package backend
 
 import (
 	"bufio"

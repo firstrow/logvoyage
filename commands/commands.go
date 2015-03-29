@@ -1,13 +1,15 @@
-package main
+package commands
 
 import (
-	"github.com/firstrow/logvoyage/common"
 	"github.com/codegangsta/cli"
 	"log"
-	"os"
+
+	"github.com/firstrow/logvoyage/backend"
+	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/web"
 )
 
-var createUsersIndex = cli.Command{
+var CreateUsersIndex = cli.Command{
 	Name:        "create_users_index",
 	Usage:       "Will create `user` index in ES",
 	Description: "",
@@ -15,7 +17,7 @@ var createUsersIndex = cli.Command{
 	Flags:       []cli.Flag{},
 }
 
-var deleteIndex = cli.Command{
+var DeleteIndex = cli.Command{
 	Name:        "delete_index",
 	Usage:       "Will delete elastic search index",
 	Description: "",
@@ -23,12 +25,36 @@ var deleteIndex = cli.Command{
 	Flags:       []cli.Flag{},
 }
 
-var createIndex = cli.Command{
+var CreateIndex = cli.Command{
 	Name:        "create_index",
 	Usage:       "create search index",
 	Description: "",
 	Action:      createIndexFunc,
 	Flags:       []cli.Flag{},
+}
+
+var StartBackendServer = cli.Command{
+	Name:        "backend",
+	Usage:       "",
+	Description: "Starts LogVoyage backend server",
+	Action:      startBackendServer,
+	Flags:       []cli.Flag{},
+}
+
+var StartWebServer = cli.Command{
+	Name:        "web",
+	Usage:       "",
+	Description: "Starts LogVoyage front-end server",
+	Action:      startWebServer,
+	Flags:       []cli.Flag{},
+}
+
+func startBackendServer(c *cli.Context) {
+	backend.Start()
+}
+
+func startWebServer(c *cli.Context) {
+	web.Start()
 }
 
 func createUsersIndexFunc(c *cli.Context) {
@@ -79,15 +105,4 @@ func deleteIndexFunc(c *cli.Context) {
 	} else {
 		log.Println("Provide index name. e.g: index1, index2, ...")
 	}
-}
-
-func main() {
-	app := cli.NewApp()
-	app.Name = "LogVoyage"
-	app.Commands = []cli.Command{
-		createUsersIndex,
-		deleteIndex,
-		createIndex,
-	}
-	app.Run(os.Args)
 }

@@ -1,19 +1,18 @@
 // Backend server - main part of LogVoyage service.
 // It accepts connections from "Client", parses string and pushes it to ElasticSearch index
-package main
+package backend
 
 import (
-	"github.com/firstrow/logvoyage/web_socket"
 	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
 	"log"
-	"runtime"
 	"strings"
 	"time"
 
 	"github.com/firstrow/logvoyage/common"
+	"github.com/firstrow/logvoyage/web_socket"
 	"github.com/garyburd/redigo/redis"
 )
 
@@ -30,9 +29,7 @@ func init() {
 	flag.Parse()
 }
 
-func main() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-
+func Start() {
 	log.Println("Initializing server")
 
 	initRedis()

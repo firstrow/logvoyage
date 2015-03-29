@@ -1,7 +1,7 @@
 // Help to track per-second user statistics.
 // Each second time will collect data and send it to
 // redis channel.
-package main
+package backend
 
 import (
 	"sync"

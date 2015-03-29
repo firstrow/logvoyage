@@ -1,6 +1,6 @@
 // Backlog - holds clients messages that were not delivered to ES.
 // Every 10sec backlog tries to resend messages to ES if backlog file isn't empty.
-package main
+package backend
 
 import (
 	"log"
