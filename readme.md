@@ -12,15 +12,9 @@ LogVoyage is front-end for ElasticSearch. It allows you to store and explore you
 - Redis
 
 ### Installing
-We are using GoDep to manager our dependencies. Installing LogVoyage is as easy as installing any other go package:
+Installing LogVoyage is as easy as installing any other go package:
 ``` bash
-go get github.com/tools/godep
 go get github.com/firstrow/logvoyage
-cd $GOPATH/src/github.com/firstrow/logvoyage
-godep restore
-```
-or you can skip `godep restore` and install all dependencies with `go get` command
-``` bash
 cd $GOPATH/src/github.com/firstrow/logvoyage
 go get ./...
 ```
