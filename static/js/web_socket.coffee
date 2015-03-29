@@ -4,13 +4,13 @@ class WSocket
 		@ws.onopen = (=> this.register())
 		@ws.onmessage = (=> this.onMessage(event))
 
-	onMessage: (event) ->
-		data = JSON.parse event.data
-		PubSub.publish data.type, data
-
 	register: ->
 		@ws.send @apiKey
 		console.log "registered user " + @apiKey
+
+	onMessage: (event) ->
+		data = JSON.parse event.data
+		PubSub.publish data.type, data
 
 $ ->
 	new WSocket(options.apiKey)

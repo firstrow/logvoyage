@@ -22,7 +22,6 @@ $(function() {
 	$("#time").change();
 
 	$('[data-toggle="tooltip"]').tooltip()
-	$(".chosen-select").chosen();
 
 	Ladda.bind('#searchButton');
 });

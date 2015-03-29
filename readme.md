@@ -45,6 +45,9 @@ TODO
 ## License
 TODO
 
+# Roadmap v0.1
+TODO
+
 ## Front-end development
 ### Bower
 To manage 3rd-party libraries simply add it to static/bower.json and run
