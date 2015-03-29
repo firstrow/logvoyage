@@ -30,6 +30,7 @@ logvoyage backend
 logvoyage web
 ```
 Once server started you can access it at [http://localhost:3000](http://localhost:3000)
+Execute `logvoyage help' fore more info about available commands.
 
 ## Front-end development
 ### Bower
