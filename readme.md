@@ -19,6 +19,8 @@ Installing LogVoyage is as easy as installing any other go package:
 go get github.com/firstrow/logvoyage
 cd $GOPATH/src/github.com/firstrow/logvoyage
 go get ./...
+go install
+logvoyage create_users_index
 ```
 
 ## Usage
@@ -33,6 +35,12 @@ logvoyage web
 ```
 Once server started you can access it at [http://localhost:3000](http://localhost:3000).
 Execute `logvoyage help` fore more info about available commands.
+
+### Sending data to storage
+TODO
+
+## Contribution
+TODO
 
 ## Front-end development
 ### Bower
