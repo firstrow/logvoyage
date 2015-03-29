@@ -90,3 +90,5 @@ Sample messages:
 	"count": 5
 }
 ```
+
+<a href='https://pledgie.com/campaigns/28740'><img alt='Click here to lend your support to: LogVoyage and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28740.png?skin_name=chrome' border='0' ></a>
