@@ -39,14 +39,19 @@ Execute `logvoyage help` for more info about available commands.
 ### Sending data to storage
 TODO
 
+## Third-party clients
+If you know any programming language, you can join our project and implement
+LogVoyage client.
+
 ## Contribution
 TODO
 
-## License
-TODO
-
 # Roadmap v0.1
-TODO
+- Daemons
+- Zero-downtime deployment
+- Finish web ui
+- Docker image
+- Docs
 
 ## Front-end development
 ### Bower
@@ -93,5 +98,10 @@ Sample messages:
 	"count": 5
 }
 ```
+
+## License
+LogVoyage is available without any costs under an MIT license. See LICENSE file
+for more details.
+
 
 <a href='https://pledgie.com/campaigns/28740'><img alt='Click here to lend your support to: LogVoyage and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28740.png?skin_name=chrome' border='0' ></a>
