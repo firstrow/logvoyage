@@ -3,23 +3,32 @@ package widgets
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 )
 
-// Prepares source to be rendered in log table
+// Prepares source to be rendered in logs table
 // Return it in next format:
 // message {json}
 // TODO: Bench. Improve speed.
 func BuildLogLine(s map[string]interface{}) string {
-	message := s["message"]
+	var message string
+	if _, ok := s["message"]; ok {
+		switch reflect.TypeOf(s["message"]).Kind() {
+		case reflect.String:
+			message = reflect.ValueOf(s["message"]).String()
+		}
+	} else {
+		message = ""
+	}
 	delete(s, "datetime")
 	delete(s, "message")
 	// If records has additional json attributes
 	if len(s) > 0 {
 		j, err := json.Marshal(s)
 		if err != nil {
-			//TODO: Log it!
 			return "Error rendering message"
 		}
+
 		return fmt.Sprintf("%s %s", message, string(j))
 	}
 	return fmt.Sprintf("%s", message)

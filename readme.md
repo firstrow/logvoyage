@@ -46,13 +46,6 @@ LogVoyage client.
 ## Contribution
 TODO
 
-# Roadmap v0.1
-- Daemons
-- Zero-downtime deployment
-- Finish web ui
-- Docker image
-- Docs
-
 ## Front-end development
 ### Bower
 To manage 3rd-party libraries simply add it to static/bower.json and run
@@ -98,6 +91,13 @@ Sample messages:
 	"count": 5
 }
 ```
+
+## Roadmap v0.1
+- Daemons
+- Zero-downtime deployment
+- Finish web ui
+- Docker image
+- Docs
 
 ## License
 LogVoyage is available without any costs under an MIT license. See LICENSE file
