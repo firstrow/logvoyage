@@ -37,7 +37,32 @@ Once server started you can access it at [http://localhost:3000](http://localhos
 Execute `logvoyage help` for more info about available commands.
 
 ### Sending data to storage
-TODO
+By default LogVoyage opens two backend ports accesible to the world.
+27077 - TCP port
+27078 - HTTP port
+
+### Sending test messages via telnet
+
+NOTE: Keep in mind to change `apiKey`. You can find your api key at http://localhost:3000/profile page
+
+``` bash
+telnet 127.0.0.1 27077
+apiKey@logType {"message": "login", "user_id": 1}
+apiKey@logType simple text message
+```
+Now you can see your messages at http://localhost:3000 and try some queries
+```
+user_id:1
+simple*
+```
+Refer to http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html
+for more info about text queries.
+
+Or we can use curl and POST request:
+``` bash
+echo 'This is simple text message' | curl -d @- http://localhost:27078/bulk\?apiKey\=apiKey\&type\=logType
+echo '{"message": "JSON format also supported", "action":"test"}' | curl -d @- http://localhost:27078/bulk\?apiKey\=apiKey\&type\=logType
+```
 
 ## Third-party clients
 If you know any programming language, you can join our project and implement
