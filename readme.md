@@ -7,6 +7,31 @@ Note: This is only beta version.
 ![Dashboard](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/dashboard.png)
 ![Live logs](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/live-logs.png)
 
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [LogVoyage - fast and simple open-source logging service](#logvoyage---fast-and-simple-open-source-logging-service)
+  - [Installation](#installation)
+    - [Pre-Requirements.](#pre-requirements)
+    - [Installing](#installing)
+  - [Usage](#usage)
+    - [Sending data to storage](#sending-data-to-storage)
+      - [Sending test messages via telnet](#sending-test-messages-via-telnet)
+      - [HTTP POST request](#http-post-request)
+  - [Third-party clients](#third-party-clients)
+  - [Submitting a Pull Request](#submitting-a-pull-request)
+  - [Front-end development](#front-end-development)
+    - [Bower](#bower)
+    - [Building](#building)
+    - [Auto rebuild](#auto-rebuild)
+    - [WebSocket messages](#websocket-messages)
+  - [Roadmap v0.1](#roadmap-v01)
+  - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Installation
 
 ### Pre-Requirements.
