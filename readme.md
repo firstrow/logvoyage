@@ -12,23 +12,22 @@ Note: This is only beta version.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [LogVoyage - fast and simple open-source logging service](#logvoyage---fast-and-simple-open-source-logging-service)
-  - [Installation](#installation)
-    - [Pre-Requirements.](#pre-requirements)
-    - [Installing](#installing)
-  - [Usage](#usage)
-    - [Sending data to storage](#sending-data-to-storage)
-      - [Sending test messages via telnet](#sending-test-messages-via-telnet)
-      - [HTTP POST request](#http-post-request)
-  - [Third-party clients](#third-party-clients)
-  - [Submitting a Pull Request](#submitting-a-pull-request)
-  - [Front-end development](#front-end-development)
-    - [Bower](#bower)
-    - [Building](#building)
-    - [Auto rebuild](#auto-rebuild)
-    - [WebSocket messages](#websocket-messages)
-  - [Roadmap v0.1](#roadmap-v01)
-  - [License](#license)
+- [Installation](#installation)
+  - [Pre-Requirements.](#pre-requirements)
+  - [Installing](#installing)
+- [Usage](#usage)
+  - [Sending data to storage](#sending-data-to-storage)
+    - [Telnet](#telnet)
+    - [Curl](#curl)
+- [Third-party clients](#third-party-clients)
+- [Submitting a Pull Request](#submitting-a-pull-request)
+- [Front-end development](#front-end-development)
+  - [Bower](#bower)
+  - [Building](#building)
+  - [Auto rebuild](#auto-rebuild)
+  - [WebSocket messages](#websocket-messages)
+- [Roadmap v0.1](#roadmap-v01)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -66,7 +65,7 @@ By default LogVoyage opens two backend ports accesible to the world.
 27077 - TCP port
 27078 - HTTP port
 
-#### Sending test messages via telnet
+#### Telnet
 
 NOTE: Keep in mind to change `apiKey`. You can find your api key at http://localhost:3000/profile page
 
@@ -86,7 +85,7 @@ simple*
 Refer to [ElasticSearch String Query](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html)
 for more info about text queries available.
 
-#### HTTP POST request
+#### Curl
 
 Or we can use curl POST request to send messages. Each message should be separated by new line.
 
