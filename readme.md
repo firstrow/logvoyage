@@ -41,7 +41,7 @@ By default LogVoyage opens two backend ports accesible to the world.
 27077 - TCP port
 27078 - HTTP port
 
-### Sending test messages via telnet
+#### Sending test messages via telnet
 
 NOTE: Keep in mind to change `apiKey`. You can find your api key at http://localhost:3000/profile page
 
@@ -61,7 +61,10 @@ simple*
 Refer to [ElasticSearch String Query](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html)
 for more info about text queries available.
 
+#### HTTP POST request
+
 Or we can use curl POST request to send messages. Each message should be separated by new line.
+
 ``` bash
 echo 'This is simple text message' | curl -d @- http://localhost:27078/bulk\?apiKey\=apiKey\&type\=logType
 echo '{"message": "JSON format also supported", "action":"test"}' | curl -d @- http://localhost:27078/bulk\?apiKey\=apiKey\&type\=logType
