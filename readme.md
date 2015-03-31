@@ -50,15 +50,18 @@ telnet 127.0.0.1 27077
 apiKey@logType {"message": "login", "user_id": 1}
 apiKey@logType simple text message
 ```
+
 Now you can see your messages at http://localhost:3000 and try some queries
-```
+
+``` bash
 user_id:1
 simple*
 ```
-Refer to http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html
-for more info about text queries.
 
-Or we can use curl and POST request:
+Refer to [ElasticSearch String Query](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html)
+for more info about text queries available.
+
+Or we can use curl POST request to send messages. Each message should be separated by new line.
 ``` bash
 echo 'This is simple text message' | curl -d @- http://localhost:27078/bulk\?apiKey\=apiKey\&type\=logType
 echo '{"message": "JSON format also supported", "action":"test"}' | curl -d @- http://localhost:27078/bulk\?apiKey\=apiKey\&type\=logType
@@ -68,8 +71,14 @@ echo '{"message": "JSON format also supported", "action":"test"}' | curl -d @- h
 If you know any programming language, you can join our project and implement
 LogVoyage client.
 
-## Contribution
-TODO
+## Submitting a Pull Request
+
+1. Propose a change by opening an issue.
+2. Fork the project.
+3. Create a topic branch.
+4. Implement your feature or bug fix.
+5. Commit and push your changes.
+6. Submit a pull request.
 
 ## Front-end development
 ### Bower
@@ -126,7 +135,7 @@ Sample messages:
 
 ## License
 LogVoyage is available without any costs under an MIT license. See LICENSE file
-for more details.
+for details.
 
 
 <a href='https://pledgie.com/campaigns/28740'><img alt='Click here to lend your support to: LogVoyage and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28740.png?skin_name=chrome' border='0' ></a>
