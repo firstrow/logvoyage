@@ -1,5 +1,7 @@
 # LogVoyage - fast and simple open-source logging service
 
+[![Join the chat at https://gitter.im/firstrow/logvoyage](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/firstrow/logvoyage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 LogVoyage is front-end for ElasticSearch. It allows you to store and explore your logs in real-time with friendly web ui.
 
 Note: This is only beta version.
