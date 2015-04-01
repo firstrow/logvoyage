@@ -44,9 +44,6 @@ Note: This is only beta version.
 Installing LogVoyage is as easy as installing any other go package:
 ``` bash
 go get github.com/firstrow/logvoyage
-cd $GOPATH/src/github.com/firstrow/logvoyage
-go get ./...
-go install
 logvoyage create_users_index
 ```
 
