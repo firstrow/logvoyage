@@ -2,7 +2,6 @@ package web
 
 import (
 	"html/template"
-	"log"
 	"os"
 	"reflect"
 	"time"
@@ -54,17 +53,16 @@ func Start(customWebuiDsn string) {
 		"buildLogLine":       widgets.BuildLogLine,
 	}
 
+	app_dir := os.Getenv("GOPATH") + "/src/github.com/firstrow/logvoyage/"
 	m := martini.Classic()
 	// Template
 	m.Use(render.Renderer(render.Options{
-		Directory: "/Users/andrew/Code/go/src/github.com/firstrow/logvoyage/web/templates",
+		Directory: app_dir + "web/templates",
 		Funcs:     []template.FuncMap{templateFunc},
 		Layout:    "layouts/main",
 	}))
 	// Serve static files
-	assets_dir := os.Getenv("GOPATH") + "/src/github.com/firstrow/logvoyage/static"
-	log.Println("Assets directory", assets_dir)
-	m.Use(martini.Static(assets_dir, martini.StaticOptions{
+	m.Use(martini.Static(app_dir+"static", martini.StaticOptions{
 		Prefix:      "static",
 		SkipLogging: true,
 	}))
