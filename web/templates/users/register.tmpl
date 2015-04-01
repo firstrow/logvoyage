@@ -1,43 +1,57 @@
 <style type="text/css">
-.vertical-align {
-  display: flex;
-  margin-top: 20%;
-  align-items: center;
-}
+    .vertical-align {
+        display: flex;
+        margin-top: 8%;
+        align-items: center;
+    }
 </style>
+<div style="text-align:center;margin-bottom:50px;">
+    <span href="/" style="font-size: 29px;">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-ship fa-stack-1x fa-inverse"></i>
+        </span>
+    </span>
+</div>
+
 <div class="container">
-  <div class="row vertical-align">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-      <form class="form-horizontal" role="form" action="/register" method="post">
-        <div style="text-align:center;">
-          <h3>Sign Up</h3>
+    <div class="row vertical-align">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form class="form-horizontal" role="form" action="/register" method="post">
+                <div style="text-align:center;">
+                    <h3>Sign Up</h3>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" name="email" value="{{.form.Email}}" placeholder="Email">
+                        <div class="error">
+                            {{.form.GetError "Email"}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password" value="{{.form.Password}}" placeholder="Password">
+                        <div class="error">
+                            {{.form.GetError "Password"}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Sign up</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <a href="/login">Login</a>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-          <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-          <div class="col-sm-10">
-            <input type="email" class="form-control" name="email" value="{{.form.Email}}" placeholder="Email">
-            <div class="error">
-              {{.form.GetError "Email"}}
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" name="password" value="{{.form.Password}}" placeholder="Password">
-            <div class="error">
-              {{.form.GetError "Password"}}
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-default">Sign up</button>
-          </div>
-        </div>
-      </form>
+        <div class="col-md-3"></div>
     </div>
-    <div class="col-md-3"></div>
-  </div>
 </div>
