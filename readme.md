@@ -89,7 +89,7 @@ user_id:1
 simple*
 ```
 
-Refer to [ElasticSearch String Query](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html)
+Refer to [Query String Syntax](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html#query-string-syntax)
 for more info about text queries available.
 
 #### Curl
