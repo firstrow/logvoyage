@@ -2,6 +2,8 @@ package common
 
 import (
 	"errors"
+	"os"
+	"path/filepath"
 	"regexp"
 )
 
@@ -31,4 +33,11 @@ func RemoveApiKey(message string) string {
 	result := re.ReplaceAll([]byte(message), []byte(""))
 
 	return string(result)
+}
+
+// Builds full path to application based on $GOPATH
+func AppPath(elem ...string) string {
+	app_path := filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "firstrow", "logvoyage")
+	dir_path := append([]string{app_path}, elem...)
+	return filepath.Join(dir_path...)
 }
