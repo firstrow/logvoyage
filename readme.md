@@ -71,7 +71,8 @@ By default LogVoyage opens two backend ports accesible to the outsise world.
 #### Telnet
 
 ```
-NOTE: Keep in mind to change `API_KEY` and `LOG_TYPE`. You can find your api key at http://localhost:3000/profile page
+NOTE: Keep in mind to change `API_KEY` and `LOG_TYPE`.
+You can find your api key at http://localhost:3000/profile page.
 ```
 
 ``` bash
