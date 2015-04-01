@@ -31,6 +31,8 @@ Note: This is only beta version.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/firstrow/logvoyage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 ## Installation
 
 ### Pre-Requirements.
