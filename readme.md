@@ -4,6 +4,9 @@ LogVoyage allows you to store and explore your logs in real-time with friendly w
 
 Note: This is only beta version.
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/firstrow/logvoyage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+<a href='https://pledgie.com/campaigns/28740'><img alt='Click here to lend your support to: LogVoyage and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28740.png?skin_name=chrome' border='0' ></a>
+
 ![Dashboard](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/dashboard.png)
 ![Live logs](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/live-logs.png)
 
@@ -30,8 +33,6 @@ Note: This is only beta version.
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/firstrow/logvoyage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## Installation
 
@@ -169,6 +170,3 @@ Sample messages:
 ## License
 LogVoyage is available without any costs under an MIT license. See LICENSE file
 for details.
-
-
-<a href='https://pledgie.com/campaigns/28740'><img alt='Click here to lend your support to: LogVoyage and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28740.png?skin_name=chrome' border='0' ></a>
