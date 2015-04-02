@@ -9,6 +9,7 @@ import (
 )
 
 const (
+	// Api key and log type regex
 	ApiKeyFormat = `^([a-z0-9]{8}-[a-z0-9]{4}-[1-5][a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{12})@([a-z0-9\_]{1,20})`
 )
 

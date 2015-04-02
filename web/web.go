@@ -23,6 +23,7 @@ import (
 )
 
 var (
+	// Host and port for martini
 	webuiDsn = ":3000"
 )
 
