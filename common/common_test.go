@@ -45,10 +45,21 @@ func TestExtractUserApiKeyAndTypeId(t *testing.T) {
 }
 
 func TestRemoveApiKey(t *testing.T) {
-	logMessage := "0b137205-3291-5f5b-5832-ab2458b9936a@2111 This is test logmessage"
-	m := RemoveApiKey(logMessage)
-
 	Convey("It should populate user from goes search response", t, func() {
+		logMessage := "0b137205-3291-5f5b-5832-ab2458b9936a@2111 This is test logmessage"
+		m := RemoveApiKey(logMessage)
+
 		So(m, ShouldEqual, " This is test logmessage")
+	})
+}
+
+func TestAppPath(t *testing.T) {
+	Convey("It should return app path", t, func() {
+		expected := AppPath()
+		So(expected, ShouldContainSubstring, "src/github.com/firstrow/logvoyage")
+	})
+	Convey("It should return app path plus dir", t, func() {
+		expected := AppPath("static/js")
+		So(expected, ShouldContainSubstring, "src/github.com/firstrow/logvoyage/static/js")
 	})
 }
