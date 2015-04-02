@@ -49,7 +49,13 @@ func TestRemoveApiKey(t *testing.T) {
 		logMessage := "0b137205-3291-5f5b-5832-ab2458b9936a@2111 This is test logmessage"
 		m := RemoveApiKey(logMessage)
 
-		So(m, ShouldEqual, " This is test logmessage")
+		So(m, ShouldEqual, "This is test logmessage")
+	})
+	Convey("It should remove api key and logType only one time", t, func() {
+		logMessage := "0b137205-3291-5f5b-5832-ab2458b9936a@2111 This is test logmessage 0b137205-3291-5f5b-5832-ab2458b9936a@2111"
+		m := RemoveApiKey(logMessage)
+
+		So(m, ShouldEqual, "This is test logmessage 0b137205-3291-5f5b-5832-ab2458b9936a@2111")
 	})
 }
 

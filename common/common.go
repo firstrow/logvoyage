@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 const (
@@ -31,8 +32,7 @@ func ExtractApiKey(message string) (string, string, error) {
 func RemoveApiKey(message string) string {
 	re := regexp.MustCompile(ApiKeyFormat)
 	result := re.ReplaceAll([]byte(message), []byte(""))
-
-	return string(result)
+	return strings.TrimSpace(string(result))
 }
 
 // Builds full path to application based on $GOPATH

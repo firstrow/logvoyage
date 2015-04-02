@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"strings"
 	"time"
 
 	"github.com/firstrow/logvoyage/common"
@@ -67,7 +66,6 @@ func processMessage(message string) {
 		}
 	} else {
 		message = common.RemoveApiKey(message)
-		message = strings.TrimSpace(message)
 
 		log.Println("Sending message to elastic")
 
