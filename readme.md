@@ -9,6 +9,7 @@ Note: This is only beta version.
 
 * [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/firstrow/logvoyage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 * <a href='https://pledgie.com/campaigns/28740'><img alt='Click here to lend your support to: LogVoyage and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28740.png?skin_name=chrome' border='0' ></a>
+* [Tests](https://api.travis-ci.org/firstrow/logvoyage.svg?branch=master)
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
