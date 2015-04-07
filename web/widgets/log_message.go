@@ -3,7 +3,6 @@ package widgets
 import (
 	"encoding/json"
 	"fmt"
-	"reflect"
 )
 
 // Prepares source to be rendered in logs table
@@ -13,10 +12,7 @@ import (
 func BuildLogLine(s map[string]interface{}) string {
 	var message string
 	if _, ok := s["message"]; ok {
-		switch reflect.TypeOf(s["message"]).Kind() {
-		case reflect.String:
-			message = reflect.ValueOf(s["message"]).String()
-		}
+		message = fmt.Sprintf("%v", s["message"])
 	} else {
 		message = ""
 	}
