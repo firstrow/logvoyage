@@ -82,14 +82,6 @@ API_KEY@LOG_TYPE simple text message
 
 Now you can see your messages at http://localhost:3000 and try some queries
 
-``` bash
-user_id:1
-simple*
-```
-
-Refer to [Query String Syntax](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html#query-string-syntax)
-for more info about text queries available.
-
 #### Curl
 
 Or we can use curl POST request to send messages. Each message should be separated by new line.
@@ -97,6 +89,17 @@ Or we can use curl POST request to send messages. Each message should be separat
 ``` bash
 echo 'This is simple text message' | curl -d @- http://localhost:27078/bulk\?apiKey\=API_KEY\&type\=LOG_TYPE
 echo '{"message": "JSON format also supported", "action":"test"}' | curl -d @- http://localhost:27078/bulk\?apiKey\=API_KEY\&type\=LOG_TYPE
+```
+
+## Search data
+Refer to [Query String Syntax](http://www.elastic.co/guide/en/elasticsearch/reference/1.x/query-dsl-query-string-query.html#query-string-syntax)
+for more info about text queries available.
+
+Examples:
+
+``` bash
+user_id:1
+simple*
 ```
 
 ## Third-party clients
