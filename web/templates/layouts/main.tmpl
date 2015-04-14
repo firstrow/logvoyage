@@ -49,8 +49,8 @@
                             <option value="week" {{if eq .time "week"}}selected{{end}}>7d</option>
                             <option value="custom" {{if eq .time "custom"}}selected{{end }}>Custom</option>
                         </select>
-                        <input type="text" class="timebox" name="time_start" id="time_start" value="{{.time_start}}">
-                        <input type="text" class="timebox" name="time_stop" id="time_stop" value="{{.time_stop}}">
+                        <input type="text" class="timebox form-control" name="time_start" id="time_start" value="{{.time_start}}">
+                        <input type="text" class="timebox form-control" name="time_stop" id="time_stop" value="{{.time_stop}}">
                     </div>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
