@@ -19,6 +19,7 @@ module.exports = function(grunt) {
           'static/bower_components/jquery.hotkeys/jquery.hotkeys.js',
           'static/bower_components/sockjs-client/dist/sockjs.js',
           'static/bower_components/pubsub-js/src/pubsub.js',
+          'static/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js',
           'static/js/*.js',
         ],
         dest: 'static/build/all.min.js'
@@ -32,6 +33,7 @@ module.exports = function(grunt) {
           'static/bower_components/epoch/epoch.min.css',
           'static/bower_components/chosen/chosen.min.css',
           'static/bower_components/ladda-bootstrap/dist/ladda-themeless.min.css',
+          'static/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css',
         ],
         dest: 'static/build/all.min.css'
       }

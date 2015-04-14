@@ -1,15 +1,16 @@
 // Initialize components
 $(function() {
 	jQuery('#time_start, #time_stop').datetimepicker();
-	// $("#pagination").center();
 	// Multiselect
 	$("#time").multiselect();
 	$("#logType").multiselect({
         enableClickableOptGroups: true,
-		buttonWidth: '200px',
-		numberDisplayed: 2,
-		nonSelectedText: 'All projects'
-    });
+	    buttonWidth: '200px',
+	    numberDisplayed: 2,
+	    nonSelectedText: 'All projects'
+        });
+
+        $(".bootstrap-select").selectpicker();
 
 	$("#time").change(function(){
 		if ($(this).val() == 'custom') {
