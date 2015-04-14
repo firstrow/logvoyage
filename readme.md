@@ -100,6 +100,7 @@ Examples:
 ``` bash
 user_id:1
 simple*
+amount:>10 and status:completed
 ```
 
 ## Third-party clients
