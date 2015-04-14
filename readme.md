@@ -23,6 +23,7 @@ Note: This is only beta version.
   - [Sending data to storage](#sending-data-to-storage)
     - [Telnet](#telnet)
     - [Curl](#curl)
+- [Search data](#search-data)
 - [Third-party clients](#third-party-clients)
 - [Submitting a Pull Request](#submitting-a-pull-request)
 - [Front-end development](#front-end-development)
