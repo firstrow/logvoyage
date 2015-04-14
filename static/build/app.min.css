@@ -59,7 +59,9 @@ h2 .actions {
   width: 500px;
 }
 #searchBox:focus {
-  /*TODO: Add bg;*/
+  border-top: 2px solid #2765A1;
+  border-left: 2px solid #2765A1;
+  border-bottom: 2px solid #2765A1;
 }
 .jsonview {
   font-size: 13px;
