@@ -83,7 +83,7 @@ func buildTimeRange(req *http.Request) DateTimeRange {
 }
 
 // Search logs in elastic.
-func search(searchRequest SearchRequest) (goes.Response, error) {
+func search(searchRequest SearchRequest) (*goes.Response, error) {
 	conn := common.GetConnection()
 
 	var query = map[string]interface{}{
