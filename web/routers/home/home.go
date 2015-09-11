@@ -126,7 +126,7 @@ func search(searchRequest SearchRequest) (goes.Response, error) {
 	if err != nil {
 		return goes.Response{}, errors.New("No records found.")
 	} else {
-		return searchResults, nil
+		return *searchResults, nil
 	}
 }
 
