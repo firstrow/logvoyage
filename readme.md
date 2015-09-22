@@ -2,7 +2,6 @@
 
 LogVoyage allows you to store and explore your logs in real-time with friendly web ui.
 
-Note: This is only beta version.
 
 ![Dashboard](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/dashboard.png)
 ![Live logs](https://raw.githubusercontent.com/firstrow/logvoyage/master/screenshots/live-logs.png)
