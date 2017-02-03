@@ -1,3 +1,7 @@
+```
+No longer maintained, sorry.
+```
+
 # LogVoyage - fast and simple open-source logging service
 
 LogVoyage allows you to store and explore your logs in real-time with friendly web ui.
