@@ -1,5 +1,6 @@
 ```
 No longer maintained, sorry.
+Completely rewritten v2 is going to be released soon. Please follow http://github.com/logvoyage
 ```
 
 # LogVoyage - fast and simple open-source logging service
