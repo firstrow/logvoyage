@@ -10,6 +10,8 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/xlab/handysort"
 	"golang.org/x/crypto/bcrypt"
+
+	c "github.com/firstrow/logvoyage/configuration"
 )
 
 type User struct {
@@ -115,7 +117,7 @@ func FindUserByApiKey(apiKey string) (*User, error) {
 
 func (this *User) Save() {
 	doc := goes.Document{
-		Index:  "users",
+		Index:  c.ReadConf().Indexes.User,
 		Type:   "user",
 		Id:     this.Id,
 		Fields: this,
@@ -142,7 +144,7 @@ func FindUserBy(key string, value string) (*User, error) {
 		},
 	}
 
-	searchResults, err := GetConnection().Search(query, []string{"users"}, []string{"user"}, url.Values{})
+	searchResults, err := GetConnection().Search(query, []string{c.ReadConf().Indexes.User}, []string{"user"}, url.Values{})
 
 	if err != nil {
 		return nil, ErrSendingElasticSearchRequest

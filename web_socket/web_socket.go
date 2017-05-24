@@ -18,6 +18,7 @@ import (
 	"log"
 	"net/http"
 
+	c "github.com/firstrow/logvoyage/configuration"
 	"github.com/firstrow/logvoyage/common"
 
 	"code.google.com/p/go.net/websocket"
@@ -61,7 +62,7 @@ func checkError(err error) {
 
 // Listen to Redis and send messages to clients
 func startListetingRedis() {
-	c, err := redis.Dial("tcp", ":6379")
+	c, err := redis.Dial("tcp", c.ReadConf().Redis.GetURI())
 	checkError(err)
 	c.Send("SUBSCRIBE", redisChannel)
 	c.Flush()

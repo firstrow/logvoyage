@@ -8,6 +8,7 @@ import (
 	"github.com/belogik/goes"
 	"github.com/nu7hatch/gouuid"
 
+	c "github.com/firstrow/logvoyage/configuration"
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web/context"
 )
@@ -54,7 +55,7 @@ func Register(ctx *context.Context) {
 			}
 
 			doc := goes.Document{
-				Index: "users",
+				Index: c.ReadConf().Indexes.User,
 				Type:  "user",
 				Fields: map[string]string{
 					"email":    form.Email,

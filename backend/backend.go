@@ -9,6 +9,7 @@ import (
 	"log"
 	"time"
 
+	c "github.com/firstrow/logvoyage/configuration"
 	"github.com/firstrow/logvoyage/common"
 	"github.com/firstrow/logvoyage/web_socket"
 	"github.com/garyburd/redigo/redis"
@@ -40,7 +41,7 @@ func Start(userTcpDsn, userHttpDsn string) {
 }
 
 func initRedis() {
-	r, err := redis.Dial("tcp", ":6379")
+	r, err := redis.Dial("tcp", c.ReadConf().Redis.GetURI())
 	if err != nil {
 		log.Fatal("Cannot connect to redis")
 	}

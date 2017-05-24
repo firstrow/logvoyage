@@ -1,0 +1,6 @@
+debug: false
+indexes:
+  user: logvoyage_user
+redis:
+  port: 6379
+  host: localhost

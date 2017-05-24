@@ -13,6 +13,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "LogVoyage"
 	app.Commands = []cli.Command{
+		commands.ConfigFile,
 		commands.StartBackendServer,
 		commands.StartWebServer,
 		commands.StartAll,
