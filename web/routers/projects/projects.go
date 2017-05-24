@@ -1,8 +1,8 @@
 package projects
 
 import (
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
+	"../../../common"
+	"../../../web/context"
 	"github.com/Unknwon/com"
 	"github.com/go-martini/martini"
 )

@@ -2,6 +2,7 @@ package common
 
 import (
 	"errors"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -38,7 +39,10 @@ func RemoveApiKey(message string) string {
 
 // Builds full path to application based on $GOPATH
 func AppPath(elem ...string) string {
-	app_path := filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "firstrow", "logvoyage")
+	app_path, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
 	dir_path := append([]string{app_path}, elem...)
 	return filepath.Join(dir_path...)
 }

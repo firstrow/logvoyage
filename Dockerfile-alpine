@@ -1,0 +1,17 @@
+FROM alpine:latest
+MAINTAINER Vlad Moskovets <devvlad@gmail.com>
+
+# Set LOGVOYAGE_ES and LOGVOYAGE_REDIS env for linking
+
+RUN apk update
+RUN apk upgrade
+RUN apk add curl wget bash
+RUN rm -rf /var/cache/apk/*
+
+COPY logvoyage /app/logvoyage
+COPY web/templates /app/web/templates
+COPY static /app/static
+EXPOSE 3000 9200 9300 12345
+
+COPY etc/service/logvoyage /
+ENTRYPOINT ["/run"]

@@ -4,8 +4,8 @@ import (
 	"os"
 	"runtime"
 
+	"./commands"
 	"github.com/codegangsta/cli"
-	"github.com/firstrow/logvoyage/commands"
 )
 
 func main() {

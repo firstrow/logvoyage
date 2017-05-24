@@ -2,12 +2,13 @@ package home
 
 import (
 	"encoding/json"
-	"github.com/belogik/goes"
 	"net/http"
 	"net/url"
 
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
+	"github.com/belogik/goes"
+
+	"../../../common"
+	"../../../web/context"
 	"github.com/go-martini/martini"
 )
 

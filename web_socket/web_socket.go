@@ -17,8 +17,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
-	"github.com/firstrow/logvoyage/common"
+	"../common"
 
 	"code.google.com/p/go.net/websocket"
 	"github.com/garyburd/redigo/redis"
@@ -61,7 +62,11 @@ func checkError(err error) {
 
 // Listen to Redis and send messages to clients
 func startListetingRedis() {
-	c, err := redis.Dial("tcp", ":6379")
+	redis_host := os.Getenv("LOGVOYAGE_REDIS")
+	if len(redis_host) == 0 {
+		redis_host = ":6379"
+	}
+	c, err := redis.Dial("tcp", redis_host)
 	checkError(err)
 	c.Send("SUBSCRIBE", redisChannel)
 	c.Flush()

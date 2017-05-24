@@ -1,8 +1,11 @@
 package common
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
+	"os"
+	"path/filepath"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestItShouldReturnErrorIfApiKeyNotFound(t *testing.T) {
@@ -62,10 +65,12 @@ func TestRemoveApiKey(t *testing.T) {
 func TestAppPath(t *testing.T) {
 	Convey("It should return app path", t, func() {
 		expected := AppPath()
-		So(expected, ShouldContainSubstring, "src/github.com/firstrow/logvoyage")
+		path, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+		So(expected, ShouldContainSubstring, path)
 	})
 	Convey("It should return app path plus dir", t, func() {
 		expected := AppPath("static/js")
-		So(expected, ShouldContainSubstring, "src/github.com/firstrow/logvoyage/static/js")
+		path, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+		So(expected, ShouldContainSubstring, path+"/static/js")
 	})
 }

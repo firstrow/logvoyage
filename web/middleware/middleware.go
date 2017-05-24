@@ -1,8 +1,8 @@
 package middleware
 
 import (
+	"../../common"
 	"github.com/codegangsta/martini-contrib/render"
-	"github.com/firstrow/logvoyage/common"
 	"github.com/martini-contrib/sessions"
 )
 

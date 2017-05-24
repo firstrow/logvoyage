@@ -10,16 +10,16 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
-	"github.com/firstrow/logvoyage/web/middleware"
-	"github.com/firstrow/logvoyage/web/routers/home"
-	"github.com/firstrow/logvoyage/web/routers/live"
-	"github.com/firstrow/logvoyage/web/routers/profile"
-	"github.com/firstrow/logvoyage/web/routers/projects"
-	"github.com/firstrow/logvoyage/web/routers/users"
-	"github.com/firstrow/logvoyage/web/widgets"
-	"github.com/firstrow/logvoyage/web_socket"
+	"../common"
+	"../web/context"
+	"../web/middleware"
+	"../web/routers/home"
+	"../web/routers/live"
+	"../web/routers/profile"
+	"../web/routers/projects"
+	"../web/routers/users"
+	"../web/widgets"
+	"../web_socket"
 )
 
 var (

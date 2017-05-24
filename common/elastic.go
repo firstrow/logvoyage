@@ -8,13 +8,15 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/belogik/goes"
 )
 
 const (
-	ES_HOST = "127.0.0.1"
-	ES_PORT = "9200"
+	DEFAULT_ES_HOST = "127.0.0.1"
+	DEFAULT_ES_PORT = "9200"
 )
 
 var (
@@ -24,8 +26,24 @@ var (
 	ErrDecodingJson                = errors.New("Error decoding ES response")
 )
 
+func getElasticHostPort() (string, string) {
+	es_host := DEFAULT_ES_HOST
+	es_port := DEFAULT_ES_PORT
+	if es_env := os.Getenv("LOGVOYAGE_ES"); len(es_env) > 1 {
+		es_params := strings.Split(es_env, ":")
+		if len(es_params[0]) > 0 {
+			es_host = es_params[0]
+		}
+		if len(es_params[1]) > 0 {
+			es_port = es_params[1]
+		}
+	}
+	return es_host, es_port
+}
+
 func GetConnection() *goes.Connection {
-	return goes.NewConnection(ES_HOST, ES_PORT)
+	es_host, es_port := getElasticHostPort()
+	return goes.NewConnection(es_host, es_port)
 }
 
 type IndexMapping map[string]map[string]map[string]interface{}
@@ -73,7 +91,8 @@ func DeleteType(index string, logType string) {
 // Send raw bytes to elastic search server
 // TODO: Bulk processing
 func SendToElastic(url string, method string, b []byte) (string, error) {
-	eurl := fmt.Sprintf("http://%s:%s/%s", ES_HOST, ES_PORT, url)
+	es_host, es_port := getElasticHostPort()
+	eurl := fmt.Sprintf("http://%s:%s/%s", es_host, es_port, url)
 
 	req, err := http.NewRequest(method, eurl, bytes.NewBuffer(b))
 	if err != nil {

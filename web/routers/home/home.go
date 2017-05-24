@@ -10,9 +10,9 @@ import (
 	"github.com/belogik/goes"
 	"github.com/go-martini/martini"
 
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
-	"github.com/firstrow/logvoyage/web/widgets"
+	"../../../common"
+	"../../../web/context"
+	"../../../web/widgets"
 )
 
 const (

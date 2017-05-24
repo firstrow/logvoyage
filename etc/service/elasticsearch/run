@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+# Drop root privileges if we are running elasticsearch
+# Change the ownership of /usr/share/elasticsearch/data to elasticsearch
+chown -R elasticsearch:elasticsearch /usr/share/elasticsearch/data
+exec gosu elasticsearch elasticsearch

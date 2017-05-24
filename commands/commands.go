@@ -1,12 +1,13 @@
 package commands
 
 import (
-	"github.com/codegangsta/cli"
 	"log"
 
-	"github.com/firstrow/logvoyage/backend"
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web"
+	"github.com/codegangsta/cli"
+
+	"../backend"
+	"../common"
+	"../web"
 )
 
 var CreateUsersIndex = cli.Command{

@@ -8,8 +8,8 @@ import (
 	"github.com/belogik/goes"
 	"github.com/nu7hatch/gouuid"
 
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
+	"../../../common"
+	"../../../web/context"
 )
 
 type registerForm struct {

@@ -3,8 +3,8 @@ package context
 import (
 	"net/http"
 
+	"../../common"
 	"github.com/codegangsta/martini-contrib/render"
-	"github.com/firstrow/logvoyage/common"
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/sessions"
 )

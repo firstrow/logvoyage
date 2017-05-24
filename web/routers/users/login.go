@@ -1,10 +1,11 @@
 package users
 
 import (
-	"github.com/firstrow/logvoyage/common"
-	"github.com/firstrow/logvoyage/web/context"
 	"errors"
 	"log"
+
+	"../../../common"
+	"../../../web/context"
 )
 
 type loginForm struct {
