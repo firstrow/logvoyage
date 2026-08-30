@@ -85,6 +85,8 @@ func update(ctx *context.Context, form *projectForm) {
 	}
 
 	ctx.HTML("projects/new", context.ViewData{
-		"form": form,
+		"form":       form,
+		"types":      form.Types,
+		"docCounter": common.CountTypeDocs,
 	})
 }
